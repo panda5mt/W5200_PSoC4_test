@@ -1931,7 +1931,7 @@ L 1 "./Generated_Source/PSoC4/cydevice_trm.h" 1
 N/*******************************************************************************
 N* FILENAME: cydevice_trm.h
 N* 
-N* PSoC Creator 3.0
+N* PSoC Creator 3.0 Component Pack 7
 N*
 N* DESCRIPTION:
 N* This file provides all of the address values for the entire PSoC device.
@@ -6289,7 +6289,7 @@ N
 N/**
 N@brief	This function writes into W5200 memory(Buffer)
 N*/ 
-Nuint16_t wiz_write_buf(uint16_t addr,uint8* buf,uint16_t len)
+Nuint16_t wiz_write_buf(uint16_t addr,uint8_t* buf,uint16_t len)
 N{
 N	uint16_t idx = 0;
 N	
@@ -6325,7 +6325,7 @@ N
 N/**
 N@brief	This function reads into W5200 memory(Buffer)
 N*/ 
-Nuint16_t wiz_read_buf(uint16_t addr, uint8* buf,uint16_t len)
+Nuint16_t wiz_read_buf(uint16_t addr, uint8_t* buf,uint16_t len)
 N{
 N	uint16_t idx = 0;
 N        
@@ -6398,10 +6398,10 @@ N
 N	ssum = 0;
 N	rsum = 0;
 N	
-N	SBUFBASEADDRESS[0] = (uint16)(__DEF_IINCHIP_MAP_TXBUF__);		/* Set base address of Tx memory for channel #0 */
-X	SBUFBASEADDRESS[0] = (uint16)((0x0000 + 0x8000));		 
-N	RBUFBASEADDRESS[0] = (uint16)(__DEF_IINCHIP_MAP_RXBUF__);		/* Set base address of Rx memory for channel #0 */
-X	RBUFBASEADDRESS[0] = (uint16)((0x0000 + 0xC000));		 
+N	SBUFBASEADDRESS[0] = (uint16_t)(__DEF_IINCHIP_MAP_TXBUF__);		/* Set base address of Tx memory for channel #0 */
+X	SBUFBASEADDRESS[0] = (uint16_t)((0x0000 + 0x8000));		 
+N	RBUFBASEADDRESS[0] = (uint16_t)(__DEF_IINCHIP_MAP_RXBUF__);		/* Set base address of Rx memory for channel #0 */
+X	RBUFBASEADDRESS[0] = (uint16_t)((0x0000 + 0xC000));		 
 N
 N  for (i = 0 ; i < MAX_SOCK_NUM; i++)       // Set the size, masking and base address of Tx & Rx memory by each channel
 X  for (i = 0 ; i < 4; i++)       
@@ -6416,32 +6416,32 @@ S         // printf("Sn_TXMEM_SIZE = %d\r\n",IINCHIP_READ(Sn_TXMEM_SIZE(i)));
 S         // printf("Sn_RXMEM_SIZE = %d\r\n",IINCHIP_READ(Sn_RXMEM_SIZE(i)));
 N#endif
 N
-N		SSIZE[i] = (int16)(0);
-N		RSIZE[i] = (int16)(0);
+N		SSIZE[i] = (int16_t)(0);
+N		RSIZE[i] = (int16_t)(0);
 N
 N		if (ssum <= 16384)
 N		{
 N         switch( tx_size[i] )
 N			{
 N			case 1:
-N				SSIZE[i] = (int16)(1024);
-N				SMASK[i] = (uint16)(0x03FF);
+N				SSIZE[i] = (int16_t)(1024);
+N				SMASK[i] = (uint16_t)(0x03FF);
 N				break;
 N			case 2:
-N				SSIZE[i] = (int16)(2048);
-N				SMASK[i] = (uint16)(0x07FF);
+N				SSIZE[i] = (int16_t)(2048);
+N				SMASK[i] = (uint16_t)(0x07FF);
 N				break;
 N			case 4:
-N				SSIZE[i] = (int16)(4096);
-N				SMASK[i] = (uint16)(0x0FFF);
+N				SSIZE[i] = (int16_t)(4096);
+N				SMASK[i] = (uint16_t)(0x0FFF);
 N				break;
 N			case 8:
-N				SSIZE[i] = (int16)(8192);
-N				SMASK[i] = (uint16)(0x1FFF);
+N				SSIZE[i] = (int16_t)(8192);
+N				SMASK[i] = (uint16_t)(0x1FFF);
 N				break;
 N			case 16:
-N				SSIZE[i] = (int16)(16384);
-N				SMASK[i] = (uint16)(0x3FFF);
+N				SSIZE[i] = (int16_t)(16384);
+N				SMASK[i] = (uint16_t)(0x3FFF);
 N			break;
 N			}
 N		}
@@ -6451,24 +6451,24 @@ N		{
 N         switch( rx_size[i] )
 N			{
 N			case 1:
-N				RSIZE[i] = (int16)(1024);
-N				RMASK[i] = (uint16)(0x03FF);
+N				RSIZE[i] = (int16_t)(1024);
+N				RMASK[i] = (uint16_t)(0x03FF);
 N				break;
 N			case 2:
-N				RSIZE[i] = (int16)(2048);
-N				RMASK[i] = (uint16)(0x07FF);
+N				RSIZE[i] = (int16_t)(2048);
+N				RMASK[i] = (uint16_t)(0x07FF);
 N				break;
 N			case 4:
-N				RSIZE[i] = (int16)(4096);
-N				RMASK[i] = (uint16)(0x0FFF);
+N				RSIZE[i] = (int16_t)(4096);
+N				RMASK[i] = (uint16_t)(0x0FFF);
 N				break;
 N			case 8:
-N				RSIZE[i] = (int16)(8192);
-N				RMASK[i] = (uint16)(0x1FFF);
+N				RSIZE[i] = (int16_t)(8192);
+N				RMASK[i] = (uint16_t)(0x1FFF);
 N				break;
 N			case 16:
-N				RSIZE[i] = (int16)(16384);
-N				RMASK[i] = (uint16)(0x3FFF);
+N				RSIZE[i] = (int16_t)(16384);
+N				RMASK[i] = (uint16_t)(0x3FFF);
 N				break;
 N			}
 N		}
@@ -6482,8 +6482,8 @@ N			RBUFBASEADDRESS[i] = RBUFBASEADDRESS[i-1] + RSIZE[i-1];
 N		}
 N#ifdef __DEF_IINCHIP_DBG__
 S		// printf("ch = %d\r\n",i);
-S		// printf("SBUFBASEADDRESS = %d\r\n",(uint16)SBUFBASEADDRESS[i]);
-S		// printf("RBUFBASEADDRESS = %d\r\n",(uint16)RBUFBASEADDRESS[i]);
+S		// printf("SBUFBASEADDRESS = %d\r\n",(uint16_t)SBUFBASEADDRESS[i]);
+S		// printf("RBUFBASEADDRESS = %d\r\n",(uint16_t)RBUFBASEADDRESS[i]);
 S		// printf("SSIZE = %d\r\n",SSIZE[i]);
 S		// printf("RSIZE = %d\r\n",RSIZE[i]);		
 N#endif
@@ -6675,10 +6675,10 @@ Nwill be there as per RTR (Retry Time-value Register)setting
 N*/
 Nvoid setRTR(uint16_t timeout)
 N{
-N	IINCHIP_WRITE(RTR,(uint8)((timeout & 0xff00) >> 8));
-X	IINCHIP_WRITE((0x0000 + 0x0017),(uint8)((timeout & 0xff00) >> 8));
-N	IINCHIP_WRITE((RTR + 1),(uint8)(timeout & 0x00ff));
-X	IINCHIP_WRITE(((0x0000 + 0x0017) + 1),(uint8)(timeout & 0x00ff));
+N	IINCHIP_WRITE(RTR,(uint8_t)((timeout & 0xff00) >> 8));
+X	IINCHIP_WRITE((0x0000 + 0x0017),(uint8_t)((timeout & 0xff00) >> 8));
+N	IINCHIP_WRITE((RTR + 1),(uint8_t)(timeout & 0x00ff));
+X	IINCHIP_WRITE(((0x0000 + 0x0017) + 1),(uint8_t)(timeout & 0x00ff));
 N}
 N
 N/**
@@ -6713,10 +6713,10 @@ N@brief	This sets the maximum segment size of TCP in Active Mode), while in Pass
 N*/
 Nvoid setSn_MSS(SOCKET s, uint16_t Sn_MSSR0)
 N{
-N	IINCHIP_WRITE(Sn_MSSR0(s),(uint8)((Sn_MSSR0 & 0xff00) >> 8));
-X	IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0012),(uint8)((Sn_MSSR0 & 0xff00) >> 8));
-N	IINCHIP_WRITE((Sn_MSSR0(s) + 1),(uint8)(Sn_MSSR0 & 0x00ff));
-X	IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0012) + 1),(uint8)(Sn_MSSR0 & 0x00ff));
+N	IINCHIP_WRITE(Sn_MSSR0(s),(uint8_t)((Sn_MSSR0 & 0xff00) >> 8));
+X	IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0012),(uint8_t)((Sn_MSSR0 & 0xff00) >> 8));
+N	IINCHIP_WRITE((Sn_MSSR0(s) + 1),(uint8_t)(Sn_MSSR0 & 0x00ff));
+X	IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0012) + 1),(uint8_t)(Sn_MSSR0 & 0x00ff));
 N}
 N
 Nvoid setSn_TTL(SOCKET s, uint8_t ttl)
@@ -6829,10 +6829,10 @@ X	ptr = (ptr << 8) + IINCHIP_READ(((0x0000 + 0x4000) + s * 0x0100 + 0x0024) + 1)
 N	write_data(s, data, (uint8_t *)(ptr), len);
 N	ptr += len;
 N
-N	IINCHIP_WRITE(Sn_TX_WR0(s),(uint8)((ptr & 0xff00) >> 8));
-X	IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0024),(uint8)((ptr & 0xff00) >> 8));
-N	IINCHIP_WRITE((Sn_TX_WR0(s) + 1),(uint8)(ptr & 0x00ff));
-X	IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0024) + 1),(uint8)(ptr & 0x00ff));
+N	IINCHIP_WRITE(Sn_TX_WR0(s),(uint8_t)((ptr & 0xff00) >> 8));
+X	IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0024),(uint8_t)((ptr & 0xff00) >> 8));
+N	IINCHIP_WRITE((Sn_TX_WR0(s) + 1),(uint8_t)(ptr & 0x00ff));
+X	IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0024) + 1),(uint8_t)(ptr & 0x00ff));
 N	
 N}
 N
@@ -6858,10 +6858,10 @@ N#endif
 N
 N	read_data(s, (uint8_t *)ptr, data, len); // read data
 N	ptr += len;
-N	IINCHIP_WRITE(Sn_RX_RD0(s),(uint8)((ptr & 0xff00) >> 8));
-X	IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0028),(uint8)((ptr & 0xff00) >> 8));
-N	IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8)(ptr & 0x00ff));
-X	IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0028) + 1),(uint8)(ptr & 0x00ff));
+N	IINCHIP_WRITE(Sn_RX_RD0(s),(uint8_t)((ptr & 0xff00) >> 8));
+X	IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0028),(uint8_t)((ptr & 0xff00) >> 8));
+N	IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8_t)(ptr & 0x00ff));
+X	IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0028) + 1),(uint8_t)(ptr & 0x00ff));
 N}
 N
 N
@@ -6879,21 +6879,21 @@ N	uint16_t size;
 N	uint16_t dst_mask;
 N	uint8_t * dst_ptr;
 N
-N	dst_mask = (uint32)dst & getIINCHIP_TxMASK(s);
+N	dst_mask = (uint32_t)dst & getIINCHIP_TxMASK(s);
 N	dst_ptr = (uint8_t *)(getIINCHIP_TxBASE(s) + dst_mask);
 N	
 N	if (dst_mask + len > getIINCHIP_TxMAX(s)) 
 N	{
 N		size = getIINCHIP_TxMAX(s) - dst_mask;
-N		wiz_write_buf((uint32)dst_ptr, (uint8*)src, size);
+N		wiz_write_buf((uint32_t)dst_ptr, (uint8_t*)src, size);
 N		src += size;
 N		size = len - size;
 N		dst_ptr = (uint8_t *)(getIINCHIP_TxBASE(s));
-N		wiz_write_buf((uint32)dst_ptr, (uint8*)src, size);
+N		wiz_write_buf((uint32_t)dst_ptr, (uint8_t*)src, size);
 N	} 
 N	else
 N	{
-N		wiz_write_buf((uint32)dst_ptr, (uint8*)src, len);
+N		wiz_write_buf((uint32_t)dst_ptr, (uint8_t*)src, len);
 N	}
 N}
 N
@@ -6911,21 +6911,21 @@ N	uint16_t size;
 N	uint16_t src_mask;
 N	uint8_t * src_ptr;
 N
-N	src_mask = (uint32)src & getIINCHIP_RxMASK(s);
+N	src_mask = (uint32_t)src & getIINCHIP_RxMASK(s);
 N	src_ptr = (uint8_t *)(getIINCHIP_RxBASE(s) + src_mask);
 N	
 N	if( (src_mask + len) > getIINCHIP_RxMAX(s) ) 
 N	{
 N		size = getIINCHIP_RxMAX(s) - src_mask;
-N		wiz_read_buf((uint32)src_ptr, (uint8*)dst,size);
+N		wiz_read_buf((uint32_t)src_ptr, (uint8_t*)dst,size);
 N		dst += size;
 N		size = len - size;
 N		src_ptr = (uint8_t *)(getIINCHIP_RxBASE(s));
-N		wiz_read_buf((uint32)src_ptr, (uint8*) dst,size);
+N		wiz_read_buf((uint32_t)src_ptr, (uint8_t*) dst,size);
 N	} 
 N	else
 N	{
-N		wiz_read_buf((uint32)src_ptr, (uint8*) dst,len);
+N		wiz_read_buf((uint32_t)src_ptr, (uint8_t*) dst,len);
 N	}
 N}
 N

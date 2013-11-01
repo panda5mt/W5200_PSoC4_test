@@ -6,7 +6,7 @@ Memory Map of the image
 
   Image Entry point : 0x0000013d
 
-  Load Region APPLICATION (Base: 0x00000000, Size: 0x00000ff8, Max: 0x00008000, ABSOLUTE)
+  Load Region APPLICATION (Base: 0x00000000, Size: 0x00000ffc, Max: 0x00008000, ABSOLUTE)
 
     Execution Region VECTORS (Base: 0x00000000, Size: 0x00000010, Max: 0xffffffff, ABSOLUTE)
 
@@ -22,65 +22,65 @@ Memory Map of the image
     0x00000010   0x0000012c   Code   RO          836    .psocinit           W5200_PSoC4_test.a(cyfitter_cfg.o)
 
 
-    Execution Region CODE (Base: 0x0000013c, Size: 0x00000d68, Max: 0xffffffff, ABSOLUTE, FIXED)
+    Execution Region CODE (Base: 0x0000013c, Size: 0x00000d6c, Max: 0xffffffff, ABSOLUTE, FIXED)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x0000013c   0x00000008   Code   RO         1562  * !!!main             c_p.l(__main.o)
-    0x00000144   0x0000003c   Code   RO         1741    !!!scatter          c_p.l(__scatter.o)
-    0x00000180   0x0000001a   Code   RO         1743    !!handler_copy      c_p.l(__scatter_copy.o)
+    0x0000013c   0x00000008   Code   RO         1561  * !!!main             c_p.l(__main.o)
+    0x00000144   0x0000003c   Code   RO         1740    !!!scatter          c_p.l(__scatter.o)
+    0x00000180   0x0000001a   Code   RO         1742    !!handler_copy      c_p.l(__scatter_copy.o)
     0x0000019a   0x00000002   PAD
-    0x0000019c   0x0000001c   Code   RO         1745    !!handler_zi        c_p.l(__scatter_zi.o)
-    0x000001b8   0x00000002   Code   RO         1605    .ARM.Collect$$libinit$$00000000  c_p.l(libinit.o)
-    0x000001ba   0x00000004   Code   RO         1620    .ARM.Collect$$libinit$$00000001  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1624    .ARM.Collect$$libinit$$00000008  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1626    .ARM.Collect$$libinit$$0000000A  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1628    .ARM.Collect$$libinit$$0000000C  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1631    .ARM.Collect$$libinit$$0000000F  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1633    .ARM.Collect$$libinit$$00000011  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1635    .ARM.Collect$$libinit$$00000013  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1637    .ARM.Collect$$libinit$$00000015  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1639    .ARM.Collect$$libinit$$00000017  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1641    .ARM.Collect$$libinit$$00000019  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1643    .ARM.Collect$$libinit$$0000001B  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1645    .ARM.Collect$$libinit$$0000001D  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1647    .ARM.Collect$$libinit$$0000001F  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1649    .ARM.Collect$$libinit$$00000021  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1651    .ARM.Collect$$libinit$$00000023  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1655    .ARM.Collect$$libinit$$0000002A  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1657    .ARM.Collect$$libinit$$0000002C  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1659    .ARM.Collect$$libinit$$0000002E  c_p.l(libinit2.o)
-    0x000001be   0x00000000   Code   RO         1661    .ARM.Collect$$libinit$$00000030  c_p.l(libinit2.o)
-    0x000001be   0x00000002   Code   RO         1662    .ARM.Collect$$libinit$$00000031  c_p.l(libinit2.o)
-    0x000001c0   0x00000002   Code   RO         1697    .ARM.Collect$$libshutdown$$00000000  c_p.l(libshutdown.o)
-    0x000001c2   0x00000000   Code   RO         1724    .ARM.Collect$$libshutdown$$00000003  c_p.l(libshutdown2.o)
-    0x000001c2   0x00000000   Code   RO         1727    .ARM.Collect$$libshutdown$$00000006  c_p.l(libshutdown2.o)
-    0x000001c2   0x00000000   Code   RO         1730    .ARM.Collect$$libshutdown$$00000009  c_p.l(libshutdown2.o)
-    0x000001c2   0x00000000   Code   RO         1732    .ARM.Collect$$libshutdown$$0000000B  c_p.l(libshutdown2.o)
-    0x000001c2   0x00000000   Code   RO         1735    .ARM.Collect$$libshutdown$$0000000E  c_p.l(libshutdown2.o)
-    0x000001c2   0x00000002   Code   RO         1736    .ARM.Collect$$libshutdown$$0000000F  c_p.l(libshutdown2.o)
-    0x000001c4   0x00000000   Code   RO         1564    .ARM.Collect$$rtentry$$00000000  c_p.l(rtentry.o)
-    0x000001c4   0x00000000   Code   RO         1570    .ARM.Collect$$rtentry$$00000002  c_p.l(rtentry2.o)
-    0x000001c4   0x00000004   Code   RO         1584    .ARM.Collect$$rtentry$$00000007  c_p.l(rtentry7.o)
-    0x000001c8   0x00000000   Code   RO         1572    .ARM.Collect$$rtentry$$00000009  c_p.l(rtentry2.o)
-    0x000001c8   0x00000004   Code   RO         1573    .ARM.Collect$$rtentry$$0000000A  c_p.l(rtentry2.o)
-    0x000001cc   0x00000000   Code   RO         1575    .ARM.Collect$$rtentry$$0000000C  c_p.l(rtentry2.o)
-    0x000001cc   0x00000008   Code   RO         1576    .ARM.Collect$$rtentry$$0000000D  c_p.l(rtentry2.o)
-    0x000001d4   0x00000004   Code   RO         1585    .ARM.Collect$$rtentry$$00002718  c_p.l(rtentry7.o)
-    0x000001d8   0x00000002   Code   RO         1612    .ARM.Collect$$rtexit$$00000000  c_p.l(rtexit.o)
-    0x000001da   0x00000000   Code   RO         1673    .ARM.Collect$$rtexit$$00000002  c_p.l(rtexit2.o)
-    0x000001da   0x00000004   Code   RO         1674    .ARM.Collect$$rtexit$$00000003  c_p.l(rtexit2.o)
-    0x000001de   0x00000006   Code   RO         1675    .ARM.Collect$$rtexit$$00000004  c_p.l(rtexit2.o)
+    0x0000019c   0x0000001c   Code   RO         1744    !!handler_zi        c_p.l(__scatter_zi.o)
+    0x000001b8   0x00000002   Code   RO         1604    .ARM.Collect$$libinit$$00000000  c_p.l(libinit.o)
+    0x000001ba   0x00000004   Code   RO         1619    .ARM.Collect$$libinit$$00000001  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1623    .ARM.Collect$$libinit$$00000008  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1625    .ARM.Collect$$libinit$$0000000A  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1627    .ARM.Collect$$libinit$$0000000C  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1630    .ARM.Collect$$libinit$$0000000F  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1632    .ARM.Collect$$libinit$$00000011  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1634    .ARM.Collect$$libinit$$00000013  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1636    .ARM.Collect$$libinit$$00000015  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1638    .ARM.Collect$$libinit$$00000017  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1640    .ARM.Collect$$libinit$$00000019  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1642    .ARM.Collect$$libinit$$0000001B  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1644    .ARM.Collect$$libinit$$0000001D  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1646    .ARM.Collect$$libinit$$0000001F  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1648    .ARM.Collect$$libinit$$00000021  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1650    .ARM.Collect$$libinit$$00000023  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1654    .ARM.Collect$$libinit$$0000002A  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1656    .ARM.Collect$$libinit$$0000002C  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1658    .ARM.Collect$$libinit$$0000002E  c_p.l(libinit2.o)
+    0x000001be   0x00000000   Code   RO         1660    .ARM.Collect$$libinit$$00000030  c_p.l(libinit2.o)
+    0x000001be   0x00000002   Code   RO         1661    .ARM.Collect$$libinit$$00000031  c_p.l(libinit2.o)
+    0x000001c0   0x00000002   Code   RO         1696    .ARM.Collect$$libshutdown$$00000000  c_p.l(libshutdown.o)
+    0x000001c2   0x00000000   Code   RO         1723    .ARM.Collect$$libshutdown$$00000003  c_p.l(libshutdown2.o)
+    0x000001c2   0x00000000   Code   RO         1726    .ARM.Collect$$libshutdown$$00000006  c_p.l(libshutdown2.o)
+    0x000001c2   0x00000000   Code   RO         1729    .ARM.Collect$$libshutdown$$00000009  c_p.l(libshutdown2.o)
+    0x000001c2   0x00000000   Code   RO         1731    .ARM.Collect$$libshutdown$$0000000B  c_p.l(libshutdown2.o)
+    0x000001c2   0x00000000   Code   RO         1734    .ARM.Collect$$libshutdown$$0000000E  c_p.l(libshutdown2.o)
+    0x000001c2   0x00000002   Code   RO         1735    .ARM.Collect$$libshutdown$$0000000F  c_p.l(libshutdown2.o)
+    0x000001c4   0x00000000   Code   RO         1563    .ARM.Collect$$rtentry$$00000000  c_p.l(rtentry.o)
+    0x000001c4   0x00000000   Code   RO         1569    .ARM.Collect$$rtentry$$00000002  c_p.l(rtentry2.o)
+    0x000001c4   0x00000004   Code   RO         1583    .ARM.Collect$$rtentry$$00000007  c_p.l(rtentry7.o)
+    0x000001c8   0x00000000   Code   RO         1571    .ARM.Collect$$rtentry$$00000009  c_p.l(rtentry2.o)
+    0x000001c8   0x00000004   Code   RO         1572    .ARM.Collect$$rtentry$$0000000A  c_p.l(rtentry2.o)
+    0x000001cc   0x00000000   Code   RO         1574    .ARM.Collect$$rtentry$$0000000C  c_p.l(rtentry2.o)
+    0x000001cc   0x00000008   Code   RO         1575    .ARM.Collect$$rtentry$$0000000D  c_p.l(rtentry2.o)
+    0x000001d4   0x00000004   Code   RO         1584    .ARM.Collect$$rtentry$$00002718  c_p.l(rtentry7.o)
+    0x000001d8   0x00000002   Code   RO         1611    .ARM.Collect$$rtexit$$00000000  c_p.l(rtexit.o)
+    0x000001da   0x00000000   Code   RO         1672    .ARM.Collect$$rtexit$$00000002  c_p.l(rtexit2.o)
+    0x000001da   0x00000004   Code   RO         1673    .ARM.Collect$$rtexit$$00000003  c_p.l(rtexit2.o)
+    0x000001de   0x00000006   Code   RO         1674    .ARM.Collect$$rtexit$$00000004  c_p.l(rtexit2.o)
     0x000001e4   0x00000004   PAD
-    0x000001e8   0x00000020   Code   RO         1526    .text               W5200_PSoC4_test.a(CyBootAsmRv.o)
-    0x00000208   0x00000040   Code   RO         1554    .text               c_p.l(rt_memclr.o)
-    0x00000248   0x00000022   Code   RO         1556    .text               c_p.l(uread4.o)
-    0x0000026a   0x0000000c   Code   RO         1594    .text               c_p.l(exit.o)
+    0x000001e8   0x00000020   Code   RO         1525    .text               W5200_PSoC4_test.a(CyBootAsmRv.o)
+    0x00000208   0x00000040   Code   RO         1553    .text               c_p.l(rt_memclr.o)
+    0x00000248   0x00000022   Code   RO         1555    .text               c_p.l(uread4.o)
+    0x0000026a   0x0000000c   Code   RO         1593    .text               c_p.l(exit.o)
     0x00000276   0x00000002   PAD
-    0x00000278   0x0000000c   Code   RO         1667    .text               c_p.l(sys_exit.o)
-    0x00000284   0x00000002   Code   RO         1669    .text               c_p.l(use_no_semi.o)
-    0x00000286   0x00000000   Code   RO         1671    .text               c_p.l(indicate_semi.o)
-    0x00000286   0x00000056   Code   RO         1739    .text               c_p.l(__dczerorl2.o)
+    0x00000278   0x0000000c   Code   RO         1666    .text               c_p.l(sys_exit.o)
+    0x00000284   0x00000002   Code   RO         1668    .text               c_p.l(use_no_semi.o)
+    0x00000286   0x00000000   Code   RO         1670    .text               c_p.l(indicate_semi.o)
+    0x00000286   0x00000056   Code   RO         1738    .text               c_p.l(__dczerorl2.o)
     0x000002dc   0x0000000a   Code   RO          790    i.$Sub$$main        Cm0Start.o
     0x000002e6   0x00000002   PAD
     0x000002e8   0x00000028   Code   RO          979    i.CyDelay           W5200_PSoC4_test.a(CyLib.o)
@@ -91,13 +91,13 @@ Memory Map of the image
     0x00000390   0x00000002   Code   RO          791    i.IntDefaultHandler  Cm0Start.o
     0x00000392   0x00000008   Code   RO          792    i.Reset             Cm0Start.o
     0x0000039a   0x0000000a   Code   RO          357    i.Reset_W5200       util.o
-    0x000003a4   0x00000018   Code   RO         1428    i.SPI_CS_Write      W5200_PSoC4_test.a(SPI_CS.o)
-    0x000003bc   0x00000010   Code   RO         1278    i.SPI_Enable        W5200_PSoC4_test.a(SPI.o)
-    0x000003cc   0x0000005c   Code   RO         1530    i.SPI_SpiInit       W5200_PSoC4_test.a(SPI_SPI.o)
-    0x00000428   0x00000010   Code   RO         1360    i.SPI_SpiUartGetRxBufferSize  W5200_PSoC4_test.a(SPI_SPI_UART.o)
-    0x00000438   0x0000000c   Code   RO         1363    i.SPI_SpiUartReadRxData  W5200_PSoC4_test.a(SPI_SPI_UART.o)
-    0x00000444   0x00000018   Code   RO         1364    i.SPI_SpiUartWriteTxData  W5200_PSoC4_test.a(SPI_SPI_UART.o)
-    0x0000045c   0x0000001c   Code   RO         1281    i.SPI_Start         W5200_PSoC4_test.a(SPI.o)
+    0x000003a4   0x00000018   Code   RO         1427    i.SPI_CS_Write      W5200_PSoC4_test.a(SPI_CS.o)
+    0x000003bc   0x00000010   Code   RO         1277    i.SPI_Enable        W5200_PSoC4_test.a(SPI.o)
+    0x000003cc   0x0000005c   Code   RO         1529    i.SPI_SpiInit       W5200_PSoC4_test.a(SPI_SPI.o)
+    0x00000428   0x00000010   Code   RO         1359    i.SPI_SpiUartGetRxBufferSize  W5200_PSoC4_test.a(SPI_SPI_UART.o)
+    0x00000438   0x0000000c   Code   RO         1362    i.SPI_SpiUartReadRxData  W5200_PSoC4_test.a(SPI_SPI_UART.o)
+    0x00000444   0x00000018   Code   RO         1363    i.SPI_SpiUartWriteTxData  W5200_PSoC4_test.a(SPI_SPI_UART.o)
+    0x0000045c   0x0000001c   Code   RO         1280    i.SPI_Start         W5200_PSoC4_test.a(SPI.o)
     0x00000478   0x000000e0   Code   RO          358    i.Set_network       util.o
     0x00000558   0x00000030   Code   RO          272    i.close             socket.o
     0x00000588   0x00000020   Code   RO          274    i.disconnect        socket.o
@@ -139,13 +139,13 @@ Memory Map of the image
     0x00000c14   0x00000008   Code   RO            8    i.spi_master_init   device_depend.o
     0x00000c1c   0x00000016   Code   RO            9    i.spi_master_send   device_depend.o
     0x00000c32   0x00000002   PAD
-    0x00000c34   0x0000014c   Code   RO          446    i.sysinit           w5200.o
-    0x00000d80   0x00000008   Code   RO           12    i.wait_delay_ms     device_depend.o
-    0x00000d88   0x00000042   Code   RO          447    i.wiz_read_buf      w5200.o
-    0x00000dca   0x0000004a   Code   RO          448    i.wiz_write_buf     w5200.o
-    0x00000e14   0x00000054   Code   RO          449    i.write_data        w5200.o
-    0x00000e68   0x0000000c   Data   RO          837    .constdata          W5200_PSoC4_test.a(cyfitter_cfg.o)
-    0x00000e74   0x00000030   Data   RO         1737    Region$$Table       anon$$obj.o
+    0x00000c34   0x00000150   Code   RO          446    i.sysinit           w5200.o
+    0x00000d84   0x00000008   Code   RO           12    i.wait_delay_ms     device_depend.o
+    0x00000d8c   0x00000042   Code   RO          447    i.wiz_read_buf      w5200.o
+    0x00000dce   0x0000004a   Code   RO          448    i.wiz_write_buf     w5200.o
+    0x00000e18   0x00000054   Code   RO          449    i.write_data        w5200.o
+    0x00000e6c   0x0000000c   Data   RO          837    .constdata          W5200_PSoC4_test.a(cyfitter_cfg.o)
+    0x00000e78   0x00000030   Data   RO         1736    Region$$Table       anon$$obj.o
 
 
     Execution Region ISRVECTORS (Base: 0x20000000, Size: 0x000000c0, Max: 0xffffffff, ABSOLUTE, UNINIT)
@@ -184,7 +184,7 @@ Memory Map of the image
     0x20000134   0x00000008   Data   RW          707    .data               main.o
     0x2000013c   0x00000004   Data   RW          838    .data               W5200_PSoC4_test.a(cyfitter_cfg.o)
     0x20000140   0x00000010   Data   RW         1028    .data               W5200_PSoC4_test.a(CyLib.o)
-    0x20000150   0x00000008   Data   RW         1283    .data               W5200_PSoC4_test.a(SPI.o)
+    0x20000150   0x00000008   Data   RW         1282    .data               W5200_PSoC4_test.a(SPI.o)
     0x20000158   0x00000017   Zero   RW          693    .bss                main.o
     0x2000016f   0x00000800   Zero   RW          694    .bss                main.o
 

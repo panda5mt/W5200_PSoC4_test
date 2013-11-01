@@ -20,8 +20,8 @@ CHCONFIG_TYPE_DEF Chconfig_Type_Def;
 // Configuration Network Information of W5200
 uint8_t Enable_DHCP = OFF;
 uint8_t MAC[6] = {0x00, 0x50, 0xC2, 0x97, 0x29, 0x04};//MAC Address
-uint8_t IP[4] = {192, 168, 1, 70};//IP Address
-uint8_t GateWay[4] = {192, 168, 1, 121};//Gateway Address
+uint8_t IP[4] = {169, 254, 22, 70};//IP Address
+uint8_t GateWay[4] = {192, 168, 0, 121};//Gateway Address
 uint8_t SubNet[4] = {255, 255, 255, 0};//SubnetMask Address
 
 //TX MEM SIZE- SOCKET 0:8KB, SOCKET 1:2KB, SOCKET2-7:1KB
@@ -78,35 +78,35 @@ void Timer_Configuration(void);
 *******************************************************************************/
 int main(void)
 {  
-//	RCC_Configuration(); // Configure the system clocks
-//	NVIC_Configuration(); // NVIC Configuration
-//	GPIO_Configuration();
-//	USART1_Init();
-//	Timer_Configuration();
-        
+	//	RCC_Configuration(); // Configure the system clocks
+	//	NVIC_Configuration(); // NVIC Configuration
+	//	GPIO_Configuration();
+	//	USART1_Init();
+	//	Timer_Configuration();
+
 	Reset_W5200();
 	spi_master_init();	
 	WIZ_Config(); // network config & Call Set_network ();      
-        
-        // LED3 and LED4 On!
+
+	// LED3 and LED4 On!
 	//LED3_onoff(ON);
 	//LED4_onoff(ON);
-        
-        presentTime = my_time; // For TCP client's connection request delay
-        
-        // Start Application         
-        // printf("\r\n\r\n------------------------------------------- \r\n");
-	    // printf("TCP Server Loopback using W5200\r\n");  
-        // printf("------------------------------------------- ");
+
+	presentTime = my_time; // For TCP client's connection request delay
+
+	// Start Application         
+	// printf("\r\n\r\n------------------------------------------- \r\n");
+	// printf("TCP Server Loopback using W5200\r\n");  
+	// printf("------------------------------------------- ");
 	while(1) {
 		loopback_tcps(0, 23);
-//		loopback_tcps(1, 5001);
-//		loopback_tcps(2, 5002);
-//		loopback_tcps(3, 5003);		
-//                loopback_tcpc(4, 5004);              
-//		loopback_udp(5, 3000);
-//		loopback_udp(6, 3001);
-//		loopback_udp(7, 3002);                
+		//		loopback_tcps(1, 5001);
+		//		loopback_tcps(2, 5002);
+		//		loopback_tcps(3, 5003);		
+		//      loopback_tcpc(4, 5004);              
+		//		loopback_udp(5, 3000);
+		//		loopback_udp(6, 3001);
+		//		loopback_udp(7, 3002);                
 	}
         
 }

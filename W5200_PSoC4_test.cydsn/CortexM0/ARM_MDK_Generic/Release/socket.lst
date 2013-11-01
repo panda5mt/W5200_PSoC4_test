@@ -369,7 +369,7 @@ L 1 "./Generated_Source/PSoC4/cydevice_trm.h" 1
 N/*******************************************************************************
 N* FILENAME: cydevice_trm.h
 N* 
-N* PSoC Creator 3.0
+N* PSoC Creator 3.0 Component Pack 7
 N*
 N* DESCRIPTION:
 N* This file provides all of the address values for the entire PSoC device.
@@ -5619,16 +5619,16 @@ N		close(s);
 N		IINCHIP_WRITE(Sn_MR(s),protocol | flag);
 X		IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0000),protocol | flag);
 N		if (port != 0) {
-N			IINCHIP_WRITE(Sn_PORT0(s),(uint8)((port & 0xff00) >> 8));
-X			IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0004),(uint8)((port & 0xff00) >> 8));
-N			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8)(port & 0x00ff));
-X			IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0004) + 1),(uint8)(port & 0x00ff));
+N			IINCHIP_WRITE(Sn_PORT0(s),(uint8_t)((port & 0xff00) >> 8));
+X			IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0004),(uint8_t)((port & 0xff00) >> 8));
+N			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8_t)(port & 0x00ff));
+X			IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0004) + 1),(uint8_t)(port & 0x00ff));
 N		} else {
 N			local_port++; // if don't set the source port, set local_port number.
-N			IINCHIP_WRITE(Sn_PORT0(s),(uint8)((local_port & 0xff00) >> 8));
-X			IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0004),(uint8)((local_port & 0xff00) >> 8));
-N			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8)(local_port & 0x00ff));
-X			IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0004) + 1),(uint8)(local_port & 0x00ff));
+N			IINCHIP_WRITE(Sn_PORT0(s),(uint8_t)((local_port & 0xff00) >> 8));
+X			IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0004),(uint8_t)((local_port & 0xff00) >> 8));
+N			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8_t)(local_port & 0x00ff));
+X			IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0004) + 1),(uint8_t)(local_port & 0x00ff));
 N		}
 N		IINCHIP_WRITE(Sn_CR(s),Sn_CR_OPEN); // run sockinit Sn_CR
 X		IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0001),0x01); 
@@ -5743,10 +5743,10 @@ N		IINCHIP_WRITE((Sn_DIPR0(s) + 2),addr[2]);
 X		IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x000C) + 2),addr[2]);
 N		IINCHIP_WRITE((Sn_DIPR0(s) + 3),addr[3]);
 X		IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x000C) + 3),addr[3]);
-N		IINCHIP_WRITE(Sn_DPORT0(s),(uint8)((port & 0xff00) >> 8));
-X		IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0010),(uint8)((port & 0xff00) >> 8));
-N		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8)(port & 0x00ff));
-X		IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0010) + 1),(uint8)(port & 0x00ff));
+N		IINCHIP_WRITE(Sn_DPORT0(s),(uint8_t)((port & 0xff00) >> 8));
+X		IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0010),(uint8_t)((port & 0xff00) >> 8));
+N		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8_t)(port & 0x00ff));
+X		IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0010) + 1),(uint8_t)(port & 0x00ff));
 N		clearSUBR();   // clear the subnet mask again and keep it because of the ARP errata of W5100
 N		IINCHIP_WRITE(Sn_CR(s),Sn_CR_CONNECT);
 X		IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0001),0x04);
@@ -5957,10 +5957,10 @@ N		IINCHIP_WRITE((Sn_DIPR0(s) + 2),addr[2]);
 X		IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x000C) + 2),addr[2]);
 N		IINCHIP_WRITE((Sn_DIPR0(s) + 3),addr[3]);
 X		IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x000C) + 3),addr[3]);
-N		IINCHIP_WRITE(Sn_DPORT0(s),(uint8)((port & 0xff00) >> 8));
-X		IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0010),(uint8)((port & 0xff00) >> 8));
-N		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8)(port & 0x00ff));     			
-X		IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0010) + 1),(uint8)(port & 0x00ff));     			
+N		IINCHIP_WRITE(Sn_DPORT0(s),(uint8_t)((port & 0xff00) >> 8));
+X		IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0010),(uint8_t)((port & 0xff00) >> 8));
+N		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8_t)(port & 0x00ff));     			
+X		IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0010) + 1),(uint8_t)(port & 0x00ff));     			
 N  		// copy data
 N 		send_data_processing(s, (uint8_t *)buf, ret);
 N		clearSUBR();	   // clear the subnet mask again and keep it because of the ARP errata of W5100
@@ -6046,10 +6046,10 @@ N
 N			read_data(s, (uint8_t *)ptr, buf, data_len); // data copy.
 N			ptr += data_len;
 N
-N			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8)((ptr & 0xff00) >> 8));
-X			IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0028),(uint8)((ptr & 0xff00) >> 8));
-N			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8)(ptr & 0x00ff));
-X			IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0028) + 1),(uint8)(ptr & 0x00ff));
+N			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8_t)((ptr & 0xff00) >> 8));
+X			IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0028),(uint8_t)((ptr & 0xff00) >> 8));
+N			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8_t)(ptr & 0x00ff));
+X			IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0028) + 1),(uint8_t)(ptr & 0x00ff));
 N   			break;
 N   
 N   	case Sn_MR_IPRAW :
@@ -6071,14 +6071,14 @@ N#endif
 N			read_data(s, (uint8_t *)ptr, buf, data_len); // data copy.
 N			ptr += data_len;
 N
-N			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8)((ptr & 0xff00) >> 8));
-X			IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0028),(uint8)((ptr & 0xff00) >> 8));
-N			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8)(ptr & 0x00ff));
-X			IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0028) + 1),(uint8)(ptr & 0x00ff));
+N			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8_t)((ptr & 0xff00) >> 8));
+X			IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0028),(uint8_t)((ptr & 0xff00) >> 8));
+N			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8_t)(ptr & 0x00ff));
+X			IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0028) + 1),(uint8_t)(ptr & 0x00ff));
 N   			break;
 N   	case Sn_MR_MACRAW :
 X   	case 0x04 :
-N   			read_data(s,(uint8*)ptr,head,2);
+N   			read_data(s,(uint8_t*)ptr,head,2);
 N   			ptr+=2;
 N   			data_len = head[0];
 N   			data_len = (data_len<<8) + head[1] - 2;
@@ -6088,12 +6088,12 @@ N   				// printf("data_len over 1514\r\n");
 N   				while(1);
 N   			}
 N
-N   			read_data(s,(uint8*) ptr,buf,data_len);
+N   			read_data(s,(uint8_t*) ptr,buf,data_len);
 N   			ptr += data_len;
-N   			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8)((ptr & 0xff00) >> 8));
-X   			IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0028),(uint8)((ptr & 0xff00) >> 8));
-N   			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8)(ptr & 0x00ff));
-X   			IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0028) + 1),(uint8)(ptr & 0x00ff));
+N   			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8_t)((ptr & 0xff00) >> 8));
+X   			IINCHIP_WRITE(((0x0000 + 0x4000) + s * 0x0100 + 0x0028),(uint8_t)((ptr & 0xff00) >> 8));
+N   			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8_t)(ptr & 0x00ff));
+X   			IINCHIP_WRITE((((0x0000 + 0x4000) + s * 0x0100 + 0x0028) + 1),(uint8_t)(ptr & 0x00ff));
 N   			
 N#ifdef __DEF_IINCHIP_DGB__
 S			// printf("MAC RAW msg arrived\r\n");

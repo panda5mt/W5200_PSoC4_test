@@ -1,0 +1,1351 @@
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"SPI_PM.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.SPI_DisableTxPinsInputBuffer,"ax",%progbits
+  18              		.align	1
+  19              		.global	SPI_DisableTxPinsInputBuffer
+  20              		.code	16
+  21              		.thumb_func
+  22              		.type	SPI_DisableTxPinsInputBuffer, %function
+  23              	SPI_DisableTxPinsInputBuffer:
+  24              	.LFB2:
+  25              		.file 1 ".\\Generated_Source\\PSoC4\\SPI_PM.c"
+   1:.\Generated_Source\PSoC4/SPI_PM.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC4/SPI_PM.c **** * File Name: SPI_PM.c
+   3:.\Generated_Source\PSoC4/SPI_PM.c **** * Version 1.10
+   4:.\Generated_Source\PSoC4/SPI_PM.c **** *
+   5:.\Generated_Source\PSoC4/SPI_PM.c **** * Description:
+   6:.\Generated_Source\PSoC4/SPI_PM.c **** *  This file provides the source code to the Power Management support for
+   7:.\Generated_Source\PSoC4/SPI_PM.c **** *  the SCB Component.
+   8:.\Generated_Source\PSoC4/SPI_PM.c **** *
+   9:.\Generated_Source\PSoC4/SPI_PM.c **** * Note:
+  10:.\Generated_Source\PSoC4/SPI_PM.c **** *
+  11:.\Generated_Source\PSoC4/SPI_PM.c **** ********************************************************************************
+  12:.\Generated_Source\PSoC4/SPI_PM.c **** * Copyright 2013, Cypress Semiconductor Corporation.  All rights reserved.
+  13:.\Generated_Source\PSoC4/SPI_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:.\Generated_Source\PSoC4/SPI_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:.\Generated_Source\PSoC4/SPI_PM.c **** * the software package with which this file was provided.
+  16:.\Generated_Source\PSoC4/SPI_PM.c **** *******************************************************************************/
+  17:.\Generated_Source\PSoC4/SPI_PM.c **** 
+  18:.\Generated_Source\PSoC4/SPI_PM.c **** #include "SPI.h"
+  19:.\Generated_Source\PSoC4/SPI_PM.c **** #include "SPI_PVT.h"
+  20:.\Generated_Source\PSoC4/SPI_PM.c **** 
+  21:.\Generated_Source\PSoC4/SPI_PM.c **** #if(SPI_SCB_MODE_I2C_INC)
+  22:.\Generated_Source\PSoC4/SPI_PM.c ****     #include "SPI_I2C_PVT.h"
+  23:.\Generated_Source\PSoC4/SPI_PM.c **** #endif /* (SPI_SCB_MODE_I2C_INC) */
+  24:.\Generated_Source\PSoC4/SPI_PM.c **** 
+  25:.\Generated_Source\PSoC4/SPI_PM.c **** #if(SPI_SCB_MODE_EZI2C_INC)
+  26:.\Generated_Source\PSoC4/SPI_PM.c ****     #include "SPI_EZI2C_PVT.h"
+  27:.\Generated_Source\PSoC4/SPI_PM.c **** #endif /* (SPI_SCB_MODE_EZI2C_INC) */
+  28:.\Generated_Source\PSoC4/SPI_PM.c **** 
+  29:.\Generated_Source\PSoC4/SPI_PM.c **** #if(SPI_SCB_MODE_SPI_INC || SPI_SCB_MODE_UART_INC)
+  30:.\Generated_Source\PSoC4/SPI_PM.c ****     #include "SPI_SPI_UART_PVT.h"
+  31:.\Generated_Source\PSoC4/SPI_PM.c **** #endif /* (SPI_SCB_MODE_SPI_INC || SPI_SCB_MODE_UART_INC) */
+  32:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 2
+
+
+  33:.\Generated_Source\PSoC4/SPI_PM.c **** 
+  34:.\Generated_Source\PSoC4/SPI_PM.c **** /***************************************
+  35:.\Generated_Source\PSoC4/SPI_PM.c **** *   Backup Structure declaration
+  36:.\Generated_Source\PSoC4/SPI_PM.c **** ***************************************/
+  37:.\Generated_Source\PSoC4/SPI_PM.c **** 
+  38:.\Generated_Source\PSoC4/SPI_PM.c **** SPI_BACKUP_STRUCT SPI_backup =
+  39:.\Generated_Source\PSoC4/SPI_PM.c **** {
+  40:.\Generated_Source\PSoC4/SPI_PM.c ****     0u, /* enableState */
+  41:.\Generated_Source\PSoC4/SPI_PM.c **** };
+  42:.\Generated_Source\PSoC4/SPI_PM.c **** 
+  43:.\Generated_Source\PSoC4/SPI_PM.c **** 
+  44:.\Generated_Source\PSoC4/SPI_PM.c **** /*******************************************************************************
+  45:.\Generated_Source\PSoC4/SPI_PM.c **** * Function Name: SPI_Sleep
+  46:.\Generated_Source\PSoC4/SPI_PM.c **** ********************************************************************************
+  47:.\Generated_Source\PSoC4/SPI_PM.c **** *
+  48:.\Generated_Source\PSoC4/SPI_PM.c **** * Summary:
+  49:.\Generated_Source\PSoC4/SPI_PM.c **** *  Calls SaveConfig function fucntion for selected mode.
+  50:.\Generated_Source\PSoC4/SPI_PM.c **** *
+  51:.\Generated_Source\PSoC4/SPI_PM.c **** * Parameters:
+  52:.\Generated_Source\PSoC4/SPI_PM.c **** *  None
+  53:.\Generated_Source\PSoC4/SPI_PM.c **** *
+  54:.\Generated_Source\PSoC4/SPI_PM.c **** * Return:
+  55:.\Generated_Source\PSoC4/SPI_PM.c **** *  None
+  56:.\Generated_Source\PSoC4/SPI_PM.c **** *
+  57:.\Generated_Source\PSoC4/SPI_PM.c **** *******************************************************************************/
+  58:.\Generated_Source\PSoC4/SPI_PM.c **** void SPI_Sleep(void)
+  59:.\Generated_Source\PSoC4/SPI_PM.c **** {
+  60:.\Generated_Source\PSoC4/SPI_PM.c **** #if(SPI_SCB_MODE_UNCONFIG_CONST_CFG)
+  61:.\Generated_Source\PSoC4/SPI_PM.c **** 
+  62:.\Generated_Source\PSoC4/SPI_PM.c ****     if(0u != SPI_scbEnableWake)
+  63:.\Generated_Source\PSoC4/SPI_PM.c ****     {
+  64:.\Generated_Source\PSoC4/SPI_PM.c ****         if(SPI_SCB_MODE_I2C_RUNTM_CFG)
+  65:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+  66:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_I2CSaveConfig();
+  67:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+  68:.\Generated_Source\PSoC4/SPI_PM.c ****         else if(SPI_SCB_MODE_SPI_RUNTM_CFG)
+  69:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+  70:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_SpiSaveConfig();
+  71:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+  72:.\Generated_Source\PSoC4/SPI_PM.c ****         else if(SPI_SCB_MODE_UART_RUNTM_CFG)
+  73:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+  74:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_UartSaveConfig();
+  75:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+  76:.\Generated_Source\PSoC4/SPI_PM.c ****         else if(SPI_SCB_MODE_EZI2C_RUNTM_CFG)
+  77:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+  78:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_EzI2CSaveConfig();
+  79:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+  80:.\Generated_Source\PSoC4/SPI_PM.c ****         else
+  81:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+  82:.\Generated_Source\PSoC4/SPI_PM.c ****             /* Unknown mode: do nothing */
+  83:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+  84:.\Generated_Source\PSoC4/SPI_PM.c ****     }
+  85:.\Generated_Source\PSoC4/SPI_PM.c ****     else
+  86:.\Generated_Source\PSoC4/SPI_PM.c ****     {
+  87:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_backup.enableState = (uint8) SPI_GET_CTRL_ENABLED;
+  88:.\Generated_Source\PSoC4/SPI_PM.c ****         
+  89:.\Generated_Source\PSoC4/SPI_PM.c ****         if(0u != SPI_backup.enableState)
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 3
+
+
+  90:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+  91:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_Stop();
+  92:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+  93:.\Generated_Source\PSoC4/SPI_PM.c ****     }
+  94:.\Generated_Source\PSoC4/SPI_PM.c ****     
+  95:.\Generated_Source\PSoC4/SPI_PM.c ****     SPI_DisableTxPinsInputBuffer();
+  96:.\Generated_Source\PSoC4/SPI_PM.c ****     
+  97:.\Generated_Source\PSoC4/SPI_PM.c **** #else
+  98:.\Generated_Source\PSoC4/SPI_PM.c ****     
+  99:.\Generated_Source\PSoC4/SPI_PM.c ****     #if defined (SPI_I2C_WAKE_ENABLE_CONST) && (SPI_I2C_WAKE_ENABLE_CONST)
+ 100:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_I2CSaveConfig();
+ 101:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 102:.\Generated_Source\PSoC4/SPI_PM.c ****     #elif defined (SPI_SPI_WAKE_ENABLE_CONST) && (SPI_SPI_WAKE_ENABLE_CONST)
+ 103:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_SpiSaveConfig();
+ 104:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 105:.\Generated_Source\PSoC4/SPI_PM.c ****     #elif defined (SPI_UART_WAKE_ENABLE_CONST) && (SPI_UART_WAKE_ENABLE_CONST)
+ 106:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_UartSaveConfig();
+ 107:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 108:.\Generated_Source\PSoC4/SPI_PM.c ****     #elif defined (SPI_EZI2C_WAKE_ENABLE_CONST) && (SPI_EZI2C_WAKE_ENABLE_CONST)
+ 109:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_EzI2CSaveConfig();
+ 110:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 111:.\Generated_Source\PSoC4/SPI_PM.c ****     #else
+ 112:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 113:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_backup.enableState = (uint8) SPI_GET_CTRL_ENABLED;
+ 114:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 115:.\Generated_Source\PSoC4/SPI_PM.c ****         /* Check enable state */
+ 116:.\Generated_Source\PSoC4/SPI_PM.c ****         if(0u != SPI_backup.enableState)
+ 117:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 118:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_Stop();
+ 119:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 120:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 121:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* defined (SPI_SCB_MODE_I2C_CONST_CFG) && (SPI_I2C_WAKE_ENABLE_CONST) */
+ 122:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 123:.\Generated_Source\PSoC4/SPI_PM.c ****     SPI_DisableTxPinsInputBuffer();
+ 124:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 125:.\Generated_Source\PSoC4/SPI_PM.c **** #endif /* (SPI_SCB_MODE_UNCONFIG_CONST_CFG) */
+ 126:.\Generated_Source\PSoC4/SPI_PM.c **** }
+ 127:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 128:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 129:.\Generated_Source\PSoC4/SPI_PM.c **** /*******************************************************************************
+ 130:.\Generated_Source\PSoC4/SPI_PM.c **** * Function Name: SPI_Wakeup
+ 131:.\Generated_Source\PSoC4/SPI_PM.c **** ********************************************************************************
+ 132:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 133:.\Generated_Source\PSoC4/SPI_PM.c **** * Summary:
+ 134:.\Generated_Source\PSoC4/SPI_PM.c **** *  Calls RestoreConfig function fucntion for selected mode.
+ 135:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 136:.\Generated_Source\PSoC4/SPI_PM.c **** * Parameters:
+ 137:.\Generated_Source\PSoC4/SPI_PM.c **** *  None
+ 138:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 139:.\Generated_Source\PSoC4/SPI_PM.c **** * Return:
+ 140:.\Generated_Source\PSoC4/SPI_PM.c **** *  None
+ 141:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 142:.\Generated_Source\PSoC4/SPI_PM.c **** *******************************************************************************/
+ 143:.\Generated_Source\PSoC4/SPI_PM.c **** void SPI_Wakeup(void)
+ 144:.\Generated_Source\PSoC4/SPI_PM.c **** {
+ 145:.\Generated_Source\PSoC4/SPI_PM.c **** #if(SPI_SCB_MODE_UNCONFIG_CONST_CFG)
+ 146:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 4
+
+
+ 147:.\Generated_Source\PSoC4/SPI_PM.c ****     SPI_EnableTxPinsInputBuffer();
+ 148:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 149:.\Generated_Source\PSoC4/SPI_PM.c ****     if(0u != SPI_scbEnableWake)
+ 150:.\Generated_Source\PSoC4/SPI_PM.c ****     {
+ 151:.\Generated_Source\PSoC4/SPI_PM.c ****         if(SPI_SCB_MODE_I2C_RUNTM_CFG)
+ 152:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 153:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_I2CRestoreConfig();
+ 154:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 155:.\Generated_Source\PSoC4/SPI_PM.c ****         else if(SPI_SCB_MODE_SPI_RUNTM_CFG)
+ 156:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 157:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_SpiRestoreConfig();
+ 158:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 159:.\Generated_Source\PSoC4/SPI_PM.c ****         else if(SPI_SCB_MODE_UART_RUNTM_CFG)
+ 160:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 161:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_UartRestoreConfig();
+ 162:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 163:.\Generated_Source\PSoC4/SPI_PM.c ****         else if(SPI_SCB_MODE_EZI2C_RUNTM_CFG)
+ 164:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 165:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_EzI2CRestoreConfig();
+ 166:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 167:.\Generated_Source\PSoC4/SPI_PM.c ****         else
+ 168:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 169:.\Generated_Source\PSoC4/SPI_PM.c ****             /* Unknown mode: do nothing */
+ 170:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 171:.\Generated_Source\PSoC4/SPI_PM.c ****     }
+ 172:.\Generated_Source\PSoC4/SPI_PM.c ****     else
+ 173:.\Generated_Source\PSoC4/SPI_PM.c ****     {    
+ 174:.\Generated_Source\PSoC4/SPI_PM.c ****         /* Restore enable state */
+ 175:.\Generated_Source\PSoC4/SPI_PM.c ****         if(0u != SPI_backup.enableState)
+ 176:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 177:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_Enable();
+ 178:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 179:.\Generated_Source\PSoC4/SPI_PM.c ****     }
+ 180:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 181:.\Generated_Source\PSoC4/SPI_PM.c **** #else
+ 182:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 183:.\Generated_Source\PSoC4/SPI_PM.c ****     SPI_EnableTxPinsInputBuffer();
+ 184:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 185:.\Generated_Source\PSoC4/SPI_PM.c ****     #if defined (SPI_I2C_WAKE_ENABLE_CONST) && (SPI_I2C_WAKE_ENABLE_CONST)
+ 186:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_I2CRestoreConfig();
+ 187:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 188:.\Generated_Source\PSoC4/SPI_PM.c ****     #elif defined (SPI_SPI_WAKE_ENABLE_CONST) && (SPI_SPI_WAKE_ENABLE_CONST)
+ 189:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_SpiRestoreConfig();
+ 190:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 191:.\Generated_Source\PSoC4/SPI_PM.c ****     #elif defined (SPI_UART_WAKE_ENABLE_CONST) && (SPI_UART_WAKE_ENABLE_CONST)
+ 192:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_UartRestoreConfig();
+ 193:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 194:.\Generated_Source\PSoC4/SPI_PM.c ****     #elif defined (SPI_EZI2C_WAKE_ENABLE_CONST) && (SPI_EZI2C_WAKE_ENABLE_CONST)
+ 195:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_EzI2CRestoreConfig();
+ 196:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 197:.\Generated_Source\PSoC4/SPI_PM.c ****     #else
+ 198:.\Generated_Source\PSoC4/SPI_PM.c ****         /* Check enable state */
+ 199:.\Generated_Source\PSoC4/SPI_PM.c ****         if(0u != SPI_backup.enableState)
+ 200:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 201:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_Enable();
+ 202:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 203:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 5
+
+
+ 204:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_I2C_WAKE_ENABLE_CONST) */
+ 205:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 206:.\Generated_Source\PSoC4/SPI_PM.c **** #endif /* (SPI_SCB_MODE_UNCONFIG_CONST_CFG) */
+ 207:.\Generated_Source\PSoC4/SPI_PM.c **** }
+ 208:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 209:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 210:.\Generated_Source\PSoC4/SPI_PM.c **** /*******************************************************************************
+ 211:.\Generated_Source\PSoC4/SPI_PM.c **** * Function Name: SPI_DisableTxPinsInputBuffer
+ 212:.\Generated_Source\PSoC4/SPI_PM.c **** ********************************************************************************
+ 213:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 214:.\Generated_Source\PSoC4/SPI_PM.c **** * Summary:
+ 215:.\Generated_Source\PSoC4/SPI_PM.c **** *  Disables input buffers for TX pins. This action removes leakage current while
+ 216:.\Generated_Source\PSoC4/SPI_PM.c **** *  low power mode (Cypress ID 149635).
+ 217:.\Generated_Source\PSoC4/SPI_PM.c **** *   SCB mode is I2C and EZI2C: bus is pulled-up. Leave pins as it is.
+ 218:.\Generated_Source\PSoC4/SPI_PM.c **** *   SCB mode SPI:
+ 219:.\Generated_Source\PSoC4/SPI_PM.c **** *     Slave  - disable input buffer for MISO pin.
+ 220:.\Generated_Source\PSoC4/SPI_PM.c **** *     Master - disable input buffer for all pins.
+ 221:.\Generated_Source\PSoC4/SPI_PM.c **** *   SCB mode SmartCard: 
+ 222:.\Generated_Source\PSoC4/SPI_PM.c **** *     Standard and IrDA - disable input buffer for TX pin.
+ 223:.\Generated_Source\PSoC4/SPI_PM.c **** *     SmartCard - RX_TX pin is pulled-up. Leave pin as it is.
+ 224:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 225:.\Generated_Source\PSoC4/SPI_PM.c **** * Parameters:
+ 226:.\Generated_Source\PSoC4/SPI_PM.c **** *  None
+ 227:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 228:.\Generated_Source\PSoC4/SPI_PM.c **** * Return:
+ 229:.\Generated_Source\PSoC4/SPI_PM.c **** *  None
+ 230:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 231:.\Generated_Source\PSoC4/SPI_PM.c **** *******************************************************************************/
+ 232:.\Generated_Source\PSoC4/SPI_PM.c **** void SPI_DisableTxPinsInputBuffer(void)
+ 233:.\Generated_Source\PSoC4/SPI_PM.c **** {
+  26              		.loc 1 233 0
+  27              		.cfi_startproc
+ 234:.\Generated_Source\PSoC4/SPI_PM.c **** #if(SPI_SCB_MODE_UNCONFIG_CONST_CFG)
+ 235:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 236:.\Generated_Source\PSoC4/SPI_PM.c ****     /* SCB mode is I2C and EZI2C: bus is pulled-up. Does nothing */
+ 237:.\Generated_Source\PSoC4/SPI_PM.c ****        
+ 238:.\Generated_Source\PSoC4/SPI_PM.c ****     if(SPI_SCB_MODE_SPI_RUNTM_CFG)
+ 239:.\Generated_Source\PSoC4/SPI_PM.c ****     {
+ 240:.\Generated_Source\PSoC4/SPI_PM.c ****         if(0u != (SPI_SPI_CTRL_REG & SPI_SPI_CTRL_MASTER))
+ 241:.\Generated_Source\PSoC4/SPI_PM.c ****         /* SPI Master */
+ 242:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 243:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_MOSI_SCL_RX_WAKE_PIN)
+ 244:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_mosi_i2c_scl_uart_rx_wake_INP_DIS |= \
+ 245:.\Generated_Source\PSoC4/SPI_PM.c ****                                                                 SPI_spi_mosi_i2c_scl_uart_rx_wake_M
+ 246:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_MOSI_SCL_RX_WAKE_PIN) */
+ 247:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 248:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_MOSI_SCL_RX_PIN)
+ 249:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_mosi_i2c_scl_uart_rx_INP_DIS |= SPI_spi_mosi_i2c_scl_uart_rx_MASK;
+ 250:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_MOSI_SCL_RX_PIN) */
+ 251:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 252:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_MISO_SDA_TX_PIN)
+ 253:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_miso_i2c_sda_uart_tx_INP_DIS |= SPI_spi_miso_i2c_sda_uart_tx_MASK;
+ 254:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_MISO_SDA_TX_PIN_PIN) */
+ 255:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 256:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_SCLK_PIN)
+ 257:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_sclk_INP_DIS |= SPI_spi_sclk_MASK;
+ 258:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_SCLK_PIN) */
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 6
+
+
+ 259:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 260:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_SS0_PIN)
+ 261:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_ss0_INP_DIS |= SPI_spi_ss0_MASK;
+ 262:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_SS1_PIN) */
+ 263:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 264:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_SS1_PIN)
+ 265:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_ss1_INP_DIS |= SPI_spi_ss1_MASK;
+ 266:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_SS1_PIN) */
+ 267:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 268:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_SS2_PIN)
+ 269:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_ss2_INP_DIS |= SPI_spi_ss2_MASK;
+ 270:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_SS2_PIN) */
+ 271:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 272:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_SS3_PIN)
+ 273:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_ss3_INP_DIS |= SPI_spi_ss3_MASK;
+ 274:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_SS3_PIN) */
+ 275:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 276:.\Generated_Source\PSoC4/SPI_PM.c ****         else
+ 277:.\Generated_Source\PSoC4/SPI_PM.c ****         /* SPI Slave */
+ 278:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 279:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_MISO_SDA_TX_PIN)
+ 280:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_miso_i2c_sda_uart_tx_INP_DIS |= SPI_spi_miso_i2c_sda_uart_tx_MASK;
+ 281:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_MISO_SDA_TX_PIN_PIN) */
+ 282:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 283:.\Generated_Source\PSoC4/SPI_PM.c ****     }
+ 284:.\Generated_Source\PSoC4/SPI_PM.c ****     else if (SPI_SCB_MODE_UART_RUNTM_CFG)
+ 285:.\Generated_Source\PSoC4/SPI_PM.c ****     {
+ 286:.\Generated_Source\PSoC4/SPI_PM.c ****         if(SPI_UART_CTRL_MODE_UART_SMARTCARD != 
+ 287:.\Generated_Source\PSoC4/SPI_PM.c ****             (SPI_UART_CTRL_REG & SPI_UART_CTRL_MODE_MASK))
+ 288:.\Generated_Source\PSoC4/SPI_PM.c ****         /* UART Standard or IrDA */
+ 289:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 290:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_MISO_SDA_TX_PIN)
+ 291:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_miso_i2c_sda_uart_tx_INP_DIS |= SPI_spi_miso_i2c_sda_uart_tx_MASK;
+ 292:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_MISO_SDA_TX_PIN_PIN) */
+ 293:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 294:.\Generated_Source\PSoC4/SPI_PM.c ****     }
+ 295:.\Generated_Source\PSoC4/SPI_PM.c ****     else
+ 296:.\Generated_Source\PSoC4/SPI_PM.c ****     {
+ 297:.\Generated_Source\PSoC4/SPI_PM.c ****         /* Does nothing */
+ 298:.\Generated_Source\PSoC4/SPI_PM.c ****     }
+ 299:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 300:.\Generated_Source\PSoC4/SPI_PM.c **** #else
+ 301:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 302:.\Generated_Source\PSoC4/SPI_PM.c ****     /* SCB mode is I2C and EZI2C: bus is pulled-up. Does nothing */
+ 303:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 304:.\Generated_Source\PSoC4/SPI_PM.c ****     /* SCB mode is SPI Master */
+ 305:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_MASTER_PINS)
+ 306:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_sclk_m_INP_DIS |= SPI_sclk_m_MASK;
+  28              		.loc 1 306 0
+  29 0000 094B     		ldr	r3, .L2
+  30 0002 4021     		mov	r1, #64
+  31 0004 1A68     		ldr	r2, [r3]
+ 307:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_mosi_m_INP_DIS |= SPI_mosi_m_MASK;
+  32              		.loc 1 307 0
+  33 0006 0120     		mov	r0, #1
+ 306:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_sclk_m_INP_DIS |= SPI_sclk_m_MASK;
+  34              		.loc 1 306 0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 7
+
+
+  35 0008 0A43     		orr	r2, r1
+  36 000a 1A60     		str	r2, [r3]
+  37              		.loc 1 307 0
+  38 000c 074A     		ldr	r2, .L2+4
+ 308:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_miso_m_INP_DIS |= SPI_miso_m_MASK;
+ 309:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_MASTER_PINS) */
+ 310:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 311:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_MASTER_SS0_PIN)
+ 312:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_ss0_m_INP_DIS |= SPI_ss0_m_MASK;
+ 313:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_MASTER_SS0_PIN) */
+ 314:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 315:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_MASTER_SS1_PIN)
+ 316:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_ss1_m_INP_DIS |= SPI_ss1_m_MASK;
+ 317:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_MASTER_SS1_PIN) */
+ 318:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 319:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_MASTER_SS2_PIN)
+ 320:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_ss2_m_INP_DIS |= SPI_ss2_m_MASK;
+ 321:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_MASTER_SS2_PIN) */
+ 322:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 323:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_MASTER_SS3_PIN)
+ 324:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_ss3_m_INP_DIS |= SPI_ss3_m_MASK;
+ 325:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_MASTER_SS3_PIN) */
+ 326:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 327:.\Generated_Source\PSoC4/SPI_PM.c ****     /* SCB mode is SPI Slave */
+ 328:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_SLAVE_PINS)
+ 329:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_miso_s_INP_DIS |= SPI_miso_s_MASK;
+ 330:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_SLAVE_PINS) */
+ 331:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 332:.\Generated_Source\PSoC4/SPI_PM.c ****     /* SCB mode is UART */
+ 333:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_UART_TX_PIN)
+ 334:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_tx_INP_DIS |= SPI_tx_MASK;
+ 335:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_UART_TX_PIN) */
+ 336:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 337:.\Generated_Source\PSoC4/SPI_PM.c **** #endif /* (SPI_SCB_MODE_UNCONFIG_CONST_CFG) */
+ 338:.\Generated_Source\PSoC4/SPI_PM.c **** }
+  39              		.loc 1 338 0
+  40              		@ sp needed for prologue
+ 307:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_mosi_m_INP_DIS |= SPI_mosi_m_MASK;
+  41              		.loc 1 307 0
+  42 000e 1168     		ldr	r1, [r2]
+  43 0010 0143     		orr	r1, r0
+  44 0012 1160     		str	r1, [r2]
+ 308:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_miso_m_INP_DIS |= SPI_miso_m_MASK;
+  45              		.loc 1 308 0
+  46 0014 1168     		ldr	r1, [r2]
+  47 0016 0220     		mov	r0, #2
+  48 0018 0143     		orr	r1, r0
+  49 001a 1160     		str	r1, [r2]
+ 312:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_ss0_m_INP_DIS |= SPI_ss0_m_MASK;
+  50              		.loc 1 312 0
+  51 001c 1A68     		ldr	r2, [r3]
+  52 001e 8021     		mov	r1, #128
+  53 0020 0A43     		orr	r2, r1
+  54 0022 1A60     		str	r2, [r3]
+  55              		.loc 1 338 0
+  56 0024 7047     		bx	lr
+  57              	.L3:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 8
+
+
+  58 0026 C046     		.align	2
+  59              	.L2:
+  60 0028 18000440 		.word	1074003992
+  61 002c 18030440 		.word	1074004760
+  62              		.cfi_endproc
+  63              	.LFE2:
+  64              		.size	SPI_DisableTxPinsInputBuffer, .-SPI_DisableTxPinsInputBuffer
+  65              		.section	.text.SPI_Sleep,"ax",%progbits
+  66              		.align	1
+  67              		.global	SPI_Sleep
+  68              		.code	16
+  69              		.thumb_func
+  70              		.type	SPI_Sleep, %function
+  71              	SPI_Sleep:
+  72              	.LFB0:
+  59:.\Generated_Source\PSoC4/SPI_PM.c **** {
+  73              		.loc 1 59 0
+  74              		.cfi_startproc
+  75 0000 08B5     		push	{r3, lr}
+  76              	.LCFI0:
+  77              		.cfi_def_cfa_offset 8
+  78              		.cfi_offset 3, -8
+  79              		.cfi_offset 14, -4
+ 113:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_backup.enableState = (uint8) SPI_GET_CTRL_ENABLED;
+  80              		.loc 1 113 0
+  81 0002 054B     		ldr	r3, .L10
+  82 0004 054A     		ldr	r2, .L10+4
+  83 0006 1868     		ldr	r0, [r3]
+  84 0008 C10F     		lsr	r1, r0, #31
+  85 000a 1170     		strb	r1, [r2]
+ 116:.\Generated_Source\PSoC4/SPI_PM.c ****         if(0u != SPI_backup.enableState)
+  86              		.loc 1 116 0
+  87 000c 01D0     		beq	.L5
+ 118:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_Stop();
+  88              		.loc 1 118 0
+  89 000e FFF7FEFF 		bl	SPI_Stop
+  90              	.LVL0:
+  91              	.L5:
+ 123:.\Generated_Source\PSoC4/SPI_PM.c ****     SPI_DisableTxPinsInputBuffer();
+  92              		.loc 1 123 0
+  93 0012 FFF7FEFF 		bl	SPI_DisableTxPinsInputBuffer
+  94              	.LVL1:
+ 126:.\Generated_Source\PSoC4/SPI_PM.c **** }
+  95              		.loc 1 126 0
+  96              		@ sp needed for prologue
+  97 0016 08BD     		pop	{r3, pc}
+  98              	.L11:
+  99              		.align	2
+ 100              	.L10:
+ 101 0018 00000740 		.word	1074200576
+ 102 001c 00000000 		.word	.LANCHOR0
+ 103              		.cfi_endproc
+ 104              	.LFE0:
+ 105              		.size	SPI_Sleep, .-SPI_Sleep
+ 106              		.section	.text.SPI_EnableTxPinsInputBuffer,"ax",%progbits
+ 107              		.align	1
+ 108              		.global	SPI_EnableTxPinsInputBuffer
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 9
+
+
+ 109              		.code	16
+ 110              		.thumb_func
+ 111              		.type	SPI_EnableTxPinsInputBuffer, %function
+ 112              	SPI_EnableTxPinsInputBuffer:
+ 113              	.LFB3:
+ 339:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 340:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 341:.\Generated_Source\PSoC4/SPI_PM.c **** /*******************************************************************************
+ 342:.\Generated_Source\PSoC4/SPI_PM.c **** * Function Name: SPI_EnableTxPinsInputBuffer
+ 343:.\Generated_Source\PSoC4/SPI_PM.c **** ********************************************************************************
+ 344:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 345:.\Generated_Source\PSoC4/SPI_PM.c **** * Summary:
+ 346:.\Generated_Source\PSoC4/SPI_PM.c **** *  Enables input buffers for TX pins. Restore changes done byte
+ 347:.\Generated_Source\PSoC4/SPI_PM.c **** *SPI_DisableTxPinsInputBuffer.
+ 348:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 349:.\Generated_Source\PSoC4/SPI_PM.c **** * Parameters:
+ 350:.\Generated_Source\PSoC4/SPI_PM.c **** *  None
+ 351:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 352:.\Generated_Source\PSoC4/SPI_PM.c **** * Return:
+ 353:.\Generated_Source\PSoC4/SPI_PM.c **** *  None
+ 354:.\Generated_Source\PSoC4/SPI_PM.c **** *
+ 355:.\Generated_Source\PSoC4/SPI_PM.c **** *******************************************************************************/
+ 356:.\Generated_Source\PSoC4/SPI_PM.c **** void SPI_EnableTxPinsInputBuffer(void)
+ 357:.\Generated_Source\PSoC4/SPI_PM.c **** {
+ 114              		.loc 1 357 0
+ 115              		.cfi_startproc
+ 358:.\Generated_Source\PSoC4/SPI_PM.c **** #if(SPI_SCB_MODE_UNCONFIG_CONST_CFG)
+ 359:.\Generated_Source\PSoC4/SPI_PM.c ****     if(SPI_SCB_MODE_SPI_RUNTM_CFG)
+ 360:.\Generated_Source\PSoC4/SPI_PM.c ****     {
+ 361:.\Generated_Source\PSoC4/SPI_PM.c ****         if(0u != (SPI_SPI_CTRL_REG & SPI_SPI_CTRL_MASTER))
+ 362:.\Generated_Source\PSoC4/SPI_PM.c ****         /* SPI Master */
+ 363:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 364:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_MOSI_SCL_RX_WAKE_PIN)
+ 365:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_mosi_i2c_scl_uart_rx_wake_INP_DIS &= \
+ 366:.\Generated_Source\PSoC4/SPI_PM.c ****                                             (uint32) ~((uint32) SPI_spi_mosi_i2c_scl_uart_rx_wake_M
+ 367:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_MOSI_SCL_RX_WAKE_PIN) */
+ 368:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 369:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_MOSI_SCL_RX_PIN)
+ 370:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_mosi_i2c_scl_uart_rx_INP_DIS &= \
+ 371:.\Generated_Source\PSoC4/SPI_PM.c ****                                             (uint32) ~((uint32) SPI_spi_mosi_i2c_scl_uart_rx_MASK);
+ 372:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_MOSI_SCL_RX_PIN) */
+ 373:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 374:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_MISO_SDA_TX_PIN)
+ 375:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_miso_i2c_sda_uart_tx_INP_DIS &= \
+ 376:.\Generated_Source\PSoC4/SPI_PM.c ****                                             (uint32) ~((uint32) SPI_spi_miso_i2c_sda_uart_tx_MASK);
+ 377:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_MISO_SDA_TX_PIN_PIN) */
+ 378:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 379:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_SCLK_PIN)
+ 380:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_sclk_INP_DIS &= (uint32) ~((uint32) SPI_spi_sclk_MASK);
+ 381:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_SCLK_PIN) */
+ 382:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 383:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_SS0_PIN)
+ 384:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_ss0_INP_DIS &= (uint32) ~((uint32) SPI_spi_ss0_MASK);
+ 385:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_SS1_PIN) */
+ 386:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 387:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_SS1_PIN)
+ 388:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_ss1_INP_DIS &= (uint32) ~((uint32) SPI_spi_ss1_MASK);
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 10
+
+
+ 389:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_SS1_PIN) */
+ 390:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 391:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_SS2_PIN)
+ 392:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_ss2_INP_DIS &= (uint32) ~((uint32) SPI_spi_ss2_MASK);
+ 393:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_SS2_PIN) */
+ 394:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 395:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_SS3_PIN)
+ 396:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_ss3_INP_DIS &= (uint32) ~((uint32) SPI_spi_ss3_MASK);
+ 397:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_SS3_PIN) */
+ 398:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 399:.\Generated_Source\PSoC4/SPI_PM.c ****         else
+ 400:.\Generated_Source\PSoC4/SPI_PM.c ****         /* SPI Slave */
+ 401:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 402:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_MISO_SDA_TX_PIN)
+ 403:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_miso_i2c_sda_uart_tx_INP_DIS &= \
+ 404:.\Generated_Source\PSoC4/SPI_PM.c ****                                                 (uint32) ~((uint32) SPI_spi_miso_i2c_sda_uart_tx_MA
+ 405:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_MISO_SDA_TX_PIN_PIN) */
+ 406:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 407:.\Generated_Source\PSoC4/SPI_PM.c ****     }
+ 408:.\Generated_Source\PSoC4/SPI_PM.c ****     else if (SPI_SCB_MODE_UART_RUNTM_CFG)
+ 409:.\Generated_Source\PSoC4/SPI_PM.c ****     {
+ 410:.\Generated_Source\PSoC4/SPI_PM.c ****         if(SPI_UART_CTRL_MODE_UART_SMARTCARD != 
+ 411:.\Generated_Source\PSoC4/SPI_PM.c ****                 (SPI_UART_CTRL_REG & SPI_UART_CTRL_MODE_MASK))
+ 412:.\Generated_Source\PSoC4/SPI_PM.c ****         /* UART Standard or IrDA */
+ 413:.\Generated_Source\PSoC4/SPI_PM.c ****         {
+ 414:.\Generated_Source\PSoC4/SPI_PM.c ****         #if(SPI_MISO_SDA_TX_PIN)
+ 415:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_spi_miso_i2c_sda_uart_tx_INP_DIS &= \
+ 416:.\Generated_Source\PSoC4/SPI_PM.c ****                                                 (uint32) ~((uint32) SPI_spi_miso_i2c_sda_uart_tx_MA
+ 417:.\Generated_Source\PSoC4/SPI_PM.c ****         #endif /* (SPI_MISO_SDA_TX_PIN_PIN) */
+ 418:.\Generated_Source\PSoC4/SPI_PM.c ****         }
+ 419:.\Generated_Source\PSoC4/SPI_PM.c ****     }
+ 420:.\Generated_Source\PSoC4/SPI_PM.c ****     else
+ 421:.\Generated_Source\PSoC4/SPI_PM.c ****     {
+ 422:.\Generated_Source\PSoC4/SPI_PM.c ****         /* Does nothing */
+ 423:.\Generated_Source\PSoC4/SPI_PM.c ****     }
+ 424:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 425:.\Generated_Source\PSoC4/SPI_PM.c **** #else
+ 426:.\Generated_Source\PSoC4/SPI_PM.c ****         
+ 427:.\Generated_Source\PSoC4/SPI_PM.c ****     /* SCB mode is SPI Master */
+ 428:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_MASTER_PINS)
+ 429:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_sclk_m_INP_DIS &= (uint32) ~((uint32) SPI_sclk_m_MASK);
+ 116              		.loc 1 429 0
+ 117 0000 094B     		ldr	r3, .L13
+ 118 0002 4021     		mov	r1, #64
+ 119 0004 1A68     		ldr	r2, [r3]
+ 430:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_mosi_m_INP_DIS &= (uint32) ~((uint32) SPI_mosi_m_MASK);
+ 120              		.loc 1 430 0
+ 121 0006 0120     		mov	r0, #1
+ 429:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_sclk_m_INP_DIS &= (uint32) ~((uint32) SPI_sclk_m_MASK);
+ 122              		.loc 1 429 0
+ 123 0008 8A43     		bic	r2, r1
+ 124 000a 1A60     		str	r2, [r3]
+ 125              		.loc 1 430 0
+ 126 000c 074A     		ldr	r2, .L13+4
+ 431:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_miso_m_INP_DIS &= (uint32) ~((uint32) SPI_miso_m_MASK);
+ 432:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_MASTER_PINS) */
+ 433:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 11
+
+
+ 434:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_MASTER_SS0_PIN)
+ 435:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_ss0_m_INP_DIS &= (uint32) ~((uint32) SPI_ss0_m_MASK);
+ 436:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_MASTER_SS0_PIN) */
+ 437:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 438:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_MASTER_SS1_PIN)
+ 439:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_ss1_m_INP_DIS &= (uint32) ~((uint32) SPI_ss1_m_MASK);
+ 440:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_MASTER_SS1_PIN) */
+ 441:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 442:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_MASTER_SS2_PIN)
+ 443:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_ss2_m_INP_DIS &= (uint32) ~((uint32) SPI_ss2_m_MASK);
+ 444:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_MASTER_SS2_PIN) */
+ 445:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 446:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_MASTER_SS3_PIN)
+ 447:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_ss3_m_INP_DIS &= (uint32) ~((uint32) SPI_ss3_m_MASK);
+ 448:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_MASTER_SS3_PIN) */
+ 449:.\Generated_Source\PSoC4/SPI_PM.c ****     
+ 450:.\Generated_Source\PSoC4/SPI_PM.c ****     /* SCB mode is SPI Slave */
+ 451:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_SPI_SLAVE_PINS)
+ 452:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_miso_s_INP_DIS &= (uint32) ~((uint32) SPI_miso_s_MASK);
+ 453:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_SPI_SLAVE_PINS) */
+ 454:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 455:.\Generated_Source\PSoC4/SPI_PM.c ****     /* SCB mode is UART */
+ 456:.\Generated_Source\PSoC4/SPI_PM.c ****     #if(SPI_UART_TX_PIN)
+ 457:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_tx_INP_DIS &= (uint32) ~((uint32) SPI_tx_MASK);
+ 458:.\Generated_Source\PSoC4/SPI_PM.c ****     #endif /* (SPI_UART_TX_PIN) */
+ 459:.\Generated_Source\PSoC4/SPI_PM.c **** 
+ 460:.\Generated_Source\PSoC4/SPI_PM.c **** #endif /* (SPI_SCB_MODE_UNCONFIG_CONST_CFG) */
+ 461:.\Generated_Source\PSoC4/SPI_PM.c **** }
+ 127              		.loc 1 461 0
+ 128              		@ sp needed for prologue
+ 430:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_mosi_m_INP_DIS &= (uint32) ~((uint32) SPI_mosi_m_MASK);
+ 129              		.loc 1 430 0
+ 130 000e 1168     		ldr	r1, [r2]
+ 131 0010 8143     		bic	r1, r0
+ 132 0012 1160     		str	r1, [r2]
+ 431:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_miso_m_INP_DIS &= (uint32) ~((uint32) SPI_miso_m_MASK);
+ 133              		.loc 1 431 0
+ 134 0014 1168     		ldr	r1, [r2]
+ 135 0016 0220     		mov	r0, #2
+ 136 0018 8143     		bic	r1, r0
+ 137 001a 1160     		str	r1, [r2]
+ 435:.\Generated_Source\PSoC4/SPI_PM.c ****         SPI_ss0_m_INP_DIS &= (uint32) ~((uint32) SPI_ss0_m_MASK);
+ 138              		.loc 1 435 0
+ 139 001c 1A68     		ldr	r2, [r3]
+ 140 001e 8021     		mov	r1, #128
+ 141 0020 8A43     		bic	r2, r1
+ 142 0022 1A60     		str	r2, [r3]
+ 143              		.loc 1 461 0
+ 144 0024 7047     		bx	lr
+ 145              	.L14:
+ 146 0026 C046     		.align	2
+ 147              	.L13:
+ 148 0028 18000440 		.word	1074003992
+ 149 002c 18030440 		.word	1074004760
+ 150              		.cfi_endproc
+ 151              	.LFE3:
+ 152              		.size	SPI_EnableTxPinsInputBuffer, .-SPI_EnableTxPinsInputBuffer
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 12
+
+
+ 153              		.section	.text.SPI_Wakeup,"ax",%progbits
+ 154              		.align	1
+ 155              		.global	SPI_Wakeup
+ 156              		.code	16
+ 157              		.thumb_func
+ 158              		.type	SPI_Wakeup, %function
+ 159              	SPI_Wakeup:
+ 160              	.LFB1:
+ 144:.\Generated_Source\PSoC4/SPI_PM.c **** {
+ 161              		.loc 1 144 0
+ 162              		.cfi_startproc
+ 163 0000 08B5     		push	{r3, lr}
+ 164              	.LCFI1:
+ 165              		.cfi_def_cfa_offset 8
+ 166              		.cfi_offset 3, -8
+ 167              		.cfi_offset 14, -4
+ 183:.\Generated_Source\PSoC4/SPI_PM.c ****     SPI_EnableTxPinsInputBuffer();
+ 168              		.loc 1 183 0
+ 169 0002 FFF7FEFF 		bl	SPI_EnableTxPinsInputBuffer
+ 170              	.LVL2:
+ 199:.\Generated_Source\PSoC4/SPI_PM.c ****         if(0u != SPI_backup.enableState)
+ 171              		.loc 1 199 0
+ 172 0006 034B     		ldr	r3, .L20
+ 173 0008 1878     		ldrb	r0, [r3]
+ 174 000a 0028     		cmp	r0, #0
+ 175 000c 01D0     		beq	.L15
+ 201:.\Generated_Source\PSoC4/SPI_PM.c ****             SPI_Enable();
+ 176              		.loc 1 201 0
+ 177 000e FFF7FEFF 		bl	SPI_Enable
+ 178              	.LVL3:
+ 179              	.L15:
+ 207:.\Generated_Source\PSoC4/SPI_PM.c **** }
+ 180              		.loc 1 207 0
+ 181              		@ sp needed for prologue
+ 182 0012 08BD     		pop	{r3, pc}
+ 183              	.L21:
+ 184              		.align	2
+ 185              	.L20:
+ 186 0014 00000000 		.word	.LANCHOR0
+ 187              		.cfi_endproc
+ 188              	.LFE1:
+ 189              		.size	SPI_Wakeup, .-SPI_Wakeup
+ 190              		.global	SPI_backup
+ 191              		.bss
+ 192              		.set	.LANCHOR0,. + 0
+ 193              		.type	SPI_backup, %object
+ 194              		.size	SPI_backup, 1
+ 195              	SPI_backup:
+ 196 0000 00       		.space	1
+ 197              		.text
+ 198              	.Letext0:
+ 199              		.file 2 ".\\Generated_Source\\PSoC4\\cytypes.h"
+ 200              		.file 3 ".\\Generated_Source\\PSoC4\\SPI.h"
+ 201              		.section	.debug_info,"",%progbits
+ 202              	.Ldebug_info0:
+ 203 0000 7B010000 		.4byte	0x17b
+ 204 0004 0200     		.2byte	0x2
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 13
+
+
+ 205 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 206 000a 04       		.byte	0x4
+ 207 000b 01       		.uleb128 0x1
+ 208 000c 43000000 		.4byte	.LASF23
+ 209 0010 01       		.byte	0x1
+ 210 0011 F6000000 		.4byte	.LASF24
+ 211 0015 28010000 		.4byte	.LASF25
+ 212 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 213 001d 00000000 		.4byte	0
+ 214 0021 00000000 		.4byte	0
+ 215 0025 00000000 		.4byte	.Ldebug_line0
+ 216 0029 02       		.uleb128 0x2
+ 217 002a 01       		.byte	0x1
+ 218 002b 06       		.byte	0x6
+ 219 002c 90010000 		.4byte	.LASF0
+ 220 0030 02       		.uleb128 0x2
+ 221 0031 01       		.byte	0x1
+ 222 0032 08       		.byte	0x8
+ 223 0033 C6000000 		.4byte	.LASF1
+ 224 0037 02       		.uleb128 0x2
+ 225 0038 02       		.byte	0x2
+ 226 0039 05       		.byte	0x5
+ 227 003a BE010000 		.4byte	.LASF2
+ 228 003e 02       		.uleb128 0x2
+ 229 003f 02       		.byte	0x2
+ 230 0040 07       		.byte	0x7
+ 231 0041 7D010000 		.4byte	.LASF3
+ 232 0045 02       		.uleb128 0x2
+ 233 0046 04       		.byte	0x4
+ 234 0047 05       		.byte	0x5
+ 235 0048 18010000 		.4byte	.LASF4
+ 236 004c 02       		.uleb128 0x2
+ 237 004d 04       		.byte	0x4
+ 238 004e 07       		.byte	0x7
+ 239 004f 92000000 		.4byte	.LASF5
+ 240 0053 02       		.uleb128 0x2
+ 241 0054 08       		.byte	0x8
+ 242 0055 05       		.byte	0x5
+ 243 0056 00000000 		.4byte	.LASF6
+ 244 005a 02       		.uleb128 0x2
+ 245 005b 08       		.byte	0x8
+ 246 005c 07       		.byte	0x7
+ 247 005d A4000000 		.4byte	.LASF7
+ 248 0061 03       		.uleb128 0x3
+ 249 0062 04       		.byte	0x4
+ 250 0063 05       		.byte	0x5
+ 251 0064 696E7400 		.ascii	"int\000"
+ 252 0068 02       		.uleb128 0x2
+ 253 0069 04       		.byte	0x4
+ 254 006a 07       		.byte	0x7
+ 255 006b 21000000 		.4byte	.LASF8
+ 256 006f 04       		.uleb128 0x4
+ 257 0070 8C000000 		.4byte	.LASF9
+ 258 0074 02       		.byte	0x2
+ 259 0075 5B       		.byte	0x5b
+ 260 0076 30000000 		.4byte	0x30
+ 261 007a 04       		.uleb128 0x4
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 14
+
+
+ 262 007b 0E000000 		.4byte	.LASF10
+ 263 007f 02       		.byte	0x2
+ 264 0080 5D       		.byte	0x5d
+ 265 0081 4C000000 		.4byte	0x4c
+ 266 0085 02       		.uleb128 0x2
+ 267 0086 04       		.byte	0x4
+ 268 0087 04       		.byte	0x4
+ 269 0088 B8010000 		.4byte	.LASF11
+ 270 008c 02       		.uleb128 0x2
+ 271 008d 08       		.byte	0x8
+ 272 008e 04       		.byte	0x4
+ 273 008f 21010000 		.4byte	.LASF12
+ 274 0093 02       		.uleb128 0x2
+ 275 0094 01       		.byte	0x1
+ 276 0095 08       		.byte	0x8
+ 277 0096 F1000000 		.4byte	.LASF13
+ 278 009a 04       		.uleb128 0x4
+ 279 009b 77010000 		.4byte	.LASF14
+ 280 009f 02       		.byte	0x2
+ 281 00a0 F2       		.byte	0xf2
+ 282 00a1 A5000000 		.4byte	0xa5
+ 283 00a5 05       		.uleb128 0x5
+ 284 00a6 7A000000 		.4byte	0x7a
+ 285 00aa 02       		.uleb128 0x2
+ 286 00ab 04       		.byte	0x4
+ 287 00ac 07       		.byte	0x7
+ 288 00ad EE010000 		.4byte	.LASF15
+ 289 00b1 06       		.uleb128 0x6
+ 290 00b2 01       		.byte	0x1
+ 291 00b3 03       		.byte	0x3
+ 292 00b4 5F       		.byte	0x5f
+ 293 00b5 C8000000 		.4byte	0xc8
+ 294 00b9 07       		.uleb128 0x7
+ 295 00ba 15000000 		.4byte	.LASF26
+ 296 00be 03       		.byte	0x3
+ 297 00bf 61       		.byte	0x61
+ 298 00c0 6F000000 		.4byte	0x6f
+ 299 00c4 02       		.byte	0x2
+ 300 00c5 23       		.byte	0x23
+ 301 00c6 00       		.uleb128 0
+ 302 00c7 00       		.byte	0
+ 303 00c8 04       		.uleb128 0x4
+ 304 00c9 D1010000 		.4byte	.LASF16
+ 305 00cd 03       		.byte	0x3
+ 306 00ce 62       		.byte	0x62
+ 307 00cf B1000000 		.4byte	0xb1
+ 308 00d3 08       		.uleb128 0x8
+ 309 00d4 01       		.byte	0x1
+ 310 00d5 D4000000 		.4byte	.LASF17
+ 311 00d9 01       		.byte	0x1
+ 312 00da E8       		.byte	0xe8
+ 313 00db 01       		.byte	0x1
+ 314 00dc 00000000 		.4byte	.LFB2
+ 315 00e0 30000000 		.4byte	.LFE2
+ 316 00e4 02       		.byte	0x2
+ 317 00e5 7D       		.byte	0x7d
+ 318 00e6 00       		.sleb128 0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 15
+
+
+ 319 00e7 01       		.byte	0x1
+ 320 00e8 09       		.uleb128 0x9
+ 321 00e9 01       		.byte	0x1
+ 322 00ea 39000000 		.4byte	.LASF19
+ 323 00ee 01       		.byte	0x1
+ 324 00ef 3A       		.byte	0x3a
+ 325 00f0 01       		.byte	0x1
+ 326 00f1 00000000 		.4byte	.LFB0
+ 327 00f5 20000000 		.4byte	.LFE0
+ 328 00f9 00000000 		.4byte	.LLST0
+ 329 00fd 01       		.byte	0x1
+ 330 00fe 15010000 		.4byte	0x115
+ 331 0102 0A       		.uleb128 0xa
+ 332 0103 12000000 		.4byte	.LVL0
+ 333 0107 6A010000 		.4byte	0x16a
+ 334 010b 0A       		.uleb128 0xa
+ 335 010c 16000000 		.4byte	.LVL1
+ 336 0110 D3000000 		.4byte	0xd3
+ 337 0114 00       		.byte	0
+ 338 0115 0B       		.uleb128 0xb
+ 339 0116 01       		.byte	0x1
+ 340 0117 9C010000 		.4byte	.LASF18
+ 341 011b 01       		.byte	0x1
+ 342 011c 6401     		.2byte	0x164
+ 343 011e 01       		.byte	0x1
+ 344 011f 00000000 		.4byte	.LFB3
+ 345 0123 30000000 		.4byte	.LFE3
+ 346 0127 02       		.byte	0x2
+ 347 0128 7D       		.byte	0x7d
+ 348 0129 00       		.sleb128 0
+ 349 012a 01       		.byte	0x1
+ 350 012b 09       		.uleb128 0x9
+ 351 012c 01       		.byte	0x1
+ 352 012d BB000000 		.4byte	.LASF20
+ 353 0131 01       		.byte	0x1
+ 354 0132 8F       		.byte	0x8f
+ 355 0133 01       		.byte	0x1
+ 356 0134 00000000 		.4byte	.LFB1
+ 357 0138 18000000 		.4byte	.LFE1
+ 358 013c 20000000 		.4byte	.LLST1
+ 359 0140 01       		.byte	0x1
+ 360 0141 58010000 		.4byte	0x158
+ 361 0145 0A       		.uleb128 0xa
+ 362 0146 06000000 		.4byte	.LVL2
+ 363 014a 15010000 		.4byte	0x115
+ 364 014e 0A       		.uleb128 0xa
+ 365 014f 12000000 		.4byte	.LVL3
+ 366 0153 74010000 		.4byte	0x174
+ 367 0157 00       		.byte	0
+ 368 0158 0C       		.uleb128 0xc
+ 369 0159 2E000000 		.4byte	.LASF27
+ 370 015d 01       		.byte	0x1
+ 371 015e 26       		.byte	0x26
+ 372 015f C8000000 		.4byte	0xc8
+ 373 0163 01       		.byte	0x1
+ 374 0164 05       		.byte	0x5
+ 375 0165 03       		.byte	0x3
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 16
+
+
+ 376 0166 00000000 		.4byte	SPI_backup
+ 377 016a 0D       		.uleb128 0xd
+ 378 016b 01       		.byte	0x1
+ 379 016c C8010000 		.4byte	.LASF21
+ 380 0170 03       		.byte	0x3
+ 381 0171 6D       		.byte	0x6d
+ 382 0172 01       		.byte	0x1
+ 383 0173 01       		.byte	0x1
+ 384 0174 0D       		.uleb128 0xd
+ 385 0175 01       		.byte	0x1
+ 386 0176 E3010000 		.4byte	.LASF22
+ 387 017a 03       		.byte	0x3
+ 388 017b 6B       		.byte	0x6b
+ 389 017c 01       		.byte	0x1
+ 390 017d 01       		.byte	0x1
+ 391 017e 00       		.byte	0
+ 392              		.section	.debug_abbrev,"",%progbits
+ 393              	.Ldebug_abbrev0:
+ 394 0000 01       		.uleb128 0x1
+ 395 0001 11       		.uleb128 0x11
+ 396 0002 01       		.byte	0x1
+ 397 0003 25       		.uleb128 0x25
+ 398 0004 0E       		.uleb128 0xe
+ 399 0005 13       		.uleb128 0x13
+ 400 0006 0B       		.uleb128 0xb
+ 401 0007 03       		.uleb128 0x3
+ 402 0008 0E       		.uleb128 0xe
+ 403 0009 1B       		.uleb128 0x1b
+ 404 000a 0E       		.uleb128 0xe
+ 405 000b 55       		.uleb128 0x55
+ 406 000c 06       		.uleb128 0x6
+ 407 000d 11       		.uleb128 0x11
+ 408 000e 01       		.uleb128 0x1
+ 409 000f 52       		.uleb128 0x52
+ 410 0010 01       		.uleb128 0x1
+ 411 0011 10       		.uleb128 0x10
+ 412 0012 06       		.uleb128 0x6
+ 413 0013 00       		.byte	0
+ 414 0014 00       		.byte	0
+ 415 0015 02       		.uleb128 0x2
+ 416 0016 24       		.uleb128 0x24
+ 417 0017 00       		.byte	0
+ 418 0018 0B       		.uleb128 0xb
+ 419 0019 0B       		.uleb128 0xb
+ 420 001a 3E       		.uleb128 0x3e
+ 421 001b 0B       		.uleb128 0xb
+ 422 001c 03       		.uleb128 0x3
+ 423 001d 0E       		.uleb128 0xe
+ 424 001e 00       		.byte	0
+ 425 001f 00       		.byte	0
+ 426 0020 03       		.uleb128 0x3
+ 427 0021 24       		.uleb128 0x24
+ 428 0022 00       		.byte	0
+ 429 0023 0B       		.uleb128 0xb
+ 430 0024 0B       		.uleb128 0xb
+ 431 0025 3E       		.uleb128 0x3e
+ 432 0026 0B       		.uleb128 0xb
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 17
+
+
+ 433 0027 03       		.uleb128 0x3
+ 434 0028 08       		.uleb128 0x8
+ 435 0029 00       		.byte	0
+ 436 002a 00       		.byte	0
+ 437 002b 04       		.uleb128 0x4
+ 438 002c 16       		.uleb128 0x16
+ 439 002d 00       		.byte	0
+ 440 002e 03       		.uleb128 0x3
+ 441 002f 0E       		.uleb128 0xe
+ 442 0030 3A       		.uleb128 0x3a
+ 443 0031 0B       		.uleb128 0xb
+ 444 0032 3B       		.uleb128 0x3b
+ 445 0033 0B       		.uleb128 0xb
+ 446 0034 49       		.uleb128 0x49
+ 447 0035 13       		.uleb128 0x13
+ 448 0036 00       		.byte	0
+ 449 0037 00       		.byte	0
+ 450 0038 05       		.uleb128 0x5
+ 451 0039 35       		.uleb128 0x35
+ 452 003a 00       		.byte	0
+ 453 003b 49       		.uleb128 0x49
+ 454 003c 13       		.uleb128 0x13
+ 455 003d 00       		.byte	0
+ 456 003e 00       		.byte	0
+ 457 003f 06       		.uleb128 0x6
+ 458 0040 13       		.uleb128 0x13
+ 459 0041 01       		.byte	0x1
+ 460 0042 0B       		.uleb128 0xb
+ 461 0043 0B       		.uleb128 0xb
+ 462 0044 3A       		.uleb128 0x3a
+ 463 0045 0B       		.uleb128 0xb
+ 464 0046 3B       		.uleb128 0x3b
+ 465 0047 0B       		.uleb128 0xb
+ 466 0048 01       		.uleb128 0x1
+ 467 0049 13       		.uleb128 0x13
+ 468 004a 00       		.byte	0
+ 469 004b 00       		.byte	0
+ 470 004c 07       		.uleb128 0x7
+ 471 004d 0D       		.uleb128 0xd
+ 472 004e 00       		.byte	0
+ 473 004f 03       		.uleb128 0x3
+ 474 0050 0E       		.uleb128 0xe
+ 475 0051 3A       		.uleb128 0x3a
+ 476 0052 0B       		.uleb128 0xb
+ 477 0053 3B       		.uleb128 0x3b
+ 478 0054 0B       		.uleb128 0xb
+ 479 0055 49       		.uleb128 0x49
+ 480 0056 13       		.uleb128 0x13
+ 481 0057 38       		.uleb128 0x38
+ 482 0058 0A       		.uleb128 0xa
+ 483 0059 00       		.byte	0
+ 484 005a 00       		.byte	0
+ 485 005b 08       		.uleb128 0x8
+ 486 005c 2E       		.uleb128 0x2e
+ 487 005d 00       		.byte	0
+ 488 005e 3F       		.uleb128 0x3f
+ 489 005f 0C       		.uleb128 0xc
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 18
+
+
+ 490 0060 03       		.uleb128 0x3
+ 491 0061 0E       		.uleb128 0xe
+ 492 0062 3A       		.uleb128 0x3a
+ 493 0063 0B       		.uleb128 0xb
+ 494 0064 3B       		.uleb128 0x3b
+ 495 0065 0B       		.uleb128 0xb
+ 496 0066 27       		.uleb128 0x27
+ 497 0067 0C       		.uleb128 0xc
+ 498 0068 11       		.uleb128 0x11
+ 499 0069 01       		.uleb128 0x1
+ 500 006a 12       		.uleb128 0x12
+ 501 006b 01       		.uleb128 0x1
+ 502 006c 40       		.uleb128 0x40
+ 503 006d 0A       		.uleb128 0xa
+ 504 006e 9742     		.uleb128 0x2117
+ 505 0070 0C       		.uleb128 0xc
+ 506 0071 00       		.byte	0
+ 507 0072 00       		.byte	0
+ 508 0073 09       		.uleb128 0x9
+ 509 0074 2E       		.uleb128 0x2e
+ 510 0075 01       		.byte	0x1
+ 511 0076 3F       		.uleb128 0x3f
+ 512 0077 0C       		.uleb128 0xc
+ 513 0078 03       		.uleb128 0x3
+ 514 0079 0E       		.uleb128 0xe
+ 515 007a 3A       		.uleb128 0x3a
+ 516 007b 0B       		.uleb128 0xb
+ 517 007c 3B       		.uleb128 0x3b
+ 518 007d 0B       		.uleb128 0xb
+ 519 007e 27       		.uleb128 0x27
+ 520 007f 0C       		.uleb128 0xc
+ 521 0080 11       		.uleb128 0x11
+ 522 0081 01       		.uleb128 0x1
+ 523 0082 12       		.uleb128 0x12
+ 524 0083 01       		.uleb128 0x1
+ 525 0084 40       		.uleb128 0x40
+ 526 0085 06       		.uleb128 0x6
+ 527 0086 9742     		.uleb128 0x2117
+ 528 0088 0C       		.uleb128 0xc
+ 529 0089 01       		.uleb128 0x1
+ 530 008a 13       		.uleb128 0x13
+ 531 008b 00       		.byte	0
+ 532 008c 00       		.byte	0
+ 533 008d 0A       		.uleb128 0xa
+ 534 008e 898201   		.uleb128 0x4109
+ 535 0091 00       		.byte	0
+ 536 0092 11       		.uleb128 0x11
+ 537 0093 01       		.uleb128 0x1
+ 538 0094 31       		.uleb128 0x31
+ 539 0095 13       		.uleb128 0x13
+ 540 0096 00       		.byte	0
+ 541 0097 00       		.byte	0
+ 542 0098 0B       		.uleb128 0xb
+ 543 0099 2E       		.uleb128 0x2e
+ 544 009a 00       		.byte	0
+ 545 009b 3F       		.uleb128 0x3f
+ 546 009c 0C       		.uleb128 0xc
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 19
+
+
+ 547 009d 03       		.uleb128 0x3
+ 548 009e 0E       		.uleb128 0xe
+ 549 009f 3A       		.uleb128 0x3a
+ 550 00a0 0B       		.uleb128 0xb
+ 551 00a1 3B       		.uleb128 0x3b
+ 552 00a2 05       		.uleb128 0x5
+ 553 00a3 27       		.uleb128 0x27
+ 554 00a4 0C       		.uleb128 0xc
+ 555 00a5 11       		.uleb128 0x11
+ 556 00a6 01       		.uleb128 0x1
+ 557 00a7 12       		.uleb128 0x12
+ 558 00a8 01       		.uleb128 0x1
+ 559 00a9 40       		.uleb128 0x40
+ 560 00aa 0A       		.uleb128 0xa
+ 561 00ab 9742     		.uleb128 0x2117
+ 562 00ad 0C       		.uleb128 0xc
+ 563 00ae 00       		.byte	0
+ 564 00af 00       		.byte	0
+ 565 00b0 0C       		.uleb128 0xc
+ 566 00b1 34       		.uleb128 0x34
+ 567 00b2 00       		.byte	0
+ 568 00b3 03       		.uleb128 0x3
+ 569 00b4 0E       		.uleb128 0xe
+ 570 00b5 3A       		.uleb128 0x3a
+ 571 00b6 0B       		.uleb128 0xb
+ 572 00b7 3B       		.uleb128 0x3b
+ 573 00b8 0B       		.uleb128 0xb
+ 574 00b9 49       		.uleb128 0x49
+ 575 00ba 13       		.uleb128 0x13
+ 576 00bb 3F       		.uleb128 0x3f
+ 577 00bc 0C       		.uleb128 0xc
+ 578 00bd 02       		.uleb128 0x2
+ 579 00be 0A       		.uleb128 0xa
+ 580 00bf 00       		.byte	0
+ 581 00c0 00       		.byte	0
+ 582 00c1 0D       		.uleb128 0xd
+ 583 00c2 2E       		.uleb128 0x2e
+ 584 00c3 00       		.byte	0
+ 585 00c4 3F       		.uleb128 0x3f
+ 586 00c5 0C       		.uleb128 0xc
+ 587 00c6 03       		.uleb128 0x3
+ 588 00c7 0E       		.uleb128 0xe
+ 589 00c8 3A       		.uleb128 0x3a
+ 590 00c9 0B       		.uleb128 0xb
+ 591 00ca 3B       		.uleb128 0x3b
+ 592 00cb 0B       		.uleb128 0xb
+ 593 00cc 27       		.uleb128 0x27
+ 594 00cd 0C       		.uleb128 0xc
+ 595 00ce 3C       		.uleb128 0x3c
+ 596 00cf 0C       		.uleb128 0xc
+ 597 00d0 00       		.byte	0
+ 598 00d1 00       		.byte	0
+ 599 00d2 00       		.byte	0
+ 600              		.section	.debug_loc,"",%progbits
+ 601              	.Ldebug_loc0:
+ 602              	.LLST0:
+ 603 0000 00000000 		.4byte	.LFB0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 20
+
+
+ 604 0004 02000000 		.4byte	.LCFI0
+ 605 0008 0200     		.2byte	0x2
+ 606 000a 7D       		.byte	0x7d
+ 607 000b 00       		.sleb128 0
+ 608 000c 02000000 		.4byte	.LCFI0
+ 609 0010 20000000 		.4byte	.LFE0
+ 610 0014 0200     		.2byte	0x2
+ 611 0016 7D       		.byte	0x7d
+ 612 0017 08       		.sleb128 8
+ 613 0018 00000000 		.4byte	0
+ 614 001c 00000000 		.4byte	0
+ 615              	.LLST1:
+ 616 0020 00000000 		.4byte	.LFB1
+ 617 0024 02000000 		.4byte	.LCFI1
+ 618 0028 0200     		.2byte	0x2
+ 619 002a 7D       		.byte	0x7d
+ 620 002b 00       		.sleb128 0
+ 621 002c 02000000 		.4byte	.LCFI1
+ 622 0030 18000000 		.4byte	.LFE1
+ 623 0034 0200     		.2byte	0x2
+ 624 0036 7D       		.byte	0x7d
+ 625 0037 08       		.sleb128 8
+ 626 0038 00000000 		.4byte	0
+ 627 003c 00000000 		.4byte	0
+ 628              		.section	.debug_aranges,"",%progbits
+ 629 0000 34000000 		.4byte	0x34
+ 630 0004 0200     		.2byte	0x2
+ 631 0006 00000000 		.4byte	.Ldebug_info0
+ 632 000a 04       		.byte	0x4
+ 633 000b 00       		.byte	0
+ 634 000c 0000     		.2byte	0
+ 635 000e 0000     		.2byte	0
+ 636 0010 00000000 		.4byte	.LFB2
+ 637 0014 30000000 		.4byte	.LFE2-.LFB2
+ 638 0018 00000000 		.4byte	.LFB0
+ 639 001c 20000000 		.4byte	.LFE0-.LFB0
+ 640 0020 00000000 		.4byte	.LFB3
+ 641 0024 30000000 		.4byte	.LFE3-.LFB3
+ 642 0028 00000000 		.4byte	.LFB1
+ 643 002c 18000000 		.4byte	.LFE1-.LFB1
+ 644 0030 00000000 		.4byte	0
+ 645 0034 00000000 		.4byte	0
+ 646              		.section	.debug_ranges,"",%progbits
+ 647              	.Ldebug_ranges0:
+ 648 0000 00000000 		.4byte	.LFB2
+ 649 0004 30000000 		.4byte	.LFE2
+ 650 0008 00000000 		.4byte	.LFB0
+ 651 000c 20000000 		.4byte	.LFE0
+ 652 0010 00000000 		.4byte	.LFB3
+ 653 0014 30000000 		.4byte	.LFE3
+ 654 0018 00000000 		.4byte	.LFB1
+ 655 001c 18000000 		.4byte	.LFE1
+ 656 0020 00000000 		.4byte	0
+ 657 0024 00000000 		.4byte	0
+ 658              		.section	.debug_line,"",%progbits
+ 659              	.Ldebug_line0:
+ 660 0000 C6000000 		.section	.debug_str,"MS",%progbits,1
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 21
+
+
+ 660      02004E00 
+ 660      00000201 
+ 660      FB0E0D00 
+ 660      01010101 
+ 661              	.LASF6:
+ 662 0000 6C6F6E67 		.ascii	"long long int\000"
+ 662      206C6F6E 
+ 662      6720696E 
+ 662      7400
+ 663              	.LASF10:
+ 664 000e 75696E74 		.ascii	"uint32\000"
+ 664      333200
+ 665              	.LASF26:
+ 666 0015 656E6162 		.ascii	"enableState\000"
+ 666      6C655374 
+ 666      61746500 
+ 667              	.LASF8:
+ 668 0021 756E7369 		.ascii	"unsigned int\000"
+ 668      676E6564 
+ 668      20696E74 
+ 668      00
+ 669              	.LASF27:
+ 670 002e 5350495F 		.ascii	"SPI_backup\000"
+ 670      6261636B 
+ 670      757000
+ 671              	.LASF19:
+ 672 0039 5350495F 		.ascii	"SPI_Sleep\000"
+ 672      536C6565 
+ 672      7000
+ 673              	.LASF23:
+ 674 0043 474E5520 		.ascii	"GNU C 4.7.3 20130312 (release) [ARM/embedded-4_7-br"
+ 674      4320342E 
+ 674      372E3320 
+ 674      32303133 
+ 674      30333132 
+ 675 0076 616E6368 		.ascii	"anch revision 196615]\000"
+ 675      20726576 
+ 675      6973696F 
+ 675      6E203139 
+ 675      36363135 
+ 676              	.LASF9:
+ 677 008c 75696E74 		.ascii	"uint8\000"
+ 677      3800
+ 678              	.LASF5:
+ 679 0092 6C6F6E67 		.ascii	"long unsigned int\000"
+ 679      20756E73 
+ 679      69676E65 
+ 679      6420696E 
+ 679      7400
+ 680              	.LASF7:
+ 681 00a4 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 681      206C6F6E 
+ 681      6720756E 
+ 681      7369676E 
+ 681      65642069 
+ 682              	.LASF20:
+ 683 00bb 5350495F 		.ascii	"SPI_Wakeup\000"
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 22
+
+
+ 683      57616B65 
+ 683      757000
+ 684              	.LASF1:
+ 685 00c6 756E7369 		.ascii	"unsigned char\000"
+ 685      676E6564 
+ 685      20636861 
+ 685      7200
+ 686              	.LASF17:
+ 687 00d4 5350495F 		.ascii	"SPI_DisableTxPinsInputBuffer\000"
+ 687      44697361 
+ 687      626C6554 
+ 687      7850696E 
+ 687      73496E70 
+ 688              	.LASF13:
+ 689 00f1 63686172 		.ascii	"char\000"
+ 689      00
+ 690              	.LASF24:
+ 691 00f6 2E5C4765 		.ascii	".\\Generated_Source\\PSoC4\\SPI_PM.c\000"
+ 691      6E657261 
+ 691      7465645F 
+ 691      536F7572 
+ 691      63655C50 
+ 692              	.LASF4:
+ 693 0118 6C6F6E67 		.ascii	"long int\000"
+ 693      20696E74 
+ 693      00
+ 694              	.LASF12:
+ 695 0121 646F7562 		.ascii	"double\000"
+ 695      6C6500
+ 696              	.LASF25:
+ 697 0128 433A5C55 		.ascii	"C:\\Users\\atsu\\Desktop\\W5200_PSoC4_test\\W5200_P"
+ 697      73657273 
+ 697      5C617473 
+ 697      755C4465 
+ 697      736B746F 
+ 698 0156 536F4334 		.ascii	"SoC4_test\\W5200_PSoC4_test.cydsn\000"
+ 698      5F746573 
+ 698      745C5735 
+ 698      3230305F 
+ 698      50536F43 
+ 699              	.LASF14:
+ 700 0177 72656733 		.ascii	"reg32\000"
+ 700      3200
+ 701              	.LASF3:
+ 702 017d 73686F72 		.ascii	"short unsigned int\000"
+ 702      7420756E 
+ 702      7369676E 
+ 702      65642069 
+ 702      6E7400
+ 703              	.LASF0:
+ 704 0190 7369676E 		.ascii	"signed char\000"
+ 704      65642063 
+ 704      68617200 
+ 705              	.LASF18:
+ 706 019c 5350495F 		.ascii	"SPI_EnableTxPinsInputBuffer\000"
+ 706      456E6162 
+ 706      6C655478 
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccEvF9WH.s 			page 23
+
+
+ 706      50696E73 
+ 706      496E7075 
+ 707              	.LASF11:
+ 708 01b8 666C6F61 		.ascii	"float\000"
+ 708      7400
+ 709              	.LASF2:
+ 710 01be 73686F72 		.ascii	"short int\000"
+ 710      7420696E 
+ 710      7400
+ 711              	.LASF21:
+ 712 01c8 5350495F 		.ascii	"SPI_Stop\000"
+ 712      53746F70 
+ 712      00
+ 713              	.LASF16:
+ 714 01d1 5350495F 		.ascii	"SPI_BACKUP_STRUCT\000"
+ 714      4241434B 
+ 714      55505F53 
+ 714      54525543 
+ 714      5400
+ 715              	.LASF22:
+ 716 01e3 5350495F 		.ascii	"SPI_Enable\000"
+ 716      456E6162 
+ 716      6C6500
+ 717              	.LASF15:
+ 718 01ee 73697A65 		.ascii	"sizetype\000"
+ 718      74797065 
+ 718      00
+ 719              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.7.3 20130312 (release) [ARM/embedded-4_7-br

@@ -363,7 +363,7 @@ L 1 "./Generated_Source/PSoC4/cydevice_trm.h" 1
 N/*******************************************************************************
 N* FILENAME: cydevice_trm.h
 N* 
-N* PSoC Creator 3.0
+N* PSoC Creator 3.0 Component Pack 7
 N*
 N* DESCRIPTION:
 N* This file provides all of the address values for the entire PSoC device.
@@ -5199,17 +5199,17 @@ N*  None
 N*
 N*******************************************************************************/
 N#if !defined(NDEBUG)
-X#if !1L
-S    #define CYASSERT(x)                 do                              \
-S                                        {                               \
-S                                            if(0u == (x))               \
-S                                            {                           \
-S                                                CyHalt((uint8) 0u);     \
-S                                            }                           \
-S                                        } while ( 0u )
+X#if !0L
+N    #define CYASSERT(x)                 do                              \
+N                                        {                               \
+N                                            if(0u == (x))               \
+N                                            {                           \
+N                                                CyHalt((uint8) 0u);     \
+N                                            }                           \
+N                                        } while ( 0u )
 X    #define CYASSERT(x)                 do                                                                      {                                                                           if(0u == (x))                                                           {                                                                           CyHalt((uint8) 0u);                                                 }                                                                   } while ( 0u )
 N#else
-N    #define CYASSERT(x)
+S    #define CYASSERT(x)
 N#endif  /* !defined(NDEBUG) */
 N
 N
@@ -5823,7 +5823,7 @@ N        else
 N        {
 N            /* Halt CPU in debug mode if new frequency is invalid */
 N            CYASSERT(0u != 0u);
-X            ;
+X            do { if(0u == (0u != 0u)) { CyHalt((uint8) 0u); } } while ( 0u );
 N        }
 N    }
 N
@@ -5942,7 +5942,7 @@ N    ***************************************************************************
 N    uint32 CySysWdtReadEnabledStatus(uint32 counterNum)
 N    {
 N        CYASSERT(counterNum < CY_SYS_WDT_COUNTERS_MAX);
-X        ;
+X        do { if(0u == (counterNum < (0x03u))) { CyHalt((uint8) 0u); } } while ( 0u );
 N        return ((CY_SYS_WDT_CONTROL_REG >> ((CY_SYS_WDT_CNT_SHIFT * counterNum) + CY_SYS_WDT_CNT_STTS_SHIFT)) & 0x01u);
 X        return (((*(reg32 *) 0x400b0210u) >> (((0x08u) * counterNum) + (0x01u))) & 0x01u);
 N    }
@@ -5981,7 +5981,7 @@ N    {
 N        uint32 configRegValue;
 N
 N        CYASSERT(counterNum < CY_SYS_WDT_COUNTERS_MAX);
-X        ;
+X        do { if(0u == (counterNum < (0x03u))) { CyHalt((uint8) 0u); } } while ( 0u );
 N
 N        /* Configuring the WDT involves passing control signals between clock domains,
 N        * which requires the ILO to be enabled.
@@ -6059,7 +6059,7 @@ N    void CySysWdtWriteClearOnMatch(uint32 counterNum, uint32 enable)
 N    {
 N        CYASSERT((counterNum == CY_SYS_WDT_COUNTER0) ||
 N                                             (counterNum == CY_SYS_WDT_COUNTER1));
-X        ;
+X        do { if(0u == ((counterNum == (0x00u)) || (counterNum == (0x01u)))) { CyHalt((uint8) 0u); } } while ( 0u );
 N
 N        /* Configuring the WDT involves passing control signals between clock domains,
 N        * which requires the ILO to be enabled.
@@ -6099,7 +6099,7 @@ N    uint32 CySysWdtReadClearOnMatch(uint32 counterNum)
 N    {
 N        CYASSERT((counterNum == CY_SYS_WDT_COUNTER0) ||
 N                                             (counterNum == CY_SYS_WDT_COUNTER1));
-X        ;
+X        do { if(0u == ((counterNum == (0x00u)) || (counterNum == (0x01u)))) { CyHalt((uint8) 0u); } } while ( 0u );
 N
 N        return (uint32)((CY_SYS_WDT_CONFIG_REG >>
 X        return (uint32)(((*(reg32 *) 0x400b020cu) >>
@@ -6298,7 +6298,7 @@ N        uint32 regValue;
 N
 N        CYASSERT((counterNum == CY_SYS_WDT_COUNTER0) ||
 N                                             (counterNum == CY_SYS_WDT_COUNTER1));
-X        ;
+X        do { if(0u == ((counterNum == (0x00u)) || (counterNum == (0x01u)))) { CyHalt((uint8) 0u); } } while ( 0u );
 N
 N        /* Configuring the WDT involves passing control signals between clock domains,
 N        * which requires the ILO to be enabled.
@@ -6412,7 +6412,7 @@ N    uint32 CySysWdtReadMatch(uint32 counterNum)
 N    {
 N        CYASSERT((counterNum == CY_SYS_WDT_COUNTER0) ||
 N                                             (counterNum == CY_SYS_WDT_COUNTER1));
-X        ;
+X        do { if(0u == ((counterNum == (0x00u)) || (counterNum == (0x01u)))) { CyHalt((uint8) 0u); } } while ( 0u );
 N        return ((uint32)(CY_SYS_WDT_MATCH_REG >> (counterNum * CY_SYS_WDT_CNT_MATCH_SHIFT)) & CY_SYS_WDT_LOWER_16BITS_MASK);
 X        return ((uint32)((*(reg32 *) 0x400b0208u) >> (counterNum * (0x10u))) & (uint32)(0xFFFFu));
 N    }
@@ -6459,7 +6459,7 @@ N            break;
 N
 N            default:
 N                CYASSERT(0u != 0u);
-X                ;
+X                do { if(0u == (0u != 0u)) { CyHalt((uint8) 0u); } } while ( 0u );
 N            break;
 N        }
 N
@@ -7144,7 +7144,7 @@ N    cyisraddress *ramVectorTable = (cyisraddress *) CY_INT_VECT_TABLE;
 X    cyisraddress *ramVectorTable = (cyisraddress *) ( (cyisraddress * *) 0x20000000u);
 N
 N    CYASSERT(number < CY_INT_IRQ_BASE);
-X    ;
+X    do { if(0u == (number < (16u))) { CyHalt((uint8) 0u); } } while ( 0u );
 N
 N    /* Save old Interrupt service routine. */
 N    oldIsr = ramVectorTable[number];
@@ -7177,7 +7177,7 @@ N    cyisraddress *ramVectorTable = (cyisraddress *) CY_INT_VECT_TABLE;
 X    cyisraddress *ramVectorTable = (cyisraddress *) ( (cyisraddress * *) 0x20000000u);
 N
 N    CYASSERT(number < CY_INT_IRQ_BASE);
-X    ;
+X    do { if(0u == (number < (16u))) { CyHalt((uint8) 0u); } } while ( 0u );
 N
 N    return(ramVectorTable[number]);
 N}
@@ -7205,7 +7205,7 @@ N    cyisraddress *ramVectorTable = (cyisraddress *) CY_INT_VECT_TABLE;
 X    cyisraddress *ramVectorTable = (cyisraddress *) ( (cyisraddress * *) 0x20000000u);
 N
 N    CYASSERT(number < CY_NUM_INTERRUPTS);
-X    ;
+X    do { if(0u == (number < (32u))) { CyHalt((uint8) 0u); } } while ( 0u );
 N
 N    /* Save old Interrupt service routine. */
 N    oldIsr = ramVectorTable[CY_INT_IRQ_BASE + number];
@@ -7239,7 +7239,7 @@ N    cyisraddress *ramVectorTable = (cyisraddress *) CY_INT_VECT_TABLE;
 X    cyisraddress *ramVectorTable = (cyisraddress *) ( (cyisraddress * *) 0x20000000u);
 N
 N    CYASSERT(number < CY_NUM_INTERRUPTS);
-X    ;
+X    do { if(0u == (number < (32u))) { CyHalt((uint8) 0u); } } while ( 0u );
 N
 N    return (ramVectorTable[CY_INT_IRQ_BASE + number]);
 X    return (ramVectorTable[(16u) + number]);
@@ -7267,9 +7267,9 @@ N    uint32 shift;
 N    uint32 value;
 N
 N    CYASSERT(priority <= CY_MIN_PRIORITY);
-X    ;
+X    do { if(0u == (priority <= (3u))) { CyHalt((uint8) 0u); } } while ( 0u );
 N    CYASSERT(number < CY_NUM_INTERRUPTS);
-X    ;
+X    do { if(0u == (number < (32u))) { CyHalt((uint8) 0u); } } while ( 0u );
 N
 N    shift = CY_INT_PRIORITY_SHIFT(number);
 X    shift = (( uint32 )6u + (8u * (( uint32 )(number) % 4u)));
@@ -7307,7 +7307,7 @@ N{
 N    uint8 priority;
 N
 N    CYASSERT(number < CY_NUM_INTERRUPTS);
-X    ;
+X    do { if(0u == (number < (32u))) { CyHalt((uint8) 0u); } } while ( 0u );
 N
 N    priority = (uint8) (CY_INT_PRIORITY_REG(number) >> CY_INT_PRIORITY_SHIFT(number));
 X    priority = (uint8) (( ((reg32 *) 0xe000e400u)[(number)/4u]) >> (( uint32 )6u + (8u * (( uint32 )(number) % 4u))));

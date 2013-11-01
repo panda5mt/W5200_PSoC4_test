@@ -22,7 +22,7 @@ L 1 "./Generated_Source/PSoC4/cydevice_trm.h" 1
 N/*******************************************************************************
 N* FILENAME: cydevice_trm.h
 N* 
-N* PSoC Creator 3.0
+N* PSoC Creator 3.0 Component Pack 7
 N*
 N* DESCRIPTION:
 N* This file provides all of the address values for the entire PSoC device.

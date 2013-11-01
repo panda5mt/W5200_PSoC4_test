@@ -15,6 +15,7 @@
 <file name=".\CortexM0\ARM_GCC_473\Release\device_depend.o">
 <dep name=".\Generated_Source\PSoC4\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC4\CyLib.h" />
+<dep name=".\Generated_Source\PSoC4\Cytypes.h" />
 <dep name=".\Generated_Source\PSoC4\SPI.h" />
 <dep name=".\Generated_Source\PSoC4\SPI_CS.h" />
 <dep name=".\Generated_Source\PSoC4\SPI_CS_aliases.h" />
@@ -58,6 +59,7 @@
 </file>
 <file name=".\Generated_Source\PSoC4\CyFlash.h" />
 <file name=".\Generated_Source\PSoC4\CyLib.h" />
+<file name=".\Generated_Source\PSoC4\Cytypes.h" />
 <file name=".\Generated_Source\PSoC4\SPI.h" />
 <file name=".\Generated_Source\PSoC4\SPI_CS.h" />
 <file name=".\Generated_Source\PSoC4\SPI_CS_aliases.h" />
@@ -94,7 +96,6 @@
 <file name=".\Generated_Source\PSoC4\cyfitter.h" />
 <file name=".\Generated_Source\PSoC4\cyfitter_cfg.h" />
 <file name=".\Generated_Source\PSoC4\cypins.h" />
-<file name=".\Generated_Source\PSoC4\cytypes.h" />
 <file name=".\Generated_Source\PSoC4\project.h" />
 <file name=".\device_depend.c" />
 <file name=".\device_depend.h" />
@@ -103,6 +104,7 @@
 <dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
 <dep name=".\Generated_Source\PSoC4\cyfitter.h" />
 <dep name=".\config.h" />
+<dep name=".\device_depend.h" />
 <dep name=".\loopback.c" />
 <dep name=".\loopback.h" />
 <dep name=".\socket.h" />
@@ -132,6 +134,7 @@
 <dep name=".\Generated_Source\PSoC4\Cytypes.h" />
 <dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
 <dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\device_depend.h" />
 <dep name=".\md5.c" />
 <dep name=".\md5.h" />
 <dep name=".\util.h" />
@@ -143,6 +146,7 @@
 <dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
 <dep name=".\Generated_Source\PSoC4\cyfitter.h" />
 <dep name=".\config.h" />
+<dep name=".\device_depend.h" />
 <dep name=".\socket.c" />
 <dep name=".\socket.h" />
 <dep name=".\util.h" />
@@ -154,6 +158,7 @@
 <dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
 <dep name=".\Generated_Source\PSoC4\cyfitter.h" />
 <dep name=".\config.h" />
+<dep name=".\device_depend.h" />
 <dep name=".\util.c" />
 <dep name=".\util.h" />
 <dep name=".\w5200.h" />
@@ -555,28 +560,6 @@
 </dependency_info>
 <dependency_info name="fdb8e1ae-f83a-46cf-9446-1d703716f38a@Release@CortexM0" xml_contents_version="2">
 <CyGuid_1173175f-1b9b-4ad4-a065-754a48a27021 type_name="CyDesigner.Common.Base.CyFileDeps" version="1">
-<file name=".\CortexM0\ARM_MDK_Generic\Release\main.o">
-<dep name=".\Generated_Source\PSoC4\Cytypes.h" />
-<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
-<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
-<dep name=".\config.h" />
-<dep name=".\device_depend.h" />
-<dep name=".\loopback.h" />
-<dep name=".\main.c" />
-<dep name=".\socket.h" />
-<dep name=".\util.h" />
-<dep name=".\w5200.h" />
-</file>
-<file name=".\Generated_Source\PSoC4\Cytypes.h" />
-<file name=".\Generated_Source\PSoC4\cydevice_trm.h" />
-<file name=".\Generated_Source\PSoC4\cyfitter.h" />
-<file name=".\config.h" />
-<file name=".\device_depend.h" />
-<file name=".\loopback.h" />
-<file name=".\main.c" />
-<file name=".\socket.h" />
-<file name=".\util.h" />
-<file name=".\w5200.h" />
 <file name=".\CortexM0\ARM_MDK_Generic\Release\device_depend.o">
 <dep name=".\Generated_Source\PSoC4\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC4\CyLib.h" />
@@ -624,6 +607,7 @@
 </file>
 <file name=".\Generated_Source\PSoC4\CyFlash.h" />
 <file name=".\Generated_Source\PSoC4\CyLib.h" />
+<file name=".\Generated_Source\PSoC4\Cytypes.h" />
 <file name=".\Generated_Source\PSoC4\SPI.h" />
 <file name=".\Generated_Source\PSoC4\SPI_CS.h" />
 <file name=".\Generated_Source\PSoC4\SPI_CS_aliases.h" />
@@ -655,11 +639,14 @@
 <file name=".\Generated_Source\PSoC4\core_cmFunc.h" />
 <file name=".\Generated_Source\PSoC4\core_cmInstr.h" />
 <file name=".\Generated_Source\PSoC4\cyPm.h" />
+<file name=".\Generated_Source\PSoC4\cydevice_trm.h" />
 <file name=".\Generated_Source\PSoC4\cydisabledsheets.h" />
+<file name=".\Generated_Source\PSoC4\cyfitter.h" />
 <file name=".\Generated_Source\PSoC4\cyfitter_cfg.h" />
 <file name=".\Generated_Source\PSoC4\cypins.h" />
 <file name=".\Generated_Source\PSoC4\project.h" />
 <file name=".\device_depend.c" />
+<file name=".\device_depend.h" />
 <file name=".\CortexM0\ARM_MDK_Generic\Release\loopback.o">
 <dep name=".\Generated_Source\PSoC4\Cytypes.h" />
 <dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
@@ -672,7 +659,25 @@
 <dep name=".\util.h" />
 <dep name=".\w5200.h" />
 </file>
+<file name=".\config.h" />
 <file name=".\loopback.c" />
+<file name=".\loopback.h" />
+<file name=".\socket.h" />
+<file name=".\util.h" />
+<file name=".\w5200.h" />
+<file name=".\CortexM0\ARM_MDK_Generic\Release\main.o">
+<dep name=".\Generated_Source\PSoC4\Cytypes.h" />
+<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\config.h" />
+<dep name=".\device_depend.h" />
+<dep name=".\loopback.h" />
+<dep name=".\main.c" />
+<dep name=".\socket.h" />
+<dep name=".\util.h" />
+<dep name=".\w5200.h" />
+</file>
+<file name=".\main.c" />
 <file name=".\CortexM0\ARM_MDK_Generic\Release\md5.o">
 <dep name=".\Generated_Source\PSoC4\Cytypes.h" />
 <dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
@@ -1199,49 +1204,51 @@
 <name_val_pair name=".\Generated_Source\PSoC4\SPI_sclk_m.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;-Wno-main &quot;&quot;-mcpu=cortex-m0 &quot;&quot;-mthumb &quot;&quot;-Wall &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;-Wa,-alh=${OutputDir}\${CompileFile}.lst &quot;&quot;-Os &quot;&quot;-ffunction-sections &quot;" />
 <name_val_pair name=".\Generated_Source\PSoC4\SPI_SCBCLK.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;-Wno-main &quot;&quot;-mcpu=cortex-m0 &quot;&quot;-mthumb &quot;&quot;-Wall &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;-Wa,-alh=${OutputDir}\${CompileFile}.lst &quot;&quot;-Os &quot;&quot;-ffunction-sections &quot;" />
 <name_val_pair name="C:\Users\atsu\Desktop\W5200_PSoC4_test\W5200_PSoC4_test.cydsn\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.hex" v="&quot;-mthumb &quot;&quot;-march=armv6-m &quot;&quot;-T &quot;&quot;.\Generated_Source\PSoC4\cm0gcc.ld &quot;&quot;-g &quot;&quot;-Wl,-Map,${OutputDir}\${ProjectShortName}.map &quot;&quot;-specs=nano.specs &quot;&quot;-Wl,--gc-sections &quot;" />
+<name_val_pair name="C:\Users\atsu\Desktop\W5200_PSoC4_test\W5200_PSoC4_test\W5200_PSoC4_test.cydsn\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.hex" v="&quot;-mthumb &quot;&quot;-march=armv6-m &quot;&quot;-T &quot;&quot;.\Generated_Source\PSoC4\cm0gcc.ld &quot;&quot;-g &quot;&quot;-Wl,-Map,${OutputDir}\${ProjectShortName}.map &quot;&quot;-specs=nano.specs &quot;&quot;-Wl,--gc-sections &quot;" />
 </name>
 <name v="fdb8e1ae-f83a-46cf-9446-1d703716f38a@Release@CortexM0">
-<name_val_pair name=".\device_depend.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\md5.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\socket.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\util.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\w5200.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\main.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\loopback.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\cyfitter_cfg.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\cymetadata.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\UART_1.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\UART_1_SPI_UART.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\UART_1_SPI_UART_INT.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\UART_1_PM.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\UART_1_UART.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\UART_1_BOOT.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\UART_1_UART_BOOT.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\UART_1_rx.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\UART_1_SCBCLK.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\UART_1_tx.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\Cm0Start.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
+<name_val_pair name=".\device_depend.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\md5.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\socket.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\util.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\w5200.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\main.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\loopback.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\cyfitter_cfg.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\cymetadata.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\UART_1.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\UART_1_SPI_UART.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\UART_1_SPI_UART_INT.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\UART_1_PM.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\UART_1_UART.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\UART_1_BOOT.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\UART_1_UART_BOOT.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\UART_1_rx.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\UART_1_SCBCLK.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\UART_1_tx.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\Cm0Start.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
 <name_val_pair name=".\Generated_Source\PSoC4\CyBootAsmRv.s" v="&quot;-i. &quot;&quot;-iGenerated_Source/PSoC4 &quot;&quot;--diag_style=gnu &quot;&quot;--thumb &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--list=${OutputDir}/${CompileFile}.lst &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\CyFlash.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\CyLib.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\cyPm.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\cyutils.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_SPI_UART.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_PM.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_SPI.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_BOOT.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_SPI_BOOT.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_CS.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_ss0_m.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_mosi_m.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_miso_m.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_sclk_m.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
-<name_val_pair name=".\Generated_Source\PSoC4\SPI_SCBCLK.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;-D &quot;&quot;NDEBUG &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\CyFlash.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\CyLib.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\cyPm.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\cyutils.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_SPI_UART.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_PM.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_SPI.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_BOOT.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_SPI_BOOT.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_CS.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_ss0_m.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_mosi_m.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_miso_m.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_sclk_m.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
+<name_val_pair name=".\Generated_Source\PSoC4\SPI_SCBCLK.c" v="&quot;-I. &quot;&quot;-I./Generated_Source/PSoC4 &quot;&quot;--diag_suppress=951 &quot;&quot;--diag_style=gnu &quot;&quot;--cpu=Cortex-M0 &quot;&quot;-g &quot;&quot;--signed_chars &quot;&quot;--list &quot;&quot;-Ospace &quot;&quot;--split_sections &quot;&quot;-O3 &quot;" />
 <name_val_pair name="C:\Users\atsu\Desktop\W5200_PSoC4_test\W5200_PSoC4_test.cydsn\CortexM0\ARM_MDK_Generic\Release\W5200_PSoC4_test.hex" v="&quot;--diag_style=gnu &quot;&quot;--no_startup &quot;&quot;--cpu=Cortex-M0 &quot;&quot;--scatter &quot;&quot;.\Generated_Source\PSoC4\Cm0RealView.scat &quot;&quot;--map &quot;&quot;--list &quot;&quot;${OutputDir}\${ProjectShortName}.map &quot;" />
+<name_val_pair name="C:\Users\atsu\Desktop\W5200_PSoC4_test\W5200_PSoC4_test\W5200_PSoC4_test.cydsn\CortexM0\ARM_MDK_Generic\Release\W5200_PSoC4_test.hex" v="&quot;--diag_style=gnu &quot;&quot;--no_startup &quot;&quot;--cpu=Cortex-M0 &quot;&quot;--scatter &quot;&quot;.\Generated_Source\PSoC4\Cm0RealView.scat &quot;&quot;--map &quot;&quot;--list &quot;&quot;${OutputDir}\${ProjectShortName}.map &quot;" />
 </name>
 </genericCmdLineData>
-<codeGenCmdLineTag v="&quot;-.appdatapath&quot; &quot;C:\Users\atsu\AppData\Local\Cypress Semiconductor\PSoC Creator\3.0&quot; &quot;-.fdsnotice&quot; &quot;-.fdswarpdepfile=warp_dependencies.txt&quot; &quot;-.fdselabdepfile=elab_dependencies.txt&quot; &quot;-.fdsbldfile=generated_files.txt&quot; &quot;-p&quot; &quot;C:\Users\atsu\Desktop\W5200_PSoC4_test\W5200_PSoC4_test.cydsn\W5200_PSoC4_test.cyprj&quot; &quot;-d&quot; &quot;CY8C4245AXI-483&quot; &quot;-s&quot; &quot;C:\Users\atsu\Desktop\W5200_PSoC4_test\W5200_PSoC4_test.cydsn\Generated_Source\PSoC4&quot; &quot;--&quot; &quot;-yv2&quot; &quot;-v3&quot; &quot;-ygs&quot; &quot;-q10&quot; &quot;-o2&quot; &quot;-.fftcfgtype=LE&quot; " />
+<codeGenCmdLineTag v="&quot;-.appdatapath&quot; &quot;C:\Users\atsu\AppData\Local\Cypress Semiconductor\PSoC Creator\3.0&quot; &quot;-.fdsnotice&quot; &quot;-.fdswarpdepfile=warp_dependencies.txt&quot; &quot;-.fdselabdepfile=elab_dependencies.txt&quot; &quot;-.fdsbldfile=generated_files.txt&quot; &quot;-p&quot; &quot;C:\Users\atsu\Desktop\W5200_PSoC4_test\W5200_PSoC4_test\W5200_PSoC4_test.cydsn\W5200_PSoC4_test.cyprj&quot; &quot;-d&quot; &quot;CY8C4245AXI-483&quot; &quot;-s&quot; &quot;C:\Users\atsu\Desktop\W5200_PSoC4_test\W5200_PSoC4_test\W5200_PSoC4_test.cydsn\Generated_Source\PSoC4&quot; &quot;--&quot; &quot;-yv2&quot; &quot;-v3&quot; &quot;-yga&quot; &quot;-q10&quot; &quot;-o2&quot; &quot;-.fftcfgtype=LE&quot; " />
 </CyGuid_b0374e30-ce3a-47f2-ad85-821643292c68>
 </dataGuid>
 <dataGuid v="597c5b74-0c46-4204-8b7f-96f3570671dc">
@@ -1949,14 +1956,14 @@
 <v>C:\Program Files (x86)\Cypress\PSoC Creator\3.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v</v>
 <v>C:\Program Files (x86)\Cypress\PSoC Creator\3.0\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif</v>
 </warp_dep>
-<deps_time v="130275831859176625" />
+<deps_time v="130277912344506000" />
 <top_block v="TopDesign" />
 <last_generation v="2" />
 </CyGuid_925cc1e1-309e-4e08-b0a1-09a83c35b157>
 </dataGuid>
 <dataGuid v="769d31ea-68b1-4f0c-b90a-7c10a43ee563">
 <CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563 type_name="CyDesigner.Common.ProjMgmt.Model.CyLinkCustomData" version="1">
-<deps_time v="130275915910294074" />
+<deps_time v="130277912415486000" />
 </CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563>
 </dataGuid>
 <dataGuid v="237c8ed1-e161-4c9d-af97-582eda6d6952">

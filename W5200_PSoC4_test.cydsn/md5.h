@@ -10,10 +10,10 @@
  @brief	MD5 context. 
  */
 typedef struct {
-        uint32_t state[4];    /**< state (ABCD)                            */
-        uint32_t count[2];    /**< number of bits, modulo 2^64 (lsb first) */
-        uint8_t  buffer[64];  /**< input buffer                            */
-      } md5_ctx;
+	uint32_t state[4];    /**< state (ABCD)                            */
+	uint32_t count[2];    /**< number of bits, modulo 2^64 (lsb first) */
+	uint8_t  buffer[64];  /**< input buffer                            */
+} md5_ctx;
 
 extern void md5_init(md5_ctx *context);
 extern void md5_update(md5_ctx *context, uint8_t *buffer, uint32_t length);

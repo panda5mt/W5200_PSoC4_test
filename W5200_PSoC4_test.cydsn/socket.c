@@ -39,12 +39,12 @@ uint8_t socket(SOCKET s, uint8_t protocol, uint16_t port, uint8_t flag)
 		close(s);
 		IINCHIP_WRITE(Sn_MR(s),protocol | flag);
 		if (port != 0) {
-			IINCHIP_WRITE(Sn_PORT0(s),(uint8)((port & 0xff00) >> 8));
-			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8)(port & 0x00ff));
+			IINCHIP_WRITE(Sn_PORT0(s),(uint8_t)((port & 0xff00) >> 8));
+			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8_t)(port & 0x00ff));
 		} else {
 			local_port++; // if don't set the source port, set local_port number.
-			IINCHIP_WRITE(Sn_PORT0(s),(uint8)((local_port & 0xff00) >> 8));
-			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8)(local_port & 0x00ff));
+			IINCHIP_WRITE(Sn_PORT0(s),(uint8_t)((local_port & 0xff00) >> 8));
+			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8_t)(local_port & 0x00ff));
 		}
 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_OPEN); // run sockinit Sn_CR
 
@@ -147,8 +147,8 @@ uint8_t connect(SOCKET s, uint8_t * addr, uint16_t port)
 		IINCHIP_WRITE((Sn_DIPR0(s) + 1),addr[1]);
 		IINCHIP_WRITE((Sn_DIPR0(s) + 2),addr[2]);
 		IINCHIP_WRITE((Sn_DIPR0(s) + 3),addr[3]);
-		IINCHIP_WRITE(Sn_DPORT0(s),(uint8)((port & 0xff00) >> 8));
-		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8)(port & 0x00ff));
+		IINCHIP_WRITE(Sn_DPORT0(s),(uint8_t)((port & 0xff00) >> 8));
+		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8_t)(port & 0x00ff));
 		clearSUBR();   // clear the subnet mask again and keep it because of the ARP errata of W5100
 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_CONNECT);
                 /* wait for completion */
@@ -333,8 +333,8 @@ uint16_t sendto(SOCKET s, const uint8_t * buf, uint16_t len, uint8_t * addr, uin
 		IINCHIP_WRITE((Sn_DIPR0(s) + 1),addr[1]);
 		IINCHIP_WRITE((Sn_DIPR0(s) + 2),addr[2]);
 		IINCHIP_WRITE((Sn_DIPR0(s) + 3),addr[3]);
-		IINCHIP_WRITE(Sn_DPORT0(s),(uint8)((port & 0xff00) >> 8));
-		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8)(port & 0x00ff));     			
+		IINCHIP_WRITE(Sn_DPORT0(s),(uint8_t)((port & 0xff00) >> 8));
+		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8_t)(port & 0x00ff));     			
   		// copy data
  		send_data_processing(s, (uint8_t *)buf, ret);
 		clearSUBR();	   // clear the subnet mask again and keep it because of the ARP errata of W5100
@@ -410,8 +410,8 @@ uint16_t recvfrom(SOCKET s, uint8_t * buf, uint16_t len, uint8_t * addr, uint16_
 			read_data(s, (uint8_t *)ptr, buf, data_len); // data copy.
 			ptr += data_len;
 
-			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8)((ptr & 0xff00) >> 8));
-			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8)(ptr & 0x00ff));
+			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8_t)((ptr & 0xff00) >> 8));
+			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8_t)(ptr & 0x00ff));
    			break;
    
    	case Sn_MR_IPRAW :
@@ -432,11 +432,11 @@ uint16_t recvfrom(SOCKET s, uint8_t * buf, uint16_t len, uint8_t * addr, uint16_
 			read_data(s, (uint8_t *)ptr, buf, data_len); // data copy.
 			ptr += data_len;
 
-			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8)((ptr & 0xff00) >> 8));
-			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8)(ptr & 0x00ff));
+			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8_t)((ptr & 0xff00) >> 8));
+			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8_t)(ptr & 0x00ff));
    			break;
    	case Sn_MR_MACRAW :
-   			read_data(s,(uint8*)ptr,head,2);
+   			read_data(s,(uint8_t*)ptr,head,2);
    			ptr+=2;
    			data_len = head[0];
    			data_len = (data_len<<8) + head[1] - 2;
@@ -446,10 +446,10 @@ uint16_t recvfrom(SOCKET s, uint8_t * buf, uint16_t len, uint8_t * addr, uint16_
    				while(1);
    			}
 
-   			read_data(s,(uint8*) ptr,buf,data_len);
+   			read_data(s,(uint8_t*) ptr,buf,data_len);
    			ptr += data_len;
-   			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8)((ptr & 0xff00) >> 8));
-   			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8)(ptr & 0x00ff));
+   			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8_t)((ptr & 0xff00) >> 8));
+   			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8_t)(ptr & 0x00ff));
    			
 #ifdef __DEF_IINCHIP_DGB__
 			// printf("MAC RAW msg arrived\r\n");

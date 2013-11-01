@@ -1,0 +1,1446 @@
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"device_depend.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.hardware_init,"ax",%progbits
+  18              		.align	1
+  19              		.global	hardware_init
+  20              		.code	16
+  21              		.thumb_func
+  22              		.type	hardware_init, %function
+  23              	hardware_init:
+  24              	.LFB33:
+  25              		.file 1 ".\\device_depend.c"
+   1:.\device_depend.c **** /* ========================================
+   2:.\device_depend.c ****  *
+   3:.\device_depend.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\device_depend.c ****  * All Rights Reserved
+   5:.\device_depend.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:.\device_depend.c ****  *
+   7:.\device_depend.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:.\device_depend.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\device_depend.c ****  *
+  10:.\device_depend.c ****  * ========================================
+  11:.\device_depend.c **** */
+  12:.\device_depend.c **** #include "device_depend.h"
+  13:.\device_depend.c **** #include <project.h>
+  14:.\device_depend.c **** 
+  15:.\device_depend.c **** void hardware_init(void){
+  26              		.loc 1 15 0
+  27              		.cfi_startproc
+  28 0000 08B5     		push	{r3, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 3, -8
+  32              		.cfi_offset 14, -4
+  33              	.LBB4:
+  34              	.LBB5:
+  16:.\device_depend.c **** 	uart_init();
+  17:.\device_depend.c **** 	SPI_CS_Write(1);
+  18:.\device_depend.c **** }
+  19:.\device_depend.c **** 
+  20:.\device_depend.c **** void uart_init(void){
+  21:.\device_depend.c **** 	UART_1_Start();
+  35              		.loc 1 21 0
+  36 0002 FFF7FEFF 		bl	UART_1_Start
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 2
+
+
+  37              	.LVL0:
+  38              	.LBE5:
+  39              	.LBE4:
+  17:.\device_depend.c **** 	SPI_CS_Write(1);
+  40              		.loc 1 17 0
+  41 0006 0120     		mov	r0, #1
+  42 0008 FFF7FEFF 		bl	SPI_CS_Write
+  43              	.LVL1:
+  18:.\device_depend.c **** }
+  44              		.loc 1 18 0
+  45              		@ sp needed for prologue
+  46 000c 08BD     		pop	{r3, pc}
+  47              		.cfi_endproc
+  48              	.LFE33:
+  49              		.size	hardware_init, .-hardware_init
+  50              		.section	.text.uart_init,"ax",%progbits
+  51              		.align	1
+  52              		.global	uart_init
+  53              		.code	16
+  54              		.thumb_func
+  55              		.type	uart_init, %function
+  56              	uart_init:
+  57              	.LFB34:
+  20:.\device_depend.c **** void uart_init(void){
+  58              		.loc 1 20 0
+  59              		.cfi_startproc
+  60 0000 08B5     		push	{r3, lr}
+  61              	.LCFI1:
+  62              		.cfi_def_cfa_offset 8
+  63              		.cfi_offset 3, -8
+  64              		.cfi_offset 14, -4
+  65              		.loc 1 21 0
+  66 0002 FFF7FEFF 		bl	UART_1_Start
+  67              	.LVL2:
+  22:.\device_depend.c **** }
+  68              		.loc 1 22 0
+  69              		@ sp needed for prologue
+  70 0006 08BD     		pop	{r3, pc}
+  71              		.cfi_endproc
+  72              	.LFE34:
+  73              		.size	uart_init, .-uart_init
+  74              		.section	.text.uart_print,"ax",%progbits
+  75              		.align	1
+  76              		.global	uart_print
+  77              		.code	16
+  78              		.thumb_func
+  79              		.type	uart_print, %function
+  80              	uart_print:
+  81              	.LFB35:
+  23:.\device_depend.c **** 
+  24:.\device_depend.c **** void uart_print(char *ss){
+  82              		.loc 1 24 0
+  83              		.cfi_startproc
+  84              	.LVL3:
+  85 0000 08B5     		push	{r3, lr}
+  86              	.LCFI2:
+  87              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 3
+
+
+  88              		.cfi_offset 3, -8
+  89              		.cfi_offset 14, -4
+  25:.\device_depend.c **** 	UART_1_UartPutString(ss);
+  90              		.loc 1 25 0
+  91 0002 FFF7FEFF 		bl	UART_1_UartPutString
+  92              	.LVL4:
+  26:.\device_depend.c **** }
+  93              		.loc 1 26 0
+  94              		@ sp needed for prologue
+  95 0006 08BD     		pop	{r3, pc}
+  96              		.cfi_endproc
+  97              	.LFE35:
+  98              		.size	uart_print, .-uart_print
+  99              		.section	.text.spi_master_init,"ax",%progbits
+ 100              		.align	1
+ 101              		.global	spi_master_init
+ 102              		.code	16
+ 103              		.thumb_func
+ 104              		.type	spi_master_init, %function
+ 105              	spi_master_init:
+ 106              	.LFB36:
+  27:.\device_depend.c **** 
+  28:.\device_depend.c **** void spi_master_init(void){
+ 107              		.loc 1 28 0
+ 108              		.cfi_startproc
+ 109 0000 08B5     		push	{r3, lr}
+ 110              	.LCFI3:
+ 111              		.cfi_def_cfa_offset 8
+ 112              		.cfi_offset 3, -8
+ 113              		.cfi_offset 14, -4
+  29:.\device_depend.c **** 	SPI_Start();
+ 114              		.loc 1 29 0
+ 115 0002 FFF7FEFF 		bl	SPI_Start
+ 116              	.LVL5:
+  30:.\device_depend.c **** }
+ 117              		.loc 1 30 0
+ 118              		@ sp needed for prologue
+ 119 0006 08BD     		pop	{r3, pc}
+ 120              		.cfi_endproc
+ 121              	.LFE36:
+ 122              		.size	spi_master_init, .-spi_master_init
+ 123              		.section	.text.spi_master_send,"ax",%progbits
+ 124              		.align	1
+ 125              		.global	spi_master_send
+ 126              		.code	16
+ 127              		.thumb_func
+ 128              		.type	spi_master_send, %function
+ 129              	spi_master_send:
+ 130              	.LFB37:
+  31:.\device_depend.c **** 
+  32:.\device_depend.c **** char spi_master_send(char send_data){
+ 131              		.loc 1 32 0
+ 132              		.cfi_startproc
+ 133              	.LVL6:
+ 134 0000 08B5     		push	{r3, lr}
+ 135              	.LCFI4:
+ 136              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 4
+
+
+ 137              		.cfi_offset 3, -8
+ 138              		.cfi_offset 14, -4
+  33:.\device_depend.c **** 	SPI_SpiUartWriteTxData(send_data);
+ 139              		.loc 1 33 0
+ 140 0002 FFF7FEFF 		bl	SPI_SpiUartWriteTxData
+ 141              	.LVL7:
+ 142              	.L6:
+  34:.\device_depend.c **** 	while( !SPI_SpiUartGetRxBufferSize() );
+ 143              		.loc 1 34 0 discriminator 1
+ 144 0006 FFF7FEFF 		bl	SPI_SpiUartGetRxBufferSize
+ 145              	.LVL8:
+ 146 000a 0028     		cmp	r0, #0
+ 147 000c FBD0     		beq	.L6
+  35:.\device_depend.c **** 	
+  36:.\device_depend.c **** 	return ((char)SPI_SpiUartReadRxData());
+ 148              		.loc 1 36 0
+ 149 000e FFF7FEFF 		bl	SPI_SpiUartReadRxData
+ 150              	.LVL9:
+  37:.\device_depend.c **** }
+ 151              		.loc 1 37 0
+ 152              		@ sp needed for prologue
+  36:.\device_depend.c **** 	return ((char)SPI_SpiUartReadRxData());
+ 153              		.loc 1 36 0
+ 154 0012 C0B2     		uxtb	r0, r0
+ 155              		.loc 1 37 0
+ 156 0014 08BD     		pop	{r3, pc}
+ 157              		.cfi_endproc
+ 158              	.LFE37:
+ 159              		.size	spi_master_send, .-spi_master_send
+ 160              		.section	.text.spi_cs_low,"ax",%progbits
+ 161              		.align	1
+ 162              		.global	spi_cs_low
+ 163              		.code	16
+ 164              		.thumb_func
+ 165              		.type	spi_cs_low, %function
+ 166              	spi_cs_low:
+ 167              	.LFB38:
+  38:.\device_depend.c **** 
+  39:.\device_depend.c **** void spi_cs_low(void){
+ 168              		.loc 1 39 0
+ 169              		.cfi_startproc
+ 170 0000 08B5     		push	{r3, lr}
+ 171              	.LCFI5:
+ 172              		.cfi_def_cfa_offset 8
+ 173              		.cfi_offset 3, -8
+ 174              		.cfi_offset 14, -4
+  40:.\device_depend.c **** 	SPI_CS_Write(0);
+ 175              		.loc 1 40 0
+ 176 0002 0020     		mov	r0, #0
+ 177 0004 FFF7FEFF 		bl	SPI_CS_Write
+ 178              	.LVL10:
+  41:.\device_depend.c **** }
+ 179              		.loc 1 41 0
+ 180              		@ sp needed for prologue
+ 181 0008 08BD     		pop	{r3, pc}
+ 182              		.cfi_endproc
+ 183              	.LFE38:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 5
+
+
+ 184              		.size	spi_cs_low, .-spi_cs_low
+ 185              		.section	.text.spi_cs_high,"ax",%progbits
+ 186              		.align	1
+ 187              		.global	spi_cs_high
+ 188              		.code	16
+ 189              		.thumb_func
+ 190              		.type	spi_cs_high, %function
+ 191              	spi_cs_high:
+ 192              	.LFB39:
+  42:.\device_depend.c **** 
+  43:.\device_depend.c **** void spi_cs_high(void){
+ 193              		.loc 1 43 0
+ 194              		.cfi_startproc
+ 195 0000 08B5     		push	{r3, lr}
+ 196              	.LCFI6:
+ 197              		.cfi_def_cfa_offset 8
+ 198              		.cfi_offset 3, -8
+ 199              		.cfi_offset 14, -4
+  44:.\device_depend.c **** 	SPI_CS_Write(1);
+ 200              		.loc 1 44 0
+ 201 0002 0120     		mov	r0, #1
+ 202 0004 FFF7FEFF 		bl	SPI_CS_Write
+ 203              	.LVL11:
+  45:.\device_depend.c **** }
+ 204              		.loc 1 45 0
+ 205              		@ sp needed for prologue
+ 206 0008 08BD     		pop	{r3, pc}
+ 207              		.cfi_endproc
+ 208              	.LFE39:
+ 209              		.size	spi_cs_high, .-spi_cs_high
+ 210              		.section	.text.wait_delay_ms,"ax",%progbits
+ 211              		.align	1
+ 212              		.global	wait_delay_ms
+ 213              		.code	16
+ 214              		.thumb_func
+ 215              		.type	wait_delay_ms, %function
+ 216              	wait_delay_ms:
+ 217              	.LFB40:
+  46:.\device_depend.c **** 
+  47:.\device_depend.c **** void wait_delay_ms(int time){
+ 218              		.loc 1 47 0
+ 219              		.cfi_startproc
+ 220              	.LVL12:
+ 221 0000 08B5     		push	{r3, lr}
+ 222              	.LCFI7:
+ 223              		.cfi_def_cfa_offset 8
+ 224              		.cfi_offset 3, -8
+ 225              		.cfi_offset 14, -4
+  48:.\device_depend.c **** 	CyDelay(time);
+ 226              		.loc 1 48 0
+ 227 0002 FFF7FEFF 		bl	CyDelay
+ 228              	.LVL13:
+  49:.\device_depend.c **** }
+ 229              		.loc 1 49 0
+ 230              		@ sp needed for prologue
+ 231 0006 08BD     		pop	{r3, pc}
+ 232              		.cfi_endproc
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 6
+
+
+ 233              	.LFE40:
+ 234              		.size	wait_delay_ms, .-wait_delay_ms
+ 235              		.text
+ 236              	.Letext0:
+ 237              		.file 2 "./Generated_Source/PSoC4/Cytypes.h"
+ 238              		.file 3 "./Generated_Source/PSoC4/UART_1.h"
+ 239              		.file 4 "./Generated_Source/PSoC4/SPI_CS.h"
+ 240              		.file 5 "./Generated_Source/PSoC4/UART_1_SPI_UART.h"
+ 241              		.file 6 "./Generated_Source/PSoC4/SPI.h"
+ 242              		.file 7 "./Generated_Source/PSoC4/SPI_SPI_UART.h"
+ 243              		.file 8 "./Generated_Source/PSoC4/CyLib.h"
+ 244              		.section	.debug_info,"",%progbits
+ 245              	.Ldebug_info0:
+ 246 0000 E1020000 		.4byte	0x2e1
+ 247 0004 0200     		.2byte	0x2
+ 248 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 249 000a 04       		.byte	0x4
+ 250 000b 01       		.uleb128 0x1
+ 251 000c D5010000 		.4byte	.LASF32
+ 252 0010 01       		.byte	0x1
+ 253 0011 A4010000 		.4byte	.LASF33
+ 254 0015 48000000 		.4byte	.LASF34
+ 255 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 256 001d 00000000 		.4byte	0
+ 257 0021 00000000 		.4byte	0
+ 258 0025 00000000 		.4byte	.Ldebug_line0
+ 259 0029 02       		.uleb128 0x2
+ 260 002a 01       		.byte	0x1
+ 261 002b 06       		.byte	0x6
+ 262 002c 3E020000 		.4byte	.LASF0
+ 263 0030 02       		.uleb128 0x2
+ 264 0031 01       		.byte	0x1
+ 265 0032 08       		.byte	0x8
+ 266 0033 C8000000 		.4byte	.LASF1
+ 267 0037 02       		.uleb128 0x2
+ 268 0038 02       		.byte	0x2
+ 269 0039 05       		.byte	0x5
+ 270 003a CB010000 		.4byte	.LASF2
+ 271 003e 02       		.uleb128 0x2
+ 272 003f 02       		.byte	0x2
+ 273 0040 07       		.byte	0x7
+ 274 0041 35000000 		.4byte	.LASF3
+ 275 0045 02       		.uleb128 0x2
+ 276 0046 04       		.byte	0x4
+ 277 0047 05       		.byte	0x5
+ 278 0048 35020000 		.4byte	.LASF4
+ 279 004c 02       		.uleb128 0x2
+ 280 004d 04       		.byte	0x4
+ 281 004e 07       		.byte	0x7
+ 282 004f 3E010000 		.4byte	.LASF5
+ 283 0053 02       		.uleb128 0x2
+ 284 0054 08       		.byte	0x8
+ 285 0055 05       		.byte	0x5
+ 286 0056 96010000 		.4byte	.LASF6
+ 287 005a 02       		.uleb128 0x2
+ 288 005b 08       		.byte	0x8
+ 289 005c 07       		.byte	0x7
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 7
+
+
+ 290 005d 5D010000 		.4byte	.LASF7
+ 291 0061 03       		.uleb128 0x3
+ 292 0062 04       		.byte	0x4
+ 293 0063 05       		.byte	0x5
+ 294 0064 696E7400 		.ascii	"int\000"
+ 295 0068 02       		.uleb128 0x2
+ 296 0069 04       		.byte	0x4
+ 297 006a 07       		.byte	0x7
+ 298 006b 50010000 		.4byte	.LASF8
+ 299 006f 04       		.uleb128 0x4
+ 300 0070 FC000000 		.4byte	.LASF9
+ 301 0074 02       		.byte	0x2
+ 302 0075 5B       		.byte	0x5b
+ 303 0076 30000000 		.4byte	0x30
+ 304 007a 04       		.uleb128 0x4
+ 305 007b 37010000 		.4byte	.LASF10
+ 306 007f 02       		.byte	0x2
+ 307 0080 5D       		.byte	0x5d
+ 308 0081 4C000000 		.4byte	0x4c
+ 309 0085 02       		.uleb128 0x2
+ 310 0086 04       		.byte	0x4
+ 311 0087 04       		.byte	0x4
+ 312 0088 1A000000 		.4byte	.LASF11
+ 313 008c 02       		.uleb128 0x2
+ 314 008d 08       		.byte	0x8
+ 315 008e 04       		.byte	0x4
+ 316 008f 02010000 		.4byte	.LASF12
+ 317 0093 04       		.uleb128 0x4
+ 318 0094 82010000 		.4byte	.LASF13
+ 319 0098 02       		.byte	0x2
+ 320 0099 6C       		.byte	0x6c
+ 321 009a 9E000000 		.4byte	0x9e
+ 322 009e 02       		.uleb128 0x2
+ 323 009f 01       		.byte	0x1
+ 324 00a0 08       		.byte	0x8
+ 325 00a1 B6010000 		.4byte	.LASF14
+ 326 00a5 02       		.uleb128 0x2
+ 327 00a6 04       		.byte	0x4
+ 328 00a7 07       		.byte	0x7
+ 329 00a8 79010000 		.4byte	.LASF15
+ 330 00ac 05       		.uleb128 0x5
+ 331 00ad 04       		.byte	0x4
+ 332 00ae 9E000000 		.4byte	0x9e
+ 333 00b2 06       		.uleb128 0x6
+ 334 00b3 01       		.byte	0x1
+ 335 00b4 AE000000 		.4byte	.LASF24
+ 336 00b8 01       		.byte	0x1
+ 337 00b9 14       		.byte	0x14
+ 338 00ba 01       		.byte	0x1
+ 339 00bb 01       		.byte	0x1
+ 340 00bc 07       		.uleb128 0x7
+ 341 00bd 01       		.byte	0x1
+ 342 00be 88010000 		.4byte	.LASF16
+ 343 00c2 01       		.byte	0x1
+ 344 00c3 0F       		.byte	0xf
+ 345 00c4 01       		.byte	0x1
+ 346 00c5 00000000 		.4byte	.LFB33
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 8
+
+
+ 347 00c9 0E000000 		.4byte	.LFE33
+ 348 00cd 00000000 		.4byte	.LLST0
+ 349 00d1 01       		.byte	0x1
+ 350 00d2 03010000 		.4byte	0x103
+ 351 00d6 08       		.uleb128 0x8
+ 352 00d7 B2000000 		.4byte	0xb2
+ 353 00db 02000000 		.4byte	.LBB4
+ 354 00df 06000000 		.4byte	.LBE4
+ 355 00e3 01       		.byte	0x1
+ 356 00e4 10       		.byte	0x10
+ 357 00e5 F3000000 		.4byte	0xf3
+ 358 00e9 09       		.uleb128 0x9
+ 359 00ea 06000000 		.4byte	.LVL0
+ 360 00ee 59020000 		.4byte	0x259
+ 361 00f2 00       		.byte	0
+ 362 00f3 0A       		.uleb128 0xa
+ 363 00f4 0C000000 		.4byte	.LVL1
+ 364 00f8 63020000 		.4byte	0x263
+ 365 00fc 0B       		.uleb128 0xb
+ 366 00fd 01       		.byte	0x1
+ 367 00fe 50       		.byte	0x50
+ 368 00ff 01       		.byte	0x1
+ 369 0100 31       		.byte	0x31
+ 370 0101 00       		.byte	0
+ 371 0102 00       		.byte	0
+ 372 0103 0C       		.uleb128 0xc
+ 373 0104 B2000000 		.4byte	0xb2
+ 374 0108 00000000 		.4byte	.LFB34
+ 375 010c 08000000 		.4byte	.LFE34
+ 376 0110 20000000 		.4byte	.LLST1
+ 377 0114 01       		.byte	0x1
+ 378 0115 23010000 		.4byte	0x123
+ 379 0119 09       		.uleb128 0x9
+ 380 011a 06000000 		.4byte	.LVL2
+ 381 011e 59020000 		.4byte	0x259
+ 382 0122 00       		.byte	0
+ 383 0123 07       		.uleb128 0x7
+ 384 0124 01       		.byte	0x1
+ 385 0125 F1000000 		.4byte	.LASF17
+ 386 0129 01       		.byte	0x1
+ 387 012a 18       		.byte	0x18
+ 388 012b 01       		.byte	0x1
+ 389 012c 00000000 		.4byte	.LFB35
+ 390 0130 08000000 		.4byte	.LFE35
+ 391 0134 40000000 		.4byte	.LLST2
+ 392 0138 01       		.byte	0x1
+ 393 0139 5D010000 		.4byte	0x15d
+ 394 013d 0D       		.uleb128 0xd
+ 395 013e 737300   		.ascii	"ss\000"
+ 396 0141 01       		.byte	0x1
+ 397 0142 18       		.byte	0x18
+ 398 0143 AC000000 		.4byte	0xac
+ 399 0147 60000000 		.4byte	.LLST3
+ 400 014b 0A       		.uleb128 0xa
+ 401 014c 06000000 		.4byte	.LVL4
+ 402 0150 77020000 		.4byte	0x277
+ 403 0154 0B       		.uleb128 0xb
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 9
+
+
+ 404 0155 01       		.byte	0x1
+ 405 0156 50       		.byte	0x50
+ 406 0157 03       		.byte	0x3
+ 407 0158 F3       		.byte	0xf3
+ 408 0159 01       		.uleb128 0x1
+ 409 015a 50       		.byte	0x50
+ 410 015b 00       		.byte	0
+ 411 015c 00       		.byte	0
+ 412 015d 07       		.uleb128 0x7
+ 413 015e 01       		.byte	0x1
+ 414 015f BB010000 		.4byte	.LASF18
+ 415 0163 01       		.byte	0x1
+ 416 0164 1C       		.byte	0x1c
+ 417 0165 01       		.byte	0x1
+ 418 0166 00000000 		.4byte	.LFB36
+ 419 016a 08000000 		.4byte	.LFE36
+ 420 016e 81000000 		.4byte	.LLST4
+ 421 0172 01       		.byte	0x1
+ 422 0173 81010000 		.4byte	0x181
+ 423 0177 09       		.uleb128 0x9
+ 424 0178 06000000 		.4byte	.LVL5
+ 425 017c 97020000 		.4byte	0x297
+ 426 0180 00       		.byte	0
+ 427 0181 0E       		.uleb128 0xe
+ 428 0182 01       		.byte	0x1
+ 429 0183 B8000000 		.4byte	.LASF35
+ 430 0187 01       		.byte	0x1
+ 431 0188 20       		.byte	0x20
+ 432 0189 01       		.byte	0x1
+ 433 018a 9E000000 		.4byte	0x9e
+ 434 018e 00000000 		.4byte	.LFB37
+ 435 0192 16000000 		.4byte	.LFE37
+ 436 0196 A1000000 		.4byte	.LLST5
+ 437 019a 01       		.byte	0x1
+ 438 019b CA010000 		.4byte	0x1ca
+ 439 019f 0F       		.uleb128 0xf
+ 440 01a0 09010000 		.4byte	.LASF19
+ 441 01a4 01       		.byte	0x1
+ 442 01a5 20       		.byte	0x20
+ 443 01a6 9E000000 		.4byte	0x9e
+ 444 01aa C1000000 		.4byte	.LLST6
+ 445 01ae 09       		.uleb128 0x9
+ 446 01af 06000000 		.4byte	.LVL7
+ 447 01b3 A1020000 		.4byte	0x2a1
+ 448 01b7 09       		.uleb128 0x9
+ 449 01b8 0A000000 		.4byte	.LVL8
+ 450 01bc B6020000 		.4byte	0x2b6
+ 451 01c0 09       		.uleb128 0x9
+ 452 01c1 12000000 		.4byte	.LVL9
+ 453 01c5 C5020000 		.4byte	0x2c5
+ 454 01c9 00       		.byte	0
+ 455 01ca 07       		.uleb128 0x7
+ 456 01cb 01       		.byte	0x1
+ 457 01cc 1E020000 		.4byte	.LASF20
+ 458 01d0 01       		.byte	0x1
+ 459 01d1 27       		.byte	0x27
+ 460 01d2 01       		.byte	0x1
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 10
+
+
+ 461 01d3 00000000 		.4byte	.LFB38
+ 462 01d7 0A000000 		.4byte	.LFE38
+ 463 01db E2000000 		.4byte	.LLST7
+ 464 01df 01       		.byte	0x1
+ 465 01e0 F4010000 		.4byte	0x1f4
+ 466 01e4 0A       		.uleb128 0xa
+ 467 01e5 08000000 		.4byte	.LVL10
+ 468 01e9 63020000 		.4byte	0x263
+ 469 01ed 0B       		.uleb128 0xb
+ 470 01ee 01       		.byte	0x1
+ 471 01ef 50       		.byte	0x50
+ 472 01f0 01       		.byte	0x1
+ 473 01f1 30       		.byte	0x30
+ 474 01f2 00       		.byte	0
+ 475 01f3 00       		.byte	0
+ 476 01f4 07       		.uleb128 0x7
+ 477 01f5 01       		.byte	0x1
+ 478 01f6 29020000 		.4byte	.LASF21
+ 479 01fa 01       		.byte	0x1
+ 480 01fb 2B       		.byte	0x2b
+ 481 01fc 01       		.byte	0x1
+ 482 01fd 00000000 		.4byte	.LFB39
+ 483 0201 0A000000 		.4byte	.LFE39
+ 484 0205 02010000 		.4byte	.LLST8
+ 485 0209 01       		.byte	0x1
+ 486 020a 1E020000 		.4byte	0x21e
+ 487 020e 0A       		.uleb128 0xa
+ 488 020f 08000000 		.4byte	.LVL11
+ 489 0213 63020000 		.4byte	0x263
+ 490 0217 0B       		.uleb128 0xb
+ 491 0218 01       		.byte	0x1
+ 492 0219 50       		.byte	0x50
+ 493 021a 01       		.byte	0x1
+ 494 021b 31       		.byte	0x31
+ 495 021c 00       		.byte	0
+ 496 021d 00       		.byte	0
+ 497 021e 07       		.uleb128 0x7
+ 498 021f 01       		.byte	0x1
+ 499 0220 13010000 		.4byte	.LASF22
+ 500 0224 01       		.byte	0x1
+ 501 0225 2F       		.byte	0x2f
+ 502 0226 01       		.byte	0x1
+ 503 0227 00000000 		.4byte	.LFB40
+ 504 022b 08000000 		.4byte	.LFE40
+ 505 022f 22010000 		.4byte	.LLST9
+ 506 0233 01       		.byte	0x1
+ 507 0234 59020000 		.4byte	0x259
+ 508 0238 0F       		.uleb128 0xf
+ 509 0239 74010000 		.4byte	.LASF23
+ 510 023d 01       		.byte	0x1
+ 511 023e 2F       		.byte	0x2f
+ 512 023f 61000000 		.4byte	0x61
+ 513 0243 42010000 		.4byte	.LLST10
+ 514 0247 0A       		.uleb128 0xa
+ 515 0248 06000000 		.4byte	.LVL13
+ 516 024c D4020000 		.4byte	0x2d4
+ 517 0250 0B       		.uleb128 0xb
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 11
+
+
+ 518 0251 01       		.byte	0x1
+ 519 0252 50       		.byte	0x50
+ 520 0253 03       		.byte	0x3
+ 521 0254 F3       		.byte	0xf3
+ 522 0255 01       		.uleb128 0x1
+ 523 0256 50       		.byte	0x50
+ 524 0257 00       		.byte	0
+ 525 0258 00       		.byte	0
+ 526 0259 10       		.uleb128 0x10
+ 527 025a 01       		.byte	0x1
+ 528 025b 00000000 		.4byte	.LASF25
+ 529 025f 03       		.byte	0x3
+ 530 0260 6C       		.byte	0x6c
+ 531 0261 01       		.byte	0x1
+ 532 0262 01       		.byte	0x1
+ 533 0263 11       		.uleb128 0x11
+ 534 0264 01       		.byte	0x1
+ 535 0265 0D000000 		.4byte	.LASF26
+ 536 0269 04       		.byte	0x4
+ 537 026a 1D       		.byte	0x1d
+ 538 026b 01       		.byte	0x1
+ 539 026c 01       		.byte	0x1
+ 540 026d 77020000 		.4byte	0x277
+ 541 0271 12       		.uleb128 0x12
+ 542 0272 6F000000 		.4byte	0x6f
+ 543 0276 00       		.byte	0
+ 544 0277 13       		.uleb128 0x13
+ 545 0278 01       		.byte	0x1
+ 546 0279 20000000 		.4byte	.LASF27
+ 547 027d 05       		.byte	0x5
+ 548 027e 2E01     		.2byte	0x12e
+ 549 0280 01       		.byte	0x1
+ 550 0281 01       		.byte	0x1
+ 551 0282 8C020000 		.4byte	0x28c
+ 552 0286 12       		.uleb128 0x12
+ 553 0287 8C020000 		.4byte	0x28c
+ 554 028b 00       		.byte	0
+ 555 028c 05       		.uleb128 0x5
+ 556 028d 04       		.byte	0x4
+ 557 028e 92020000 		.4byte	0x292
+ 558 0292 14       		.uleb128 0x14
+ 559 0293 93000000 		.4byte	0x93
+ 560 0297 10       		.uleb128 0x10
+ 561 0298 01       		.byte	0x1
+ 562 0299 4A020000 		.4byte	.LASF28
+ 563 029d 06       		.byte	0x6
+ 564 029e 6C       		.byte	0x6c
+ 565 029f 01       		.byte	0x1
+ 566 02a0 01       		.byte	0x1
+ 567 02a1 13       		.uleb128 0x13
+ 568 02a2 01       		.byte	0x1
+ 569 02a3 97000000 		.4byte	.LASF29
+ 570 02a7 07       		.byte	0x7
+ 571 02a8 3B01     		.2byte	0x13b
+ 572 02aa 01       		.byte	0x1
+ 573 02ab 01       		.byte	0x1
+ 574 02ac B6020000 		.4byte	0x2b6
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 12
+
+
+ 575 02b0 12       		.uleb128 0x12
+ 576 02b1 7A000000 		.4byte	0x7a
+ 577 02b5 00       		.byte	0
+ 578 02b6 15       		.uleb128 0x15
+ 579 02b7 01       		.byte	0x1
+ 580 02b8 D6000000 		.4byte	.LASF30
+ 581 02bc 07       		.byte	0x7
+ 582 02bd 3501     		.2byte	0x135
+ 583 02bf 01       		.byte	0x1
+ 584 02c0 7A000000 		.4byte	0x7a
+ 585 02c4 01       		.byte	0x1
+ 586 02c5 15       		.uleb128 0x15
+ 587 02c6 01       		.byte	0x1
+ 588 02c7 21010000 		.4byte	.LASF31
+ 589 02cb 07       		.byte	0x7
+ 590 02cc 3401     		.2byte	0x134
+ 591 02ce 01       		.byte	0x1
+ 592 02cf 7A000000 		.4byte	0x7a
+ 593 02d3 01       		.byte	0x1
+ 594 02d4 16       		.uleb128 0x16
+ 595 02d5 01       		.byte	0x1
+ 596 02d6 54020000 		.4byte	.LASF36
+ 597 02da 08       		.byte	0x8
+ 598 02db 69       		.byte	0x69
+ 599 02dc 01       		.byte	0x1
+ 600 02dd 01       		.byte	0x1
+ 601 02de 12       		.uleb128 0x12
+ 602 02df 7A000000 		.4byte	0x7a
+ 603 02e3 00       		.byte	0
+ 604 02e4 00       		.byte	0
+ 605              		.section	.debug_abbrev,"",%progbits
+ 606              	.Ldebug_abbrev0:
+ 607 0000 01       		.uleb128 0x1
+ 608 0001 11       		.uleb128 0x11
+ 609 0002 01       		.byte	0x1
+ 610 0003 25       		.uleb128 0x25
+ 611 0004 0E       		.uleb128 0xe
+ 612 0005 13       		.uleb128 0x13
+ 613 0006 0B       		.uleb128 0xb
+ 614 0007 03       		.uleb128 0x3
+ 615 0008 0E       		.uleb128 0xe
+ 616 0009 1B       		.uleb128 0x1b
+ 617 000a 0E       		.uleb128 0xe
+ 618 000b 55       		.uleb128 0x55
+ 619 000c 06       		.uleb128 0x6
+ 620 000d 11       		.uleb128 0x11
+ 621 000e 01       		.uleb128 0x1
+ 622 000f 52       		.uleb128 0x52
+ 623 0010 01       		.uleb128 0x1
+ 624 0011 10       		.uleb128 0x10
+ 625 0012 06       		.uleb128 0x6
+ 626 0013 00       		.byte	0
+ 627 0014 00       		.byte	0
+ 628 0015 02       		.uleb128 0x2
+ 629 0016 24       		.uleb128 0x24
+ 630 0017 00       		.byte	0
+ 631 0018 0B       		.uleb128 0xb
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 13
+
+
+ 632 0019 0B       		.uleb128 0xb
+ 633 001a 3E       		.uleb128 0x3e
+ 634 001b 0B       		.uleb128 0xb
+ 635 001c 03       		.uleb128 0x3
+ 636 001d 0E       		.uleb128 0xe
+ 637 001e 00       		.byte	0
+ 638 001f 00       		.byte	0
+ 639 0020 03       		.uleb128 0x3
+ 640 0021 24       		.uleb128 0x24
+ 641 0022 00       		.byte	0
+ 642 0023 0B       		.uleb128 0xb
+ 643 0024 0B       		.uleb128 0xb
+ 644 0025 3E       		.uleb128 0x3e
+ 645 0026 0B       		.uleb128 0xb
+ 646 0027 03       		.uleb128 0x3
+ 647 0028 08       		.uleb128 0x8
+ 648 0029 00       		.byte	0
+ 649 002a 00       		.byte	0
+ 650 002b 04       		.uleb128 0x4
+ 651 002c 16       		.uleb128 0x16
+ 652 002d 00       		.byte	0
+ 653 002e 03       		.uleb128 0x3
+ 654 002f 0E       		.uleb128 0xe
+ 655 0030 3A       		.uleb128 0x3a
+ 656 0031 0B       		.uleb128 0xb
+ 657 0032 3B       		.uleb128 0x3b
+ 658 0033 0B       		.uleb128 0xb
+ 659 0034 49       		.uleb128 0x49
+ 660 0035 13       		.uleb128 0x13
+ 661 0036 00       		.byte	0
+ 662 0037 00       		.byte	0
+ 663 0038 05       		.uleb128 0x5
+ 664 0039 0F       		.uleb128 0xf
+ 665 003a 00       		.byte	0
+ 666 003b 0B       		.uleb128 0xb
+ 667 003c 0B       		.uleb128 0xb
+ 668 003d 49       		.uleb128 0x49
+ 669 003e 13       		.uleb128 0x13
+ 670 003f 00       		.byte	0
+ 671 0040 00       		.byte	0
+ 672 0041 06       		.uleb128 0x6
+ 673 0042 2E       		.uleb128 0x2e
+ 674 0043 00       		.byte	0
+ 675 0044 3F       		.uleb128 0x3f
+ 676 0045 0C       		.uleb128 0xc
+ 677 0046 03       		.uleb128 0x3
+ 678 0047 0E       		.uleb128 0xe
+ 679 0048 3A       		.uleb128 0x3a
+ 680 0049 0B       		.uleb128 0xb
+ 681 004a 3B       		.uleb128 0x3b
+ 682 004b 0B       		.uleb128 0xb
+ 683 004c 27       		.uleb128 0x27
+ 684 004d 0C       		.uleb128 0xc
+ 685 004e 20       		.uleb128 0x20
+ 686 004f 0B       		.uleb128 0xb
+ 687 0050 00       		.byte	0
+ 688 0051 00       		.byte	0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 14
+
+
+ 689 0052 07       		.uleb128 0x7
+ 690 0053 2E       		.uleb128 0x2e
+ 691 0054 01       		.byte	0x1
+ 692 0055 3F       		.uleb128 0x3f
+ 693 0056 0C       		.uleb128 0xc
+ 694 0057 03       		.uleb128 0x3
+ 695 0058 0E       		.uleb128 0xe
+ 696 0059 3A       		.uleb128 0x3a
+ 697 005a 0B       		.uleb128 0xb
+ 698 005b 3B       		.uleb128 0x3b
+ 699 005c 0B       		.uleb128 0xb
+ 700 005d 27       		.uleb128 0x27
+ 701 005e 0C       		.uleb128 0xc
+ 702 005f 11       		.uleb128 0x11
+ 703 0060 01       		.uleb128 0x1
+ 704 0061 12       		.uleb128 0x12
+ 705 0062 01       		.uleb128 0x1
+ 706 0063 40       		.uleb128 0x40
+ 707 0064 06       		.uleb128 0x6
+ 708 0065 9742     		.uleb128 0x2117
+ 709 0067 0C       		.uleb128 0xc
+ 710 0068 01       		.uleb128 0x1
+ 711 0069 13       		.uleb128 0x13
+ 712 006a 00       		.byte	0
+ 713 006b 00       		.byte	0
+ 714 006c 08       		.uleb128 0x8
+ 715 006d 1D       		.uleb128 0x1d
+ 716 006e 01       		.byte	0x1
+ 717 006f 31       		.uleb128 0x31
+ 718 0070 13       		.uleb128 0x13
+ 719 0071 11       		.uleb128 0x11
+ 720 0072 01       		.uleb128 0x1
+ 721 0073 12       		.uleb128 0x12
+ 722 0074 01       		.uleb128 0x1
+ 723 0075 58       		.uleb128 0x58
+ 724 0076 0B       		.uleb128 0xb
+ 725 0077 59       		.uleb128 0x59
+ 726 0078 0B       		.uleb128 0xb
+ 727 0079 01       		.uleb128 0x1
+ 728 007a 13       		.uleb128 0x13
+ 729 007b 00       		.byte	0
+ 730 007c 00       		.byte	0
+ 731 007d 09       		.uleb128 0x9
+ 732 007e 898201   		.uleb128 0x4109
+ 733 0081 00       		.byte	0
+ 734 0082 11       		.uleb128 0x11
+ 735 0083 01       		.uleb128 0x1
+ 736 0084 31       		.uleb128 0x31
+ 737 0085 13       		.uleb128 0x13
+ 738 0086 00       		.byte	0
+ 739 0087 00       		.byte	0
+ 740 0088 0A       		.uleb128 0xa
+ 741 0089 898201   		.uleb128 0x4109
+ 742 008c 01       		.byte	0x1
+ 743 008d 11       		.uleb128 0x11
+ 744 008e 01       		.uleb128 0x1
+ 745 008f 31       		.uleb128 0x31
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 15
+
+
+ 746 0090 13       		.uleb128 0x13
+ 747 0091 00       		.byte	0
+ 748 0092 00       		.byte	0
+ 749 0093 0B       		.uleb128 0xb
+ 750 0094 8A8201   		.uleb128 0x410a
+ 751 0097 00       		.byte	0
+ 752 0098 02       		.uleb128 0x2
+ 753 0099 0A       		.uleb128 0xa
+ 754 009a 9142     		.uleb128 0x2111
+ 755 009c 0A       		.uleb128 0xa
+ 756 009d 00       		.byte	0
+ 757 009e 00       		.byte	0
+ 758 009f 0C       		.uleb128 0xc
+ 759 00a0 2E       		.uleb128 0x2e
+ 760 00a1 01       		.byte	0x1
+ 761 00a2 31       		.uleb128 0x31
+ 762 00a3 13       		.uleb128 0x13
+ 763 00a4 11       		.uleb128 0x11
+ 764 00a5 01       		.uleb128 0x1
+ 765 00a6 12       		.uleb128 0x12
+ 766 00a7 01       		.uleb128 0x1
+ 767 00a8 40       		.uleb128 0x40
+ 768 00a9 06       		.uleb128 0x6
+ 769 00aa 9742     		.uleb128 0x2117
+ 770 00ac 0C       		.uleb128 0xc
+ 771 00ad 01       		.uleb128 0x1
+ 772 00ae 13       		.uleb128 0x13
+ 773 00af 00       		.byte	0
+ 774 00b0 00       		.byte	0
+ 775 00b1 0D       		.uleb128 0xd
+ 776 00b2 05       		.uleb128 0x5
+ 777 00b3 00       		.byte	0
+ 778 00b4 03       		.uleb128 0x3
+ 779 00b5 08       		.uleb128 0x8
+ 780 00b6 3A       		.uleb128 0x3a
+ 781 00b7 0B       		.uleb128 0xb
+ 782 00b8 3B       		.uleb128 0x3b
+ 783 00b9 0B       		.uleb128 0xb
+ 784 00ba 49       		.uleb128 0x49
+ 785 00bb 13       		.uleb128 0x13
+ 786 00bc 02       		.uleb128 0x2
+ 787 00bd 06       		.uleb128 0x6
+ 788 00be 00       		.byte	0
+ 789 00bf 00       		.byte	0
+ 790 00c0 0E       		.uleb128 0xe
+ 791 00c1 2E       		.uleb128 0x2e
+ 792 00c2 01       		.byte	0x1
+ 793 00c3 3F       		.uleb128 0x3f
+ 794 00c4 0C       		.uleb128 0xc
+ 795 00c5 03       		.uleb128 0x3
+ 796 00c6 0E       		.uleb128 0xe
+ 797 00c7 3A       		.uleb128 0x3a
+ 798 00c8 0B       		.uleb128 0xb
+ 799 00c9 3B       		.uleb128 0x3b
+ 800 00ca 0B       		.uleb128 0xb
+ 801 00cb 27       		.uleb128 0x27
+ 802 00cc 0C       		.uleb128 0xc
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 16
+
+
+ 803 00cd 49       		.uleb128 0x49
+ 804 00ce 13       		.uleb128 0x13
+ 805 00cf 11       		.uleb128 0x11
+ 806 00d0 01       		.uleb128 0x1
+ 807 00d1 12       		.uleb128 0x12
+ 808 00d2 01       		.uleb128 0x1
+ 809 00d3 40       		.uleb128 0x40
+ 810 00d4 06       		.uleb128 0x6
+ 811 00d5 9742     		.uleb128 0x2117
+ 812 00d7 0C       		.uleb128 0xc
+ 813 00d8 01       		.uleb128 0x1
+ 814 00d9 13       		.uleb128 0x13
+ 815 00da 00       		.byte	0
+ 816 00db 00       		.byte	0
+ 817 00dc 0F       		.uleb128 0xf
+ 818 00dd 05       		.uleb128 0x5
+ 819 00de 00       		.byte	0
+ 820 00df 03       		.uleb128 0x3
+ 821 00e0 0E       		.uleb128 0xe
+ 822 00e1 3A       		.uleb128 0x3a
+ 823 00e2 0B       		.uleb128 0xb
+ 824 00e3 3B       		.uleb128 0x3b
+ 825 00e4 0B       		.uleb128 0xb
+ 826 00e5 49       		.uleb128 0x49
+ 827 00e6 13       		.uleb128 0x13
+ 828 00e7 02       		.uleb128 0x2
+ 829 00e8 06       		.uleb128 0x6
+ 830 00e9 00       		.byte	0
+ 831 00ea 00       		.byte	0
+ 832 00eb 10       		.uleb128 0x10
+ 833 00ec 2E       		.uleb128 0x2e
+ 834 00ed 00       		.byte	0
+ 835 00ee 3F       		.uleb128 0x3f
+ 836 00ef 0C       		.uleb128 0xc
+ 837 00f0 03       		.uleb128 0x3
+ 838 00f1 0E       		.uleb128 0xe
+ 839 00f2 3A       		.uleb128 0x3a
+ 840 00f3 0B       		.uleb128 0xb
+ 841 00f4 3B       		.uleb128 0x3b
+ 842 00f5 0B       		.uleb128 0xb
+ 843 00f6 27       		.uleb128 0x27
+ 844 00f7 0C       		.uleb128 0xc
+ 845 00f8 3C       		.uleb128 0x3c
+ 846 00f9 0C       		.uleb128 0xc
+ 847 00fa 00       		.byte	0
+ 848 00fb 00       		.byte	0
+ 849 00fc 11       		.uleb128 0x11
+ 850 00fd 2E       		.uleb128 0x2e
+ 851 00fe 01       		.byte	0x1
+ 852 00ff 3F       		.uleb128 0x3f
+ 853 0100 0C       		.uleb128 0xc
+ 854 0101 03       		.uleb128 0x3
+ 855 0102 0E       		.uleb128 0xe
+ 856 0103 3A       		.uleb128 0x3a
+ 857 0104 0B       		.uleb128 0xb
+ 858 0105 3B       		.uleb128 0x3b
+ 859 0106 0B       		.uleb128 0xb
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 17
+
+
+ 860 0107 27       		.uleb128 0x27
+ 861 0108 0C       		.uleb128 0xc
+ 862 0109 3C       		.uleb128 0x3c
+ 863 010a 0C       		.uleb128 0xc
+ 864 010b 01       		.uleb128 0x1
+ 865 010c 13       		.uleb128 0x13
+ 866 010d 00       		.byte	0
+ 867 010e 00       		.byte	0
+ 868 010f 12       		.uleb128 0x12
+ 869 0110 05       		.uleb128 0x5
+ 870 0111 00       		.byte	0
+ 871 0112 49       		.uleb128 0x49
+ 872 0113 13       		.uleb128 0x13
+ 873 0114 00       		.byte	0
+ 874 0115 00       		.byte	0
+ 875 0116 13       		.uleb128 0x13
+ 876 0117 2E       		.uleb128 0x2e
+ 877 0118 01       		.byte	0x1
+ 878 0119 3F       		.uleb128 0x3f
+ 879 011a 0C       		.uleb128 0xc
+ 880 011b 03       		.uleb128 0x3
+ 881 011c 0E       		.uleb128 0xe
+ 882 011d 3A       		.uleb128 0x3a
+ 883 011e 0B       		.uleb128 0xb
+ 884 011f 3B       		.uleb128 0x3b
+ 885 0120 05       		.uleb128 0x5
+ 886 0121 27       		.uleb128 0x27
+ 887 0122 0C       		.uleb128 0xc
+ 888 0123 3C       		.uleb128 0x3c
+ 889 0124 0C       		.uleb128 0xc
+ 890 0125 01       		.uleb128 0x1
+ 891 0126 13       		.uleb128 0x13
+ 892 0127 00       		.byte	0
+ 893 0128 00       		.byte	0
+ 894 0129 14       		.uleb128 0x14
+ 895 012a 26       		.uleb128 0x26
+ 896 012b 00       		.byte	0
+ 897 012c 49       		.uleb128 0x49
+ 898 012d 13       		.uleb128 0x13
+ 899 012e 00       		.byte	0
+ 900 012f 00       		.byte	0
+ 901 0130 15       		.uleb128 0x15
+ 902 0131 2E       		.uleb128 0x2e
+ 903 0132 00       		.byte	0
+ 904 0133 3F       		.uleb128 0x3f
+ 905 0134 0C       		.uleb128 0xc
+ 906 0135 03       		.uleb128 0x3
+ 907 0136 0E       		.uleb128 0xe
+ 908 0137 3A       		.uleb128 0x3a
+ 909 0138 0B       		.uleb128 0xb
+ 910 0139 3B       		.uleb128 0x3b
+ 911 013a 05       		.uleb128 0x5
+ 912 013b 27       		.uleb128 0x27
+ 913 013c 0C       		.uleb128 0xc
+ 914 013d 49       		.uleb128 0x49
+ 915 013e 13       		.uleb128 0x13
+ 916 013f 3C       		.uleb128 0x3c
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 18
+
+
+ 917 0140 0C       		.uleb128 0xc
+ 918 0141 00       		.byte	0
+ 919 0142 00       		.byte	0
+ 920 0143 16       		.uleb128 0x16
+ 921 0144 2E       		.uleb128 0x2e
+ 922 0145 01       		.byte	0x1
+ 923 0146 3F       		.uleb128 0x3f
+ 924 0147 0C       		.uleb128 0xc
+ 925 0148 03       		.uleb128 0x3
+ 926 0149 0E       		.uleb128 0xe
+ 927 014a 3A       		.uleb128 0x3a
+ 928 014b 0B       		.uleb128 0xb
+ 929 014c 3B       		.uleb128 0x3b
+ 930 014d 0B       		.uleb128 0xb
+ 931 014e 27       		.uleb128 0x27
+ 932 014f 0C       		.uleb128 0xc
+ 933 0150 3C       		.uleb128 0x3c
+ 934 0151 0C       		.uleb128 0xc
+ 935 0152 00       		.byte	0
+ 936 0153 00       		.byte	0
+ 937 0154 00       		.byte	0
+ 938              		.section	.debug_loc,"",%progbits
+ 939              	.Ldebug_loc0:
+ 940              	.LLST0:
+ 941 0000 00000000 		.4byte	.LFB33
+ 942 0004 02000000 		.4byte	.LCFI0
+ 943 0008 0200     		.2byte	0x2
+ 944 000a 7D       		.byte	0x7d
+ 945 000b 00       		.sleb128 0
+ 946 000c 02000000 		.4byte	.LCFI0
+ 947 0010 0E000000 		.4byte	.LFE33
+ 948 0014 0200     		.2byte	0x2
+ 949 0016 7D       		.byte	0x7d
+ 950 0017 08       		.sleb128 8
+ 951 0018 00000000 		.4byte	0
+ 952 001c 00000000 		.4byte	0
+ 953              	.LLST1:
+ 954 0020 00000000 		.4byte	.LFB34
+ 955 0024 02000000 		.4byte	.LCFI1
+ 956 0028 0200     		.2byte	0x2
+ 957 002a 7D       		.byte	0x7d
+ 958 002b 00       		.sleb128 0
+ 959 002c 02000000 		.4byte	.LCFI1
+ 960 0030 08000000 		.4byte	.LFE34
+ 961 0034 0200     		.2byte	0x2
+ 962 0036 7D       		.byte	0x7d
+ 963 0037 08       		.sleb128 8
+ 964 0038 00000000 		.4byte	0
+ 965 003c 00000000 		.4byte	0
+ 966              	.LLST2:
+ 967 0040 00000000 		.4byte	.LFB35
+ 968 0044 02000000 		.4byte	.LCFI2
+ 969 0048 0200     		.2byte	0x2
+ 970 004a 7D       		.byte	0x7d
+ 971 004b 00       		.sleb128 0
+ 972 004c 02000000 		.4byte	.LCFI2
+ 973 0050 08000000 		.4byte	.LFE35
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 19
+
+
+ 974 0054 0200     		.2byte	0x2
+ 975 0056 7D       		.byte	0x7d
+ 976 0057 08       		.sleb128 8
+ 977 0058 00000000 		.4byte	0
+ 978 005c 00000000 		.4byte	0
+ 979              	.LLST3:
+ 980 0060 00000000 		.4byte	.LVL3
+ 981 0064 05000000 		.4byte	.LVL4-1
+ 982 0068 0100     		.2byte	0x1
+ 983 006a 50       		.byte	0x50
+ 984 006b 05000000 		.4byte	.LVL4-1
+ 985 006f 08000000 		.4byte	.LFE35
+ 986 0073 0400     		.2byte	0x4
+ 987 0075 F3       		.byte	0xf3
+ 988 0076 01       		.uleb128 0x1
+ 989 0077 50       		.byte	0x50
+ 990 0078 9F       		.byte	0x9f
+ 991 0079 00000000 		.4byte	0
+ 992 007d 00000000 		.4byte	0
+ 993              	.LLST4:
+ 994 0081 00000000 		.4byte	.LFB36
+ 995 0085 02000000 		.4byte	.LCFI3
+ 996 0089 0200     		.2byte	0x2
+ 997 008b 7D       		.byte	0x7d
+ 998 008c 00       		.sleb128 0
+ 999 008d 02000000 		.4byte	.LCFI3
+ 1000 0091 08000000 		.4byte	.LFE36
+ 1001 0095 0200     		.2byte	0x2
+ 1002 0097 7D       		.byte	0x7d
+ 1003 0098 08       		.sleb128 8
+ 1004 0099 00000000 		.4byte	0
+ 1005 009d 00000000 		.4byte	0
+ 1006              	.LLST5:
+ 1007 00a1 00000000 		.4byte	.LFB37
+ 1008 00a5 02000000 		.4byte	.LCFI4
+ 1009 00a9 0200     		.2byte	0x2
+ 1010 00ab 7D       		.byte	0x7d
+ 1011 00ac 00       		.sleb128 0
+ 1012 00ad 02000000 		.4byte	.LCFI4
+ 1013 00b1 16000000 		.4byte	.LFE37
+ 1014 00b5 0200     		.2byte	0x2
+ 1015 00b7 7D       		.byte	0x7d
+ 1016 00b8 08       		.sleb128 8
+ 1017 00b9 00000000 		.4byte	0
+ 1018 00bd 00000000 		.4byte	0
+ 1019              	.LLST6:
+ 1020 00c1 00000000 		.4byte	.LVL6
+ 1021 00c5 05000000 		.4byte	.LVL7-1
+ 1022 00c9 0100     		.2byte	0x1
+ 1023 00cb 50       		.byte	0x50
+ 1024 00cc 05000000 		.4byte	.LVL7-1
+ 1025 00d0 16000000 		.4byte	.LFE37
+ 1026 00d4 0400     		.2byte	0x4
+ 1027 00d6 F3       		.byte	0xf3
+ 1028 00d7 01       		.uleb128 0x1
+ 1029 00d8 50       		.byte	0x50
+ 1030 00d9 9F       		.byte	0x9f
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 20
+
+
+ 1031 00da 00000000 		.4byte	0
+ 1032 00de 00000000 		.4byte	0
+ 1033              	.LLST7:
+ 1034 00e2 00000000 		.4byte	.LFB38
+ 1035 00e6 02000000 		.4byte	.LCFI5
+ 1036 00ea 0200     		.2byte	0x2
+ 1037 00ec 7D       		.byte	0x7d
+ 1038 00ed 00       		.sleb128 0
+ 1039 00ee 02000000 		.4byte	.LCFI5
+ 1040 00f2 0A000000 		.4byte	.LFE38
+ 1041 00f6 0200     		.2byte	0x2
+ 1042 00f8 7D       		.byte	0x7d
+ 1043 00f9 08       		.sleb128 8
+ 1044 00fa 00000000 		.4byte	0
+ 1045 00fe 00000000 		.4byte	0
+ 1046              	.LLST8:
+ 1047 0102 00000000 		.4byte	.LFB39
+ 1048 0106 02000000 		.4byte	.LCFI6
+ 1049 010a 0200     		.2byte	0x2
+ 1050 010c 7D       		.byte	0x7d
+ 1051 010d 00       		.sleb128 0
+ 1052 010e 02000000 		.4byte	.LCFI6
+ 1053 0112 0A000000 		.4byte	.LFE39
+ 1054 0116 0200     		.2byte	0x2
+ 1055 0118 7D       		.byte	0x7d
+ 1056 0119 08       		.sleb128 8
+ 1057 011a 00000000 		.4byte	0
+ 1058 011e 00000000 		.4byte	0
+ 1059              	.LLST9:
+ 1060 0122 00000000 		.4byte	.LFB40
+ 1061 0126 02000000 		.4byte	.LCFI7
+ 1062 012a 0200     		.2byte	0x2
+ 1063 012c 7D       		.byte	0x7d
+ 1064 012d 00       		.sleb128 0
+ 1065 012e 02000000 		.4byte	.LCFI7
+ 1066 0132 08000000 		.4byte	.LFE40
+ 1067 0136 0200     		.2byte	0x2
+ 1068 0138 7D       		.byte	0x7d
+ 1069 0139 08       		.sleb128 8
+ 1070 013a 00000000 		.4byte	0
+ 1071 013e 00000000 		.4byte	0
+ 1072              	.LLST10:
+ 1073 0142 00000000 		.4byte	.LVL12
+ 1074 0146 05000000 		.4byte	.LVL13-1
+ 1075 014a 0100     		.2byte	0x1
+ 1076 014c 50       		.byte	0x50
+ 1077 014d 05000000 		.4byte	.LVL13-1
+ 1078 0151 08000000 		.4byte	.LFE40
+ 1079 0155 0400     		.2byte	0x4
+ 1080 0157 F3       		.byte	0xf3
+ 1081 0158 01       		.uleb128 0x1
+ 1082 0159 50       		.byte	0x50
+ 1083 015a 9F       		.byte	0x9f
+ 1084 015b 00000000 		.4byte	0
+ 1085 015f 00000000 		.4byte	0
+ 1086              		.section	.debug_aranges,"",%progbits
+ 1087 0000 54000000 		.4byte	0x54
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 21
+
+
+ 1088 0004 0200     		.2byte	0x2
+ 1089 0006 00000000 		.4byte	.Ldebug_info0
+ 1090 000a 04       		.byte	0x4
+ 1091 000b 00       		.byte	0
+ 1092 000c 0000     		.2byte	0
+ 1093 000e 0000     		.2byte	0
+ 1094 0010 00000000 		.4byte	.LFB33
+ 1095 0014 0E000000 		.4byte	.LFE33-.LFB33
+ 1096 0018 00000000 		.4byte	.LFB34
+ 1097 001c 08000000 		.4byte	.LFE34-.LFB34
+ 1098 0020 00000000 		.4byte	.LFB35
+ 1099 0024 08000000 		.4byte	.LFE35-.LFB35
+ 1100 0028 00000000 		.4byte	.LFB36
+ 1101 002c 08000000 		.4byte	.LFE36-.LFB36
+ 1102 0030 00000000 		.4byte	.LFB37
+ 1103 0034 16000000 		.4byte	.LFE37-.LFB37
+ 1104 0038 00000000 		.4byte	.LFB38
+ 1105 003c 0A000000 		.4byte	.LFE38-.LFB38
+ 1106 0040 00000000 		.4byte	.LFB39
+ 1107 0044 0A000000 		.4byte	.LFE39-.LFB39
+ 1108 0048 00000000 		.4byte	.LFB40
+ 1109 004c 08000000 		.4byte	.LFE40-.LFB40
+ 1110 0050 00000000 		.4byte	0
+ 1111 0054 00000000 		.4byte	0
+ 1112              		.section	.debug_ranges,"",%progbits
+ 1113              	.Ldebug_ranges0:
+ 1114 0000 00000000 		.4byte	.LFB33
+ 1115 0004 0E000000 		.4byte	.LFE33
+ 1116 0008 00000000 		.4byte	.LFB34
+ 1117 000c 08000000 		.4byte	.LFE34
+ 1118 0010 00000000 		.4byte	.LFB35
+ 1119 0014 08000000 		.4byte	.LFE35
+ 1120 0018 00000000 		.4byte	.LFB36
+ 1121 001c 08000000 		.4byte	.LFE36
+ 1122 0020 00000000 		.4byte	.LFB37
+ 1123 0024 16000000 		.4byte	.LFE37
+ 1124 0028 00000000 		.4byte	.LFB38
+ 1125 002c 0A000000 		.4byte	.LFE38
+ 1126 0030 00000000 		.4byte	.LFB39
+ 1127 0034 0A000000 		.4byte	.LFE39
+ 1128 0038 00000000 		.4byte	.LFB40
+ 1129 003c 08000000 		.4byte	.LFE40
+ 1130 0040 00000000 		.4byte	0
+ 1131 0044 00000000 		.4byte	0
+ 1132              		.section	.debug_line,"",%progbits
+ 1133              	.Ldebug_line0:
+ 1134 0000 38010000 		.section	.debug_str,"MS",%progbits,1
+ 1134      0200A100 
+ 1134      00000201 
+ 1134      FB0E0D00 
+ 1134      01010101 
+ 1135              	.LASF25:
+ 1136 0000 55415254 		.ascii	"UART_1_Start\000"
+ 1136      5F315F53 
+ 1136      74617274 
+ 1136      00
+ 1137              	.LASF26:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 22
+
+
+ 1138 000d 5350495F 		.ascii	"SPI_CS_Write\000"
+ 1138      43535F57 
+ 1138      72697465 
+ 1138      00
+ 1139              	.LASF11:
+ 1140 001a 666C6F61 		.ascii	"float\000"
+ 1140      7400
+ 1141              	.LASF27:
+ 1142 0020 55415254 		.ascii	"UART_1_UartPutString\000"
+ 1142      5F315F55 
+ 1142      61727450 
+ 1142      75745374 
+ 1142      72696E67 
+ 1143              	.LASF3:
+ 1144 0035 73686F72 		.ascii	"short unsigned int\000"
+ 1144      7420756E 
+ 1144      7369676E 
+ 1144      65642069 
+ 1144      6E7400
+ 1145              	.LASF34:
+ 1146 0048 433A5C55 		.ascii	"C:\\Users\\atsu\\Desktop\\W5200_PSoC4_test\\W5200_P"
+ 1146      73657273 
+ 1146      5C617473 
+ 1146      755C4465 
+ 1146      736B746F 
+ 1147 0076 536F4334 		.ascii	"SoC4_test\\W5200_PSoC4_test.cydsn\000"
+ 1147      5F746573 
+ 1147      745C5735 
+ 1147      3230305F 
+ 1147      50536F43 
+ 1148              	.LASF29:
+ 1149 0097 5350495F 		.ascii	"SPI_SpiUartWriteTxData\000"
+ 1149      53706955 
+ 1149      61727457 
+ 1149      72697465 
+ 1149      54784461 
+ 1150              	.LASF24:
+ 1151 00ae 75617274 		.ascii	"uart_init\000"
+ 1151      5F696E69 
+ 1151      7400
+ 1152              	.LASF35:
+ 1153 00b8 7370695F 		.ascii	"spi_master_send\000"
+ 1153      6D617374 
+ 1153      65725F73 
+ 1153      656E6400 
+ 1154              	.LASF1:
+ 1155 00c8 756E7369 		.ascii	"unsigned char\000"
+ 1155      676E6564 
+ 1155      20636861 
+ 1155      7200
+ 1156              	.LASF30:
+ 1157 00d6 5350495F 		.ascii	"SPI_SpiUartGetRxBufferSize\000"
+ 1157      53706955 
+ 1157      61727447 
+ 1157      65745278 
+ 1157      42756666 
+ 1158              	.LASF17:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 23
+
+
+ 1159 00f1 75617274 		.ascii	"uart_print\000"
+ 1159      5F707269 
+ 1159      6E7400
+ 1160              	.LASF9:
+ 1161 00fc 75696E74 		.ascii	"uint8\000"
+ 1161      3800
+ 1162              	.LASF12:
+ 1163 0102 646F7562 		.ascii	"double\000"
+ 1163      6C6500
+ 1164              	.LASF19:
+ 1165 0109 73656E64 		.ascii	"send_data\000"
+ 1165      5F646174 
+ 1165      6100
+ 1166              	.LASF22:
+ 1167 0113 77616974 		.ascii	"wait_delay_ms\000"
+ 1167      5F64656C 
+ 1167      61795F6D 
+ 1167      7300
+ 1168              	.LASF31:
+ 1169 0121 5350495F 		.ascii	"SPI_SpiUartReadRxData\000"
+ 1169      53706955 
+ 1169      61727452 
+ 1169      65616452 
+ 1169      78446174 
+ 1170              	.LASF10:
+ 1171 0137 75696E74 		.ascii	"uint32\000"
+ 1171      333200
+ 1172              	.LASF5:
+ 1173 013e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1173      20756E73 
+ 1173      69676E65 
+ 1173      6420696E 
+ 1173      7400
+ 1174              	.LASF8:
+ 1175 0150 756E7369 		.ascii	"unsigned int\000"
+ 1175      676E6564 
+ 1175      20696E74 
+ 1175      00
+ 1176              	.LASF7:
+ 1177 015d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1177      206C6F6E 
+ 1177      6720756E 
+ 1177      7369676E 
+ 1177      65642069 
+ 1178              	.LASF23:
+ 1179 0174 74696D65 		.ascii	"time\000"
+ 1179      00
+ 1180              	.LASF15:
+ 1181 0179 73697A65 		.ascii	"sizetype\000"
+ 1181      74797065 
+ 1181      00
+ 1182              	.LASF13:
+ 1183 0182 63686172 		.ascii	"char8\000"
+ 1183      3800
+ 1184              	.LASF16:
+ 1185 0188 68617264 		.ascii	"hardware_init\000"
+ 1185      77617265 
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 24
+
+
+ 1185      5F696E69 
+ 1185      7400
+ 1186              	.LASF6:
+ 1187 0196 6C6F6E67 		.ascii	"long long int\000"
+ 1187      206C6F6E 
+ 1187      6720696E 
+ 1187      7400
+ 1188              	.LASF33:
+ 1189 01a4 2E5C6465 		.ascii	".\\device_depend.c\000"
+ 1189      76696365 
+ 1189      5F646570 
+ 1189      656E642E 
+ 1189      6300
+ 1190              	.LASF14:
+ 1191 01b6 63686172 		.ascii	"char\000"
+ 1191      00
+ 1192              	.LASF18:
+ 1193 01bb 7370695F 		.ascii	"spi_master_init\000"
+ 1193      6D617374 
+ 1193      65725F69 
+ 1193      6E697400 
+ 1194              	.LASF2:
+ 1195 01cb 73686F72 		.ascii	"short int\000"
+ 1195      7420696E 
+ 1195      7400
+ 1196              	.LASF32:
+ 1197 01d5 474E5520 		.ascii	"GNU C 4.7.3 20130312 (release) [ARM/embedded-4_7-br"
+ 1197      4320342E 
+ 1197      372E3320 
+ 1197      32303133 
+ 1197      30333132 
+ 1198 0208 616E6368 		.ascii	"anch revision 196615]\000"
+ 1198      20726576 
+ 1198      6973696F 
+ 1198      6E203139 
+ 1198      36363135 
+ 1199              	.LASF20:
+ 1200 021e 7370695F 		.ascii	"spi_cs_low\000"
+ 1200      63735F6C 
+ 1200      6F7700
+ 1201              	.LASF21:
+ 1202 0229 7370695F 		.ascii	"spi_cs_high\000"
+ 1202      63735F68 
+ 1202      69676800 
+ 1203              	.LASF4:
+ 1204 0235 6C6F6E67 		.ascii	"long int\000"
+ 1204      20696E74 
+ 1204      00
+ 1205              	.LASF0:
+ 1206 023e 7369676E 		.ascii	"signed char\000"
+ 1206      65642063 
+ 1206      68617200 
+ 1207              	.LASF28:
+ 1208 024a 5350495F 		.ascii	"SPI_Start\000"
+ 1208      53746172 
+ 1208      7400
+ 1209              	.LASF36:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccuXWmG2.s 			page 25
+
+
+ 1210 0254 43794465 		.ascii	"CyDelay\000"
+ 1210      6C617900 
+ 1211              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.7.3 20130312 (release) [ARM/embedded-4_7-br

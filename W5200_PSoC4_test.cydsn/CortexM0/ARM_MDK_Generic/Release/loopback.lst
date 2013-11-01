@@ -352,7 +352,7 @@ L 1 "./Generated_Source/PSoC4/cydevice_trm.h" 1
 N/*******************************************************************************
 N* FILENAME: cydevice_trm.h
 N* 
-N* PSoC Creator 3.0
+N* PSoC Creator 3.0 Component Pack 7
 N*
 N* DESCRIPTION:
 N* This file provides all of the address values for the entire PSoC device.
@@ -5620,7 +5620,7 @@ N		if(ch_status[s]==1)
 N		{
 N			// printf("\r\n%d : Connected",s);
 N                        // printf("\r\n Peer IP : %d.%d.%d.%d", IINCHIP_READ(Sn_DIPR0(s)+0),  IINCHIP_READ(Sn_DIPR0(s)+1), IINCHIP_READ(Sn_DIPR0(s)+2), IINCHIP_READ(Sn_DIPR0(s)+3));
-N                        // printf("\r\n Peer Port : %d", ( (uint16)(IINCHIP_READ(Sn_DPORT0(s)+0)<<8) +(uint16)IINCHIP_READ(Sn_DPORT0(s)+1)));
+N                        // printf("\r\n Peer Port : %d", ( (uint16_t)(IINCHIP_READ(Sn_DPORT0(s)+0)<<8) +(uint16_t)IINCHIP_READ(Sn_DPORT0(s)+1)));
 N			ch_status[s] = 2;
 N		}
 N        
@@ -5721,34 +5721,34 @@ N			if (RSR_len > TX_RX_MAX_BUF_SIZE) RSR_len = TX_RX_MAX_BUF_SIZE;	/* if Rx dat
 X			if (RSR_len > 2048) RSR_len = 2048;	 
 N									/* the data size to read is MAX_BUF_SIZE. */
 N			received_len = recv(s, data_buf, RSR_len);			/* read the received data */
-N			
-N                        sent_data_len = send(s, data_buf, received_len, (bool)WINDOWFULL_FLAG_OFF);         /* sent the received data */
-X                        sent_data_len = send(s, data_buf, received_len, (_Bool)0);          
-N                        if(sent_data_len != received_len) /* ohly assert when windowfull */
-N                        {
-N                                  init_windowfull_retry_cnt(s);                              
-N                                  while(sent_data_len !=  received_len) 
-N                                  {
-N                                            // printf("ret :%d\r\n", sent_data_len);
-N                                            tmp_retry_cnt = incr_windowfull_retry_cnt(s);
-N                                            
-N                                            if(tmp_retry_cnt <= WINDOWFULL_MAX_RETRY_NUM) 
-X                                            if(tmp_retry_cnt <= 3) 
-N                                            {
-N                                                       sent_data_len += send(s, data_buf, received_len, (bool)WINDOWFULL_FLAG_ON); 
-X                                                       sent_data_len += send(s, data_buf, received_len, (_Bool)1); 
-N                                                       wait_delay_ms(WINDOWFULL_WAIT_TIME);
-X                                                       wait_delay_ms(1000);
-N                                             } 
-N                                            else 
-N                                            {
-N                                                       // printf("WindowFull !!!\r\n");
-N                                                       close(s);
-N                                                       // printf("Socket Close !!!\r\n");
-N                                                       while(1);
-N                                            }
-N                                  }                               
-N                        }                        
+N
+N            sent_data_len = send(s, data_buf, received_len, (bool)WINDOWFULL_FLAG_OFF);         /* sent the received data */
+X            sent_data_len = send(s, data_buf, received_len, (_Bool)0);          
+N            if(sent_data_len != received_len) /* ohly assert when windowfull */
+N            {
+N				init_windowfull_retry_cnt(s);                              
+N				while(sent_data_len !=  received_len) 
+N				{
+N			        // printf("ret :%d\r\n", sent_data_len);
+N			        tmp_retry_cnt = incr_windowfull_retry_cnt(s);
+N			        
+N			        if(tmp_retry_cnt <= WINDOWFULL_MAX_RETRY_NUM) 
+X			        if(tmp_retry_cnt <= 3) 
+N			        {
+N						sent_data_len += send(s, data_buf, received_len, (bool)WINDOWFULL_FLAG_ON); 
+X						sent_data_len += send(s, data_buf, received_len, (_Bool)1); 
+N						wait_delay_ms(WINDOWFULL_WAIT_TIME);
+X						wait_delay_ms(1000);
+N			        } 
+N			        else 
+N			        {
+N						// printf("WindowFull !!!\r\n");
+N						close(s);
+N						// printf("Socket Close !!!\r\n");
+N						while(1);
+N			        }
+N				}                               
+N            }                        
 N		}
 N		break;
 N	case SOCK_CLOSE_WAIT:                           		/* If the client request to close */
@@ -5780,23 +5780,23 @@ N		}
 N		break;
 N        case SOCK_INIT:     /* if a socket is initiated */
 X        case 0x13:      
-N                if(time_return() - presentTime >= (tick_second * 3)) {  /* For TCP client's connection request delay : 3 sec */
-X                if(time_return() - presentTime >= (1 * 3)) {   
-N                        connect(s, Chconfig_Type_Def.destip, Chconfig_Type_Def.port); /* Try to connect to TCP server(Socket, DestIP, DestPort) */
-N                        presentTime = time_return();                       
-N                }                
-N                break;  
+N			if(time_return() - presentTime >= (tick_second * 3)) {  /* For TCP client's connection request delay : 3 sec */
+X			if(time_return() - presentTime >= (1 * 3)) {   
+N				connect(s, Chconfig_Type_Def.destip, Chconfig_Type_Def.port); /* Try to connect to TCP server(Socket, DestIP, DestPort) */
+N				presentTime = time_return();                       
+N			}                
+N            break;  
 N        default:
-N                break;        
-N        }
+N            break;        
+N    }
 N}
 N
 Nvoid loopback_udp(SOCKET s, uint16_t port)
 N{
 N	uint16_t RSR_len;
-N        uint16_t received_len;
+N    uint16_t received_len;
 N	uint8_t * data_buf = TX_BUF;
-N	uint32 destip = 0;
+N	uint32_t destip = 0;
 N	uint16_t destport;
 N
 N	switch (getSn_SR(s))
@@ -5808,8 +5808,8 @@ N		{
 N			if (RSR_len > TX_RX_MAX_BUF_SIZE) RSR_len = TX_RX_MAX_BUF_SIZE;	/* if Rx data size is lager than TX_RX_MAX_BUF_SIZE */
 X			if (RSR_len > 2048) RSR_len = 2048;	 
 N																												/* the data size to read is MAX_BUF_SIZE. */
-N			received_len = recvfrom(s, data_buf, RSR_len, (uint8*)&destip, &destport);			/* read the received data */
-N			if(sendto(s, data_buf, received_len,(uint8*)&destip, destport) == 0)	/* send the received data */
+N			received_len = recvfrom(s, data_buf, RSR_len, (uint8_t*)&destip, &destport);			/* read the received data */
+N			if(sendto(s, data_buf, received_len,(uint8_t*)&destip, destport) == 0)	/* send the received data */
 N			{
 N				// printf("\a\a\a%d : System Fatal Error.", s);
 N			}

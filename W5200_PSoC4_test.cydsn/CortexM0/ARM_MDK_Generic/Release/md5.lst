@@ -550,8 +550,6 @@ N
 N/* end of string.h */
 N
 L 11 ".\md5.c" 2
-N
-N
 N#include "md5.h"
 L 1 ".\md5.h" 1
 N/**
@@ -909,7 +907,7 @@ L 1 "./Generated_Source/PSoC4/cydevice_trm.h" 1
 N/*******************************************************************************
 N* FILENAME: cydevice_trm.h
 N* 
-N* PSoC Creator 3.0
+N* PSoC Creator 3.0 Component Pack 7
 N*
 N* DESCRIPTION:
 N* This file provides all of the address values for the entire PSoC device.
@@ -4616,17 +4614,17 @@ N/**
 N @brief	MD5 context. 
 N */
 Ntypedef struct {
-N        uint32_t state[4];    /**< state (ABCD)                            */
-N        uint32_t count[2];    /**< number of bits, modulo 2^64 (lsb first) */
-N        uint8_t  buffer[64];  /**< input buffer                            */
-N      } md5_ctx;
+N	uint32_t state[4];    /**< state (ABCD)                            */
+N	uint32_t count[2];    /**< number of bits, modulo 2^64 (lsb first) */
+N	uint8_t  buffer[64];  /**< input buffer                            */
+N} md5_ctx;
 N
 Nextern void md5_init(md5_ctx *context);
 Nextern void md5_update(md5_ctx *context, uint8_t *buffer, uint32_t length);
 Nextern void md5_final(uint8_t result[16], md5_ctx *context);
 N
 N#endif	// __md5_H
-L 14 ".\md5.c" 2
+L 12 ".\md5.c" 2
 N
 N// Constants for Transform routine.
 N#define S11    7

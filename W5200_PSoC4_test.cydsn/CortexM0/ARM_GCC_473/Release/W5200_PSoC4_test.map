@@ -1,0 +1,1180 @@
+Archive member included because of file (symbol)
+
+.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+                              .\CortexM0\ARM_GCC_473\Release\Cm0Start.o (cyfitter_cfg)
+.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+                              .\CortexM0\ARM_GCC_473\Release\device_depend.o (UART_1_Start)
+.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+                              .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o) (UART_1_UartInit)
+.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+                              .\CortexM0\ARM_GCC_473\Release\device_depend.o (CyDelay)
+.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+                              .\CortexM0\ARM_GCC_473\Release\device_depend.o (SPI_Start)
+.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+                              .\CortexM0\ARM_GCC_473\Release\device_depend.o (SPI_SpiUartReadRxData)
+.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+                              .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o) (SPI_SpiInit)
+.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+                              .\CortexM0\ARM_GCC_473\Release\device_depend.o (SPI_CS_Write)
+.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+                              .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o) (UART_1_SpiUartReadRxData)
+.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyBootAsmGnu.o)
+                              .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o) (CyDelayCycles)
+c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_thumb1_case_uqi.o)
+                              .\CortexM0\ARM_GCC_473\Release\w5200.o (__gnu_thumb1_case_uqi)
+c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+                              .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o) (__aeabi_uidiv)
+c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_dvmd_tls.o)
+                              c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-__atexit2.o)
+                              c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o (__register_exitproc)
+c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-exit.o)
+                              c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o (exit)
+c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-fini.o)
+                              c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o (__libc_fini_array)
+c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-impure.o)
+                              c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-exit.o) (_global_impure_ptr)
+c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-init.o)
+                              c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o (__libc_init_array)
+c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memcpy.o)
+                              .\CortexM0\ARM_GCC_473\Release\md5.o (memcpy)
+c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memset.o)
+                              c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o (memset)
+
+Allocating common symbols
+Common symbol       size              file
+
+windowfull_retry_cnt
+                    0x4               .\CortexM0\ARM_GCC_473\Release\w5200.o
+sent_ptr            0x2               .\CortexM0\ARM_GCC_473\Release\w5200.o
+Config_Msg          0x17              .\CortexM0\ARM_GCC_473\Release\main.o
+pre_sent_ptr        0x2               .\CortexM0\ARM_GCC_473\Release\w5200.o
+RX_BUF              0x800             .\CortexM0\ARM_GCC_473\Release\main.o
+presentTime         0x4               .\CortexM0\ARM_GCC_473\Release\main.o
+TX_BUF              0x800             .\CortexM0\ARM_GCC_473\Release\main.o
+Chconfig_Type_Def   0x6               .\CortexM0\ARM_GCC_473\Release\main.o
+my_time             0x4               .\CortexM0\ARM_GCC_473\Release\main.o
+
+Discarded input sections
+
+ .text          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crti.o
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crti.o
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crti.o
+ .data          0x00000000        0x4 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+ .text          0x00000000       0x74 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .ARM.extab     0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .ARM.exidx     0x00000000        0x8 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .text.hardware_init
+                0x00000000        0xe .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .text.uart_init
+                0x00000000        0x8 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .text.uart_print
+                0x00000000        0x8 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .data          0x00000000       0x40 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .text.md5_encode
+                0x00000000       0x26 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .text.md5_transform
+                0x00000000      0x7a0 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .text.FF       0x00000000       0x20 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .text.GG       0x00000000       0x1e .\CortexM0\ARM_GCC_473\Release\md5.o
+ .text.HH       0x00000000       0x1a .\CortexM0\ARM_GCC_473\Release\md5.o
+ .text.II       0x00000000       0x1e .\CortexM0\ARM_GCC_473\Release\md5.o
+ .text.md5_init
+                0x00000000       0x28 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .text.md5_update
+                0x00000000       0x6e .\CortexM0\ARM_GCC_473\Release\md5.o
+ .text.md5_final
+                0x00000000       0x4c .\CortexM0\ARM_GCC_473\Release\md5.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .text.connect  0x00000000       0xe6 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .text.sendto   0x00000000       0xf8 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .text.recvfrom
+                0x00000000      0x120 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\util.o
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\util.o
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\util.o
+ .text.LED3_onoff
+                0x00000000        0x2 .\CortexM0\ARM_GCC_473\Release\util.o
+ .text.LED4_onoff
+                0x00000000        0x2 .\CortexM0\ARM_GCC_473\Release\util.o
+ .text.USART1_Init
+                0x00000000        0x2 .\CortexM0\ARM_GCC_473\Release\util.o
+ .text.time_return
+                0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\util.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.getISR   0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.putISR   0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.getIINCHIP_RxMAX
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.getIINCHIP_RxMASK
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.getIINCHIP_TxMASK
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.getIINCHIP_RxBASE
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.getIINCHIP_TxBASE
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.IINCHIP_CSoff
+                0x00000000        0x8 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.IINCHIP_CSon
+                0x00000000        0x8 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.setSUBR  0x00000000       0x38 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.getSHAR  0x00000000       0x36 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.clearSUBR
+                0x00000000       0x58 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.setMR    0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.iinchip_init
+                0x00000000        0xa .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.getIR    0x00000000        0xa .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.setIMR   0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.setSn_MSS
+                0x00000000       0x24 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.setSn_TTL
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.setSn_PROTO
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text.getSn_IR
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\main.o
+ .text.WIZ_Config
+                0x00000000        0x8 .\CortexM0\ARM_GCC_473\Release\main.o
+ .text.GPIO_Configuration
+                0x00000000        0x2 .\CortexM0\ARM_GCC_473\Release\main.o
+ .text.RCC_Configuration
+                0x00000000        0x2 .\CortexM0\ARM_GCC_473\Release\main.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .data          0x00000000        0x2 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .text.loopback_tcpc
+                0x00000000      0x118 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .text.loopback_udp
+                0x00000000       0x64 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .text._exit    0x00000000        0x4 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .bss           0x00000000        0x8 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .text.UART_1_Init
+                0x00000000        0x8 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .text.UART_1_Enable
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .text.UART_1_Start
+                0x00000000       0x1c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .text.UART_1_Stop
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .text.UART_1_SetCustomInterruptHandler
+                0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .text.UART_1_UartInit
+                0x00000000       0x90 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .text.UART_1_UartSetRxAddress
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .text.UART_1_UartSetRxAddressMask
+                0x00000000       0x18 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .text.UART_1_UartGetChar
+                0x00000000       0x28 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .text.UART_1_UartGetByte
+                0x00000000       0x40 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .text.UART_1_UartPutString
+                0x00000000       0x16 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .text.UART_1_UartPutCRLF
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysClkImoStart
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysClkImoStop
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysClkIloStart
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysClkIloStop
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysClkWriteHfclkDirect
+                0x00000000       0x18 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysClkWriteSysclkDiv
+                0x00000000       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtLock
+                0x00000000       0x30 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtUnlock
+                0x00000000       0x44 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtReadEnabledStatus
+                0x00000000       0x18 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtWriteMode
+                0x00000000       0x3c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtReadMode
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtWriteClearOnMatch
+                0x00000000       0x34 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtReadClearOnMatch
+                0x00000000       0x18 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtEnable
+                0x00000000       0x24 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtDisable
+                0x00000000       0x24 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtWriteCascade
+                0x00000000       0x44 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtReadCascade
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtWriteToggleBit
+                0x00000000       0x3c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtReadToggleBit
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtReadMatch
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtReadCount
+                0x00000000       0x30 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtGetInterruptSource
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtClearInterrupt
+                0x00000000       0x78 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtResetCounters
+                0x00000000       0x2c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysLvdEnable
+                0x00000000       0x2c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysLvdDisable
+                0x00000000       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysLvdGetInterruptSource
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysLvdClearInterrupt
+                0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyDisableInts
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyEnableInts
+                0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntSetSysVector
+                0x00000000        0xe .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntGetSysVector
+                0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntSetVector
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntGetVector
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntSetPriority
+                0x00000000       0x34 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntGetPriority
+                0x00000000       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntEnable
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntGetState
+                0x00000000       0x18 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntDisable
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntSetPending
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyIntClearPending
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyHalt   0x00000000        0x4 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySoftwareReset
+                0x00000000       0x18 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysWdtWriteMatch
+                0x00000000       0x3c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CySysClkWriteImoFreq
+                0x00000000      0x138 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text.CyDelayFreq
+                0x00000000       0x48 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .rodata        0x00000000       0x2e .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .text.SPI_Init
+                0x00000000        0x8 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .text.SPI_Stop
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .text.SPI_SetCustomInterruptHandler
+                0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .text.SPI_SpiUartClearRxBuffer
+                0x00000000       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .text.SPI_SpiUartPutArray
+                0x00000000       0x16 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .text.SPI_SpiUartGetTxBufferSize
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .text.SPI_SpiUartClearTxBuffer
+                0x00000000       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .text.SPI_SpiUartDisableIntRx
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .text.SPI_SpiUartDisableIntTx
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .text.SPI_SpiSetActiveSlaveSelect
+                0x00000000       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .text.SPI_CS_SetDriveMode
+                0x00000000       0x1c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .text.SPI_CS_Read
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .text.SPI_CS_ReadDataReg
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .text.SPI_CS_ClearInterrupt
+                0x00000000       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .text          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .text.UART_1_SpiUartReadRxData
+                0x00000000        0xc .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .text.UART_1_SpiUartGetRxBufferSize
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .text.UART_1_SpiUartClearRxBuffer
+                0x00000000       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .text.UART_1_SpiUartWriteTxData
+                0x00000000       0x1c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .text.UART_1_SpiUartPutArray
+                0x00000000       0x16 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .text.UART_1_SpiUartGetTxBufferSize
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .text.UART_1_SpiUartClearTxBuffer
+                0x00000000       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .text.UART_1_SpiUartDisableIntRx
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .text.UART_1_SpiUartDisableIntTx
+                0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .data          0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyBootAsmGnu.o)
+ .bss           0x00000000        0x0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyBootAsmGnu.o)
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_thumb1_case_uqi.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_thumb1_case_uqi.o)
+ .text          0x00000000       0x9c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+ .text          0x00000000        0x4 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_dvmd_tls.o)
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_dvmd_tls.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_dvmd_tls.o)
+ .text          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-__atexit2.o)
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-__atexit2.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-__atexit2.o)
+ .text.__register_exitproc
+                0x00000000       0x18 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-__atexit2.o)
+ .text          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-exit.o)
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-exit.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-exit.o)
+ .text.exit     0x00000000       0x30 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-exit.o)
+ .text          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-fini.o)
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-fini.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-fini.o)
+ .text.__libc_fini_array
+                0x00000000       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-fini.o)
+ .text          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-impure.o)
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-impure.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-impure.o)
+ .data.impure_data
+                0x00000000       0x64 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-impure.o)
+ .data._impure_ptr
+                0x00000000        0x4 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-impure.o)
+ .rodata.str1.1
+                0x00000000        0x2 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-impure.o)
+ .rodata._global_impure_ptr
+                0x00000000        0x4 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-impure.o)
+ .text          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-init.o)
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-init.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-init.o)
+ .text          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memcpy.o)
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memcpy.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memcpy.o)
+ .text.memcpy   0x00000000       0x12 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memcpy.o)
+ .text          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memset.o)
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memset.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memset.o)
+ .text          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtend.o
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtend.o
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtend.o
+ .text          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtn.o
+ .data          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtn.o
+ .bss           0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtn.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+rom              0x00000000         0x00008000         xr
+ram              0x20000000         0x00001000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crti.o
+LOAD c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+LOAD c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+START GROUP
+LOAD .\CortexM0\ARM_GCC_473\Release\device_depend.o
+LOAD .\CortexM0\ARM_GCC_473\Release\md5.o
+LOAD .\CortexM0\ARM_GCC_473\Release\socket.o
+LOAD .\CortexM0\ARM_GCC_473\Release\util.o
+LOAD .\CortexM0\ARM_GCC_473\Release\w5200.o
+LOAD .\CortexM0\ARM_GCC_473\Release\main.o
+LOAD .\CortexM0\ARM_GCC_473\Release\loopback.o
+LOAD .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+LOAD .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+LOAD .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a
+LOAD C:\Program Files (x86)\Cypress\PSoC Creator\3.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CortexM0\ARM_GCC_473\Release\CyComponentLibrary.a
+END GROUP
+START GROUP
+LOAD c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a
+LOAD c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a
+END GROUP
+LOAD c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtend.o
+LOAD c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtn.o
+START GROUP
+LOAD c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a
+LOAD c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc.a
+LOAD c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libnosys.a
+END GROUP
+                0x00000000                CY_APPL_ORIGIN = 0x0
+                0x00000080                CY_FLASH_ROW_SIZE = 0x80
+                0x00000001                CY_APPL_NUM = 0x1
+                0x00000040                CY_METADATA_SIZE = 0x40
+                0x20001198                PROVIDE (__cy_heap_start, _end)
+                0x00000001                PROVIDE (__cy_region_num, ((__cy_regions_end - __cy_regions) / 0x10))
+                0x20001000                PROVIDE (__cy_stack, (ORIGIN (ram) + 0x1000))
+                0x20000c00                PROVIDE (__cy_heap_end, (__cy_stack - 0x400))
+
+.cybootloader   0x00000000        0x0
+ *(.cybootloader)
+                0x00000000                appl1_start = CY_APPL_ORIGIN?CY_APPL_ORIGIN:ALIGN (CY_FLASH_ROW_SIZE)
+                0x00003f80                appl2_start = (appl1_start + ALIGN ((((0x8000 - appl1_start) - (0x2 * CY_FLASH_ROW_SIZE)) / 0x2), CY_FLASH_ROW_SIZE))
+                0x00000000                appl_start = (CY_APPL_NUM == 0x1)?appl1_start:appl2_start
+
+.text           0x00000000      0xe82
+ CREATE_OBJECT_SYMBOLS
+                0x00000000                PROVIDE (__cy_interrupt_vector, RomVectors)
+ *(.romvectors)
+ .romvectors    0x00000000       0x10 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+                0x00000000                RomVectors
+                0x00000001                ASSERT ((. != __cy_interrupt_vector), No interrupt vector)
+                0x00000001                ASSERT (CY_APPL_ORIGIN?(SIZEOF (.cybootloader) <= CY_APPL_ORIGIN):0x1, Wrong image location)
+                0x00000010                PROVIDE (__cy_reset, Reset)
+ *(.text.Reset)
+ .text.Reset    0x00000010        0x6 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+                0x00000010                Reset
+                0x00000001                ASSERT ((. != __cy_reset), No reset code)
+ *(.psocinit)
+ *fill*         0x00000016        0x2 00
+ .psocinit      0x00000018      0x16c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+                0x00000018                cyfitter_cfg
+                0x00000184                . = MAX (., 0x100)
+ *(.text .text.* .gnu.linkonce.t.*)
+ .text          0x00000184       0x60 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+ .text.spi_master_init
+                0x000001e4        0x8 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+                0x000001e4                spi_master_init
+ .text.spi_master_send
+                0x000001ec       0x16 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+                0x000001ec                spi_master_send
+ .text.spi_cs_low
+                0x00000202        0xa .\CortexM0\ARM_GCC_473\Release\device_depend.o
+                0x00000202                spi_cs_low
+ .text.spi_cs_high
+                0x0000020c        0xa .\CortexM0\ARM_GCC_473\Release\device_depend.o
+                0x0000020c                spi_cs_high
+ .text.wait_delay_ms
+                0x00000216        0x8 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+                0x00000216                wait_delay_ms
+ .text.close    0x0000021e       0x2c .\CortexM0\ARM_GCC_473\Release\socket.o
+                0x0000021e                close
+ *fill*         0x0000024a        0x2 00
+ .text.socket   0x0000024c       0x78 .\CortexM0\ARM_GCC_473\Release\socket.o
+                0x0000024c                socket
+ .text.listen   0x000002c4       0x34 .\CortexM0\ARM_GCC_473\Release\socket.o
+                0x000002c4                listen
+ .text.disconnect
+                0x000002f8       0x24 .\CortexM0\ARM_GCC_473\Release\socket.o
+                0x000002f8                disconnect
+ .text.send     0x0000031c       0xe2 .\CortexM0\ARM_GCC_473\Release\socket.o
+                0x0000031c                send
+ *fill*         0x000003fe        0x2 00
+ .text.recv     0x00000400       0x30 .\CortexM0\ARM_GCC_473\Release\socket.o
+                0x00000400                recv
+ .text.Set_network
+                0x00000430       0xdc .\CortexM0\ARM_GCC_473\Release\util.o
+                0x00000430                Set_network
+ .text.Reset_W5200
+                0x0000050c        0xa .\CortexM0\ARM_GCC_473\Release\util.o
+                0x0000050c                Reset_W5200
+ *fill*         0x00000516        0x2 00
+ .text.incr_windowfull_retry_cnt
+                0x00000518       0x10 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000518                incr_windowfull_retry_cnt
+ .text.init_windowfull_retry_cnt
+                0x00000528        0xc .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000528                init_windowfull_retry_cnt
+ .text.getIINCHIP_TxMAX
+                0x00000534       0x10 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000534                getIINCHIP_TxMAX
+ .text.IINCHIP_SpiSendData
+                0x00000544        0x8 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000544                IINCHIP_SpiSendData
+ .text.IINCHIP_WRITE
+                0x0000054c       0x30 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x0000054c                IINCHIP_WRITE
+ .text.IINCHIP_READ
+                0x0000057c       0x30 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x0000057c                IINCHIP_READ
+ .text.wiz_write_buf
+                0x000005ac       0x48 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x000005ac                wiz_write_buf
+ .text.wiz_read_buf
+                0x000005f4       0x44 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x000005f4                wiz_read_buf
+ .text.sysinit  0x00000638      0x1b8 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000638                sysinit
+ .text.setGAR   0x000007f0       0x26 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x000007f0                setGAR
+ *fill*         0x00000816        0x2 00
+ .text.saveSUBR
+                0x00000818       0x28 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000818                saveSUBR
+ .text.setSHAR  0x00000840       0x36 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000840                setSHAR
+ .text.setSIPR  0x00000876       0x26 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000876                setSIPR
+ .text.getGAR   0x0000089c       0x26 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x0000089c                getGAR
+ *fill*         0x000008c2        0x2 00
+ .text.getSUBR  0x000008c4       0x28 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x000008c4                getSUBR
+ .text.getSIPR  0x000008ec       0x26 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x000008ec                getSIPR
+ .text.setRTR   0x00000912       0x16 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000912                setRTR
+ .text.setRCR   0x00000928        0xc .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000928                setRCR
+ .text.getSn_SR
+                0x00000934       0x14 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000934                getSn_SR
+ .text.getSn_TX_FSR
+                0x00000948       0x4a .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000948                getSn_TX_FSR
+ .text.getSn_RX_RSR
+                0x00000992       0x4a .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000992                getSn_RX_RSR
+ .text.write_data
+                0x000009dc       0x44 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x000009dc                write_data
+ .text.send_data_processing
+                0x00000a20       0x52 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000a20                send_data_processing
+ *fill*         0x00000a72        0x2 00
+ .text.read_data
+                0x00000a74       0x44 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000a74                read_data
+ .text.recv_data_processing
+                0x00000ab8       0x52 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x00000ab8                recv_data_processing
+ *fill*         0x00000b0a        0x2 00
+ .text.startup.main
+                0x00000b0c       0x28 .\CortexM0\ARM_GCC_473\Release\main.o
+                0x00000b0c                main
+ .text.loopback_tcps
+                0x00000b34       0xf8 .\CortexM0\ARM_GCC_473\Release\loopback.o
+                0x00000b34                loopback_tcps
+ .text.IntDefaultHandler
+                0x00000c2c        0x4 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+                0x00000c2c                IntDefaultHandler
+ .text.Start_c  0x00000c30       0x48 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+                0x00000c30                Start_c
+ .text.startup.initialize_psoc
+                0x00000c78       0x40 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+                0x00000c78                initialize_psoc
+ .text.CyDelay  0x00000cb8       0x2c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+                0x00000cb8                CyDelay
+ .text.CyDelayUs
+                0x00000ce4       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+                0x00000ce4                CyDelayUs
+ .text.SPI_Enable
+                0x00000cf8       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+                0x00000cf8                SPI_Enable
+ .text.SPI_Start
+                0x00000d0c       0x1c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+                0x00000d0c                SPI_Start
+ .text.SPI_SpiUartReadRxData
+                0x00000d28        0xc .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+                0x00000d28                SPI_SpiUartReadRxData
+ .text.SPI_SpiUartGetRxBufferSize
+                0x00000d34       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+                0x00000d34                SPI_SpiUartGetRxBufferSize
+ .text.SPI_SpiUartWriteTxData
+                0x00000d44       0x1c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+                0x00000d44                SPI_SpiUartWriteTxData
+ .text.SPI_SpiInit
+                0x00000d60       0x78 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+                0x00000d60                SPI_SpiInit
+ .text.SPI_CS_Write
+                0x00000dd8       0x18 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+                0x00000dd8                SPI_CS_Write
+ .text          0x00000df0       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyBootAsmGnu.o)
+                0x00000df0                CyDelayCycles
+                0x00000e02                CyEnterCriticalSection
+                0x00000e0a                CyExitCriticalSection
+ .text          0x00000e10       0x14 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_thumb1_case_uqi.o)
+                0x00000e10                __gnu_thumb1_case_uqi
+ .text.__libc_init_array
+                0x00000e24       0x4c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-init.o)
+                0x00000e24                __libc_init_array
+ .text.memset   0x00000e70       0x12 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memset.o)
+                0x00000e70                memset
+ *(.plt)
+ *(.gnu.warning)
+ *(.glue_7t)
+ .glue_7t       0x00000000        0x0 linker stubs
+ *(.glue_7)
+ .glue_7        0x00000000        0x0 linker stubs
+ *(.vfp11_veneer)
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+ *(.bootloader)
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+ *(.gcc_except_table)
+
+.v4_bx          0x00000e84        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x00000e84        0x0
+ .iplt          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+
+.eh_frame_hdr
+ *(.eh_frame_hdr)
+
+.eh_frame       0x00000e84        0x4
+ *(.eh_frame)
+ .eh_frame      0x00000e84        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+ .eh_frame      0x00000e84        0x4 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtend.o
+                0x00000e88                PROVIDE (__exidx_start, .)
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x00000e88                __exidx_end = .
+
+.rodata         0x00000e88       0x38
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+                0x00000e88                . = ALIGN (0x4)
+ *(.init)
+ .init          0x00000e88        0x4 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crti.o
+                0x00000e88                _init
+ .init          0x00000e8c        0x8 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtn.o
+                0x00000e94                . = ALIGN (0x4)
+                0x00000e94                __preinit_array_start = .
+ *(.preinit_array)
+                0x00000e94                __preinit_array_end = .
+                0x00000e94                . = ALIGN (0x4)
+                0x00000e94                __init_array_start = .
+ *(SORT(.init_array.*))
+ *(.init_array)
+ .init_array    0x00000e94        0x4 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+ .init_array    0x00000e98        0x4 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+                0x00000e9c                __init_array_end = .
+                0x00000e9c                . = ALIGN (0x4)
+ *(.fini)
+ .fini          0x00000e9c        0x4 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crti.o
+                0x00000e9c                _fini
+ .fini          0x00000ea0        0x8 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtn.o
+                0x00000ea8                . = ALIGN (0x4)
+                0x00000ea8                __fini_array_start = .
+ *(.fini_array)
+ .fini_array    0x00000ea8        0x4 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+ *(SORT(.fini_array.*))
+                0x00000eac                __fini_array_end = .
+                0x00000eac                . = ALIGN (0x4)
+ *crtbegin.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o) .ctors)
+ *(SORT(.ctors.*))
+ *crtend.o(.ctors)
+                0x00000eac                . = ALIGN (0x4)
+ *crtbegin.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o) .dtors)
+ *(SORT(.dtors.*))
+ *crtend.o(.dtors)
+                0x00000eac                . = ALIGN (0x4)
+                0x00000eac                __cy_regions = .
+                0x00000eac        0x4 LONG 0xec0 __cy_region_init_ram
+                0x00000eb0        0x4 LONG 0x200000c8 __cy_region_start_data
+                0x00000eb4        0x4 LONG 0x38 __cy_region_init_size_ram
+                0x00000eb8        0x4 LONG 0x1098 __cy_region_zero_size_ram
+                0x00000ebc                __cy_regions_end = .
+                0x00000ec0                . = ALIGN (0x8)
+ *fill*         0x00000ebc        0x4 00
+                0x00000ec0                _etext = .
+
+.ramvectors     0x20000000       0xc0
+                0x20000000                __cy_region_start_ram = .
+ *(.ramvectors)
+ .ramvectors    0x20000000       0xc0 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+                0x20000000                CyRamVectors
+
+.noinit         0x200000c0        0x4
+ *(.noinit)
+ .noinit        0x200000c0        0x4 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+
+.data           0x200000c8       0x38 load address 0x00000ec0
+                0x200000c8                __cy_region_start_data = .
+ *(.jcr)
+ .jcr           0x200000c8        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+ .jcr           0x200000c8        0x4 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtend.o
+ *(.got.plt)
+ *(.got)
+ *(.shdata)
+ *(.data .data.* .gnu.linkonce.d.*)
+ .data          0x200000cc       0x20 .\CortexM0\ARM_GCC_473\Release\main.o
+                0x200000cc                Dest_PORT
+                0x200000ce                Dest_IP
+                0x200000d2                rxsize
+                0x200000d6                txsize
+                0x200000da                SubNet
+                0x200000de                GateWay
+                0x200000e2                IP
+                0x200000e6                MAC
+ .data          0x200000ec       0x10 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+                0x200000ec                cydelay32kMs
+                0x200000f0                cydelayFreqKhz
+                0x200000f4                cydelayFreqMhz
+                0x200000f8                cydelayFreqHz
+                0x20000100                . = ALIGN (0x8)
+ *fill*         0x200000fc        0x4 00
+ *(.ram)
+                0x20000100                _edata = .
+
+.igot.plt       0x20000100        0x0 load address 0x00000ef8
+ .igot.plt      0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+
+.bss            0x20000100     0x1098 load address 0x00000ef8
+                0x20000100                PROVIDE (__bss_start__, .)
+ *(.shbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x20000100       0x1c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+ .bss           0x2000011c        0x2 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .bss           0x2000011e       0x3c .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .bss           0x2000015a        0x5 .\CortexM0\ARM_GCC_473\Release\main.o
+                0x2000015a                ch_status
+                0x2000015e                Enable_DHCP
+ *fill*         0x2000015f        0x1 00
+ .bss           0x20000160        0x8 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+                0x20000160                SPI_initVar
+                0x20000164                SPI_customIntrHandler
+ *(COMMON)
+ COMMON         0x20000168        0x8 .\CortexM0\ARM_GCC_473\Release\w5200.o
+                0x20000168                windowfull_retry_cnt
+                0x2000016c                sent_ptr
+                0x2000016e                pre_sent_ptr
+ COMMON         0x20000170     0x1028 .\CortexM0\ARM_GCC_473\Release\main.o
+                0x20000170                Config_Msg
+                0x20000187                RX_BUF
+                0x20000988                presentTime
+                0x2000098c                TX_BUF
+                0x2000118c                Chconfig_Type_Def
+                0x20001194                my_time
+                0x20001198                . = ALIGN (0x8)
+ *(.ram.b)
+                0x20001198                _end = .
+                0x20001198                __end = .
+                0x20001198                PROVIDE (end, .)
+                0x20001198                PROVIDE (__bss_end__, .)
+                0x00000ec0                __cy_region_init_ram = LOADADDR (.data)
+                0x00000038                __cy_region_init_size_ram = (_edata - ADDR (.data))
+                0x00001098                __cy_region_zero_size_ram = (_end - _edata)
+
+.heap           0x20001198      0x100 load address 0x00000ef8
+                0x20001198                . = _end
+                0x20001298                . = (. + 0x100)
+ *fill*         0x20001198      0x100 00
+                0x20001298                __cy_heap_limit = .
+
+.stack          0x20000c00      0x400
+                0x20000c00                __cy_stack_limit = .
+                0x20001000                . = (. + 0x400)
+ *fill*         0x20000c00      0x400 00
+                0x00000000                ASSERT ((__cy_stack_limit >= __cy_heap_limit), region RAM overflowed with stack)
+
+.cyloadermeta
+ *(.cyloadermeta)
+
+.cyloadablemeta
+ *(.cyloadablemeta)
+
+.cyflashprotect
+                0x90400000       0x20
+ *(.cyflashprotect)
+ .cyflashprotect
+                0x90400000       0x20 .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+                0x90400000                cy_meta_flashprotect
+
+.cymeta         0x90500000        0xc
+ *(.cymeta)
+ .cymeta        0x90500000        0xc .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+                0x90500000                cy_metadata
+
+.cychipprotect  0x90600000        0x1
+ *(.cychipprotect)
+ .cychipprotect
+                0x90600000        0x1 .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+                0x90600000                cy_meta_chipprotect
+
+.rel.dyn        0x00000ef8        0x0 load address 0x90600004
+ .rel.iplt      0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000      0x770
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x58 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .debug_aranges
+                0x00000058       0x60 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .debug_aranges
+                0x000000b8       0x60 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .debug_aranges
+                0x00000118       0x48 .\CortexM0\ARM_GCC_473\Release\util.o
+ .debug_aranges
+                0x00000160      0x180 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .debug_aranges
+                0x000002e0       0x38 .\CortexM0\ARM_GCC_473\Release\main.o
+ .debug_aranges
+                0x00000318       0x30 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .debug_aranges
+                0x00000348       0x18 .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+ .debug_aranges
+                0x00000360       0x40 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .debug_aranges
+                0x000003a0       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .debug_aranges
+                0x000003c0       0x40 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .debug_aranges
+                0x00000400       0x50 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .debug_aranges
+                0x00000450      0x198 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .debug_aranges
+                0x000005e8       0x40 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .debug_aranges
+                0x00000628       0x60 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .debug_aranges
+                0x00000688       0x28 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .debug_aranges
+                0x000006b0       0x40 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .debug_aranges
+                0x000006f0       0x60 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .debug_aranges
+                0x00000750       0x20 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyBootAsmGnu.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x00000000     0x71aa
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000      0x2e5 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .debug_info    0x000002e5     0x1bd9 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .debug_info    0x00001ebe      0xbbf .\CortexM0\ARM_GCC_473\Release\socket.o
+ .debug_info    0x00002a7d      0x49c .\CortexM0\ARM_GCC_473\Release\util.o
+ .debug_info    0x00002f19     0x1516 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .debug_info    0x0000442f      0x395 .\CortexM0\ARM_GCC_473\Release\main.o
+ .debug_info    0x000047c4      0x7ba .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .debug_info    0x00004f7e      0x100 .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+ .debug_info    0x0000507e      0x30c .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .debug_info    0x0000538a      0x398 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .debug_info    0x00005722      0x1c4 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .debug_info    0x000058e6      0x2d9 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .debug_info    0x00005bbf      0xcb0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .debug_info    0x0000686f      0x1c4 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .debug_info    0x00006a33      0x242 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .debug_info    0x00006c75       0xf0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .debug_info    0x00006d65      0x164 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .debug_info    0x00006ec9      0x242 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .debug_info    0x0000710b       0x9f .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyBootAsmGnu.o)
+
+.debug_abbrev   0x00000000     0x1c8a
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x155 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .debug_abbrev  0x00000155      0x293 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .debug_abbrev  0x000003e8      0x1d7 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .debug_abbrev  0x000005bf      0x192 .\CortexM0\ARM_GCC_473\Release\util.o
+ .debug_abbrev  0x00000751      0x308 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .debug_abbrev  0x00000a59      0x16c .\CortexM0\ARM_GCC_473\Release\main.o
+ .debug_abbrev  0x00000bc5      0x1b3 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .debug_abbrev  0x00000d78       0x5d .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+ .debug_abbrev  0x00000dd5      0x1a6 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .debug_abbrev  0x00000f7b      0x223 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .debug_abbrev  0x0000119e      0x128 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .debug_abbrev  0x000012c6      0x16e .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .debug_abbrev  0x00001434      0x2e3 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .debug_abbrev  0x00001717      0x128 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .debug_abbrev  0x0000183f      0x16b .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .debug_abbrev  0x000019aa       0x8e .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .debug_abbrev  0x00001a38       0xd3 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .debug_abbrev  0x00001b0b      0x16b .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .debug_abbrev  0x00001c76       0x14 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyBootAsmGnu.o)
+
+.debug_line     0x00000000     0x212d
+ *(.debug_line)
+ .debug_line    0x00000000      0x13c .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .debug_line    0x0000013c      0x37a .\CortexM0\ARM_GCC_473\Release\md5.o
+ .debug_line    0x000004b6      0x2e2 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .debug_line    0x00000798      0x195 .\CortexM0\ARM_GCC_473\Release\util.o
+ .debug_line    0x0000092d      0x5a2 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .debug_line    0x00000ecf      0x162 .\CortexM0\ARM_GCC_473\Release\main.o
+ .debug_line    0x00001031      0x19b .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .debug_line    0x000011cc       0x53 .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+ .debug_line    0x0000121f      0x188 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .debug_line    0x000013a7      0x16f .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .debug_line    0x00001516       0xd5 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .debug_line    0x000015eb      0x15c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .debug_line    0x00001747      0x50c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .debug_line    0x00001c53       0xd1 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .debug_line    0x00001d24      0x126 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .debug_line    0x00001e4a       0x9b .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .debug_line    0x00001ee5       0xb7 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .debug_line    0x00001f9c      0x129 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .debug_line    0x000020c5       0x68 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyBootAsmGnu.o)
+
+.debug_frame    0x00000000     0x135c
+ *(.debug_frame)
+ .debug_frame   0x00000000       0xf0 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .debug_frame   0x000000f0      0x120 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .debug_frame   0x00000210      0x154 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .debug_frame   0x00000364       0x8c .\CortexM0\ARM_GCC_473\Release\util.o
+ .debug_frame   0x000003f0      0x4dc .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .debug_frame   0x000008cc       0x68 .\CortexM0\ARM_GCC_473\Release\main.o
+ .debug_frame   0x00000934       0x8c .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .debug_frame   0x000009c0       0x98 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .debug_frame   0x00000a58       0x2c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .debug_frame   0x00000a84       0x78 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .debug_frame   0x00000afc       0xbc .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .debug_frame   0x00000bb8      0x408 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .debug_frame   0x00000fc0       0x78 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .debug_frame   0x00001038       0xb8 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .debug_frame   0x000010f0       0x30 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .debug_frame   0x00001120       0x6c .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .debug_frame   0x0000118c       0xb8 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .debug_frame   0x00001244       0x20 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+ .debug_frame   0x00001264       0x28 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-__atexit2.o)
+ .debug_frame   0x0000128c       0x28 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-exit.o)
+ .debug_frame   0x000012b4       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-fini.o)
+ .debug_frame   0x000012e0       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-init.o)
+ .debug_frame   0x0000130c       0x28 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memcpy.o)
+ .debug_frame   0x00001334       0x28 c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memset.o)
+
+.debug_str      0x00000000     0x1507
+ *(.debug_str)
+ .debug_str     0x00000000      0x21e .\CortexM0\ARM_GCC_473\Release\device_depend.o
+                                0x25c (size before relaxing)
+ .debug_str     0x0000021e       0xc9 .\CortexM0\ARM_GCC_473\Release\md5.o
+                                0x208 (size before relaxing)
+ .debug_str     0x000002e7      0x12e .\CortexM0\ARM_GCC_473\Release\socket.o
+                                0x28f (size before relaxing)
+ .debug_str     0x00000415      0x151 .\CortexM0\ARM_GCC_473\Release\util.o
+                                0x2c5 (size before relaxing)
+ .debug_str     0x00000566      0x20b .\CortexM0\ARM_GCC_473\Release\w5200.o
+                                0x4a8 (size before relaxing)
+ .debug_str     0x00000771       0x70 .\CortexM0\ARM_GCC_473\Release\main.o
+                                0x2a9 (size before relaxing)
+ .debug_str     0x000007e1       0x74 .\CortexM0\ARM_GCC_473\Release\loopback.o
+                                0x2e3 (size before relaxing)
+ .debug_str     0x00000855       0x5b .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+                                0x198 (size before relaxing)
+ .debug_str     0x000008b0      0x11d .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+                                0x285 (size before relaxing)
+ .debug_str     0x000009cd      0x11d .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+                                0x295 (size before relaxing)
+ .debug_str     0x00000aea       0xce .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+                                0x232 (size before relaxing)
+ .debug_str     0x00000bb8      0x14f .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+                                0x2c6 (size before relaxing)
+ .debug_str     0x00000d07      0x508 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+                                0x694 (size before relaxing)
+ .debug_str     0x0000120f       0xaa .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+                                0x210 (size before relaxing)
+ .debug_str     0x000012b9       0xc9 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+                                0x286 (size before relaxing)
+ .debug_str     0x00001382       0x54 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+                                0x1a4 (size before relaxing)
+ .debug_str     0x000013d6       0x7e .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+                                0x1d7 (size before relaxing)
+ .debug_str     0x00001454       0xb3 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+                                0x2a4 (size before relaxing)
+
+.debug_loc      0x00000000     0x620a
+ *(.debug_loc)
+ .debug_loc     0x00000000      0x163 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .debug_loc     0x00000163     0x3189 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .debug_loc     0x000032ec      0x85e .\CortexM0\ARM_GCC_473\Release\socket.o
+ .debug_loc     0x00003b4a       0x54 .\CortexM0\ARM_GCC_473\Release\util.o
+ .debug_loc     0x00003b9e     0x108c .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .debug_loc     0x00004c2a       0x40 .\CortexM0\ARM_GCC_473\Release\main.o
+ .debug_loc     0x00004c6a      0x397 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .debug_loc     0x00005001      0x142 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .debug_loc     0x00005143       0xae .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .debug_loc     0x000051f1       0x40 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .debug_loc     0x00005231      0x1d2 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .debug_loc     0x00005403      0xb08 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .debug_loc     0x00005f0b       0x40 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .debug_loc     0x00005f4b       0xf9 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .debug_loc     0x00006044       0x4a .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .debug_loc     0x0000608e       0x83 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .debug_loc     0x00006111       0xf9 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_ranges   0x00000000     0x10b0
+ *(.debug_ranges)
+ .debug_ranges  0x00000000       0x48 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .debug_ranges  0x00000048      0x9d0 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .debug_ranges  0x00000a18       0x50 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .debug_ranges  0x00000a68       0x38 .\CortexM0\ARM_GCC_473\Release\util.o
+ .debug_ranges  0x00000aa0      0x188 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .debug_ranges  0x00000c28       0x28 .\CortexM0\ARM_GCC_473\Release\main.o
+ .debug_ranges  0x00000c50       0x20 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .debug_ranges  0x00000c70       0x30 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .debug_ranges  0x00000ca0       0x98 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .debug_ranges  0x00000d38       0x30 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .debug_ranges  0x00000d68       0x40 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .debug_ranges  0x00000da8      0x1f0 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .debug_ranges  0x00000f98       0x30 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .debug_ranges  0x00000fc8       0x50 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .debug_ranges  0x00001018       0x18 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .debug_ranges  0x00001030       0x30 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .debug_ranges  0x00001060       0x50 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+
+.comment        0x00000000       0x70
+ .comment       0x00000000       0x70 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+                                 0x71 (size before relaxing)
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\util.o
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\main.o
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .comment       0x00000000       0x71 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.note.gnu.arm.ident
+ *(.note.gnu.arm.ident)
+
+.ARM.attributes
+                0x00000000       0x28
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x00000000       0x1e c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crti.o
+ .ARM.attributes
+                0x0000001e       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtbegin.o
+ .ARM.attributes
+                0x0000004a       0x1c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .ARM.attributes
+                0x00000066       0x31 .\CortexM0\ARM_GCC_473\Release\device_depend.o
+ .ARM.attributes
+                0x00000097       0x31 .\CortexM0\ARM_GCC_473\Release\md5.o
+ .ARM.attributes
+                0x000000c8       0x31 .\CortexM0\ARM_GCC_473\Release\socket.o
+ .ARM.attributes
+                0x000000f9       0x31 .\CortexM0\ARM_GCC_473\Release\util.o
+ .ARM.attributes
+                0x0000012a       0x31 .\CortexM0\ARM_GCC_473\Release\w5200.o
+ .ARM.attributes
+                0x0000015b       0x31 .\CortexM0\ARM_GCC_473\Release\main.o
+ .ARM.attributes
+                0x0000018c       0x31 .\CortexM0\ARM_GCC_473\Release\loopback.o
+ .ARM.attributes
+                0x000001bd       0x31 .\CortexM0\ARM_GCC_473\Release\cymetadata.o
+ .ARM.attributes
+                0x000001ee       0x31 .\CortexM0\ARM_GCC_473\Release\Cm0Start.o
+ .ARM.attributes
+                0x0000021f       0x31 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(cyfitter_cfg.o)
+ .ARM.attributes
+                0x00000250       0x31 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1.o)
+ .ARM.attributes
+                0x00000281       0x31 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_UART.o)
+ .ARM.attributes
+                0x000002b2       0x31 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyLib.o)
+ .ARM.attributes
+                0x000002e3       0x31 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI.o)
+ .ARM.attributes
+                0x00000314       0x31 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI_UART.o)
+ .ARM.attributes
+                0x00000345       0x31 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_SPI.o)
+ .ARM.attributes
+                0x00000376       0x31 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(SPI_CS.o)
+ .ARM.attributes
+                0x000003a7       0x31 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(UART_1_SPI_UART.o)
+ .ARM.attributes
+                0x000003d8       0x21 .\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.a(CyBootAsmGnu.o)
+ .ARM.attributes
+                0x000003f9       0x1e c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_thumb1_case_uqi.o)
+ .ARM.attributes
+                0x00000417       0x1e c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x00000435       0x1e c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_dvmd_tls.o)
+ .ARM.attributes
+                0x00000453       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-__atexit2.o)
+ .ARM.attributes
+                0x0000047f       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-exit.o)
+ .ARM.attributes
+                0x000004ab       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-fini.o)
+ .ARM.attributes
+                0x000004d7       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-impure.o)
+ .ARM.attributes
+                0x00000503       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-init.o)
+ .ARM.attributes
+                0x0000052f       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memcpy.o)
+ .ARM.attributes
+                0x0000055b       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv6-m\libc_s.a(lib_a-memset.o)
+ .ARM.attributes
+                0x00000587       0x2c c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtend.o
+ .ARM.attributes
+                0x000005b3       0x1e c:/program files (x86)/cypress/psoc creator/3.0/psoc creator/import/gnu_cs/arm/4.7.3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m/crtn.o
+
+/DISCARD/
+ *(.note.GNU-stack)
+OUTPUT(.\CortexM0\ARM_GCC_473\Release\W5200_PSoC4_test.elf elf32-littlearm)

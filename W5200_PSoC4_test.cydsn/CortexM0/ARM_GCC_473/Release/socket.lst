@@ -1,0 +1,5299 @@
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"socket.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.close,"ax",%progbits
+  18              		.align	1
+  19              		.global	close
+  20              		.code	16
+  21              		.thumb_func
+  22              		.type	close, %function
+  23              	close:
+  24              	.LFB1:
+  25              		.file 1 ".\\socket.c"
+   1:.\socket.c    **** /*
+   2:.\socket.c    **** *
+   3:.\socket.c    **** @file		socket.c
+   4:.\socket.c    **** @brief	setting chip register for socket
+   5:.\socket.c    **** *		last update : July 30, 2013
+   6:.\socket.c    **** *
+   7:.\socket.c    **** *  -----------------------------------------------------------------------------------
+   8:.\socket.c    **** *  History
+   9:.\socket.c    **** *  -----------------------------------------------------------------------------------
+  10:.\socket.c    **** *
+  11:.\socket.c    **** *	- first release : Jan. 2008
+  12:.\socket.c    **** *  - modified code July 30, 2013 @wiznet : fix the code to add condition "retry" in send().
+  13:.\socket.c    **** *
+  14:.\socket.c    **** */
+  15:.\socket.c    **** 
+  16:.\socket.c    **** //#include "stm32f10x_type.h"
+  17:.\socket.c    **** //#include "stm32f10x.h"
+  18:.\socket.c    **** #include "config.h"
+  19:.\socket.c    **** #include "stdio.h"
+  20:.\socket.c    **** #include "w5200.h"
+  21:.\socket.c    **** #include "socket.h"
+  22:.\socket.c    **** #include "util.h"
+  23:.\socket.c    **** 
+  24:.\socket.c    **** static uint16_t local_port;
+  25:.\socket.c    **** extern uint16_t sent_ptr;
+  26:.\socket.c    **** 
+  27:.\socket.c    **** /**
+  28:.\socket.c    **** @brief	This Socket function initialize the channel in perticular mode, and set the port and wait fo
+  29:.\socket.c    **** @return 	1 for sucess else 0.
+  30:.\socket.c    **** */  
+  31:.\socket.c    **** uint8_t socket(SOCKET s, uint8_t protocol, uint16_t port, uint8_t flag)
+  32:.\socket.c    **** {
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 2
+
+
+  33:.\socket.c    **** 	uint8_t ret;
+  34:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+  35:.\socket.c    **** 	// printf("socket()\r\n");
+  36:.\socket.c    **** #endif
+  37:.\socket.c    **** 	if ((protocol == Sn_MR_TCP) || (protocol == Sn_MR_UDP) || (protocol == Sn_MR_IPRAW) || (protocol =
+  38:.\socket.c    **** 	{
+  39:.\socket.c    **** 		close(s);
+  40:.\socket.c    **** 		IINCHIP_WRITE(Sn_MR(s),protocol | flag);
+  41:.\socket.c    **** 		if (port != 0) {
+  42:.\socket.c    **** 			IINCHIP_WRITE(Sn_PORT0(s),(uint8_t)((port & 0xff00) >> 8));
+  43:.\socket.c    **** 			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8_t)(port & 0x00ff));
+  44:.\socket.c    **** 		} else {
+  45:.\socket.c    **** 			local_port++; // if don't set the source port, set local_port number.
+  46:.\socket.c    **** 			IINCHIP_WRITE(Sn_PORT0(s),(uint8_t)((local_port & 0xff00) >> 8));
+  47:.\socket.c    **** 			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8_t)(local_port & 0x00ff));
+  48:.\socket.c    **** 		}
+  49:.\socket.c    **** 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_OPEN); // run sockinit Sn_CR
+  50:.\socket.c    **** 
+  51:.\socket.c    **** 		/* wait to process the command... */
+  52:.\socket.c    **** 		while( IINCHIP_READ(Sn_CR(s)) ) 
+  53:.\socket.c    **** 			;
+  54:.\socket.c    **** 		/* ------- */
+  55:.\socket.c    **** 		ret = 1;
+  56:.\socket.c    **** 	}
+  57:.\socket.c    **** 	else
+  58:.\socket.c    **** 	{
+  59:.\socket.c    **** 		ret = 0;
+  60:.\socket.c    **** 	}
+  61:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+  62:.\socket.c    **** 	// printf("Sn_SR = %.2x , Protocol = %.2x\r\n", IINCHIP_READ(Sn_SR(s)), IINCHIP_READ(Sn_MR(s)));
+  63:.\socket.c    **** #endif
+  64:.\socket.c    **** 	return ret;
+  65:.\socket.c    **** }
+  66:.\socket.c    **** 
+  67:.\socket.c    **** 
+  68:.\socket.c    **** /**
+  69:.\socket.c    **** @brief	This function close the socket and parameter is "s" which represent the socket number
+  70:.\socket.c    **** */ 
+  71:.\socket.c    **** void close(SOCKET s)
+  72:.\socket.c    **** {
+  26              		.loc 1 72 0
+  27              		.cfi_startproc
+  28              	.LVL0:
+  29 0000 38B5     		push	{r3, r4, r5, lr}
+  30              	.LCFI0:
+  31              		.cfi_def_cfa_offset 16
+  32              		.cfi_offset 3, -16
+  33              		.cfi_offset 4, -12
+  34              		.cfi_offset 5, -8
+  35              		.cfi_offset 14, -4
+  73:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+  74:.\socket.c    **** 	// printf("close()\r\n");
+  75:.\socket.c    **** #endif
+  76:.\socket.c    **** 	
+  77:.\socket.c    **** 	IINCHIP_WRITE(Sn_CR(s),Sn_CR_CLOSE);
+  36              		.loc 1 77 0
+  37 0002 041C     		mov	r4, r0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 3
+
+
+  38 0004 4034     		add	r4, r4, #64
+  39 0006 2002     		lsl	r0, r4, #8
+  40              	.LVL1:
+  41 0008 84B2     		uxth	r4, r0
+  42 000a 651C     		add	r5, r4, #1
+  43 000c ADB2     		uxth	r5, r5
+  44 000e 281C     		mov	r0, r5
+  45 0010 1021     		mov	r1, #16
+  46 0012 FFF7FEFF 		bl	IINCHIP_WRITE
+  47              	.LVL2:
+  48              	.L2:
+  78:.\socket.c    **** 
+  79:.\socket.c    **** 	/* wait to process the command... */
+  80:.\socket.c    **** 	while( IINCHIP_READ(Sn_CR(s)) ) 
+  49              		.loc 1 80 0 discriminator 1
+  50 0016 281C     		mov	r0, r5
+  51 0018 FFF7FEFF 		bl	IINCHIP_READ
+  52              	.LVL3:
+  53 001c 0028     		cmp	r0, #0
+  54 001e FAD1     		bne	.L2
+  81:.\socket.c    **** 		;
+  82:.\socket.c    **** 	/* ------- */
+  83:.\socket.c    ****                 /* all clear */
+  84:.\socket.c    **** 		IINCHIP_WRITE(Sn_IR(s), 0xFF);
+  55              		.loc 1 84 0
+  56 0020 0234     		add	r4, r4, #2
+  57 0022 A0B2     		uxth	r0, r4
+  58 0024 FF21     		mov	r1, #255
+  59 0026 FFF7FEFF 		bl	IINCHIP_WRITE
+  60              	.LVL4:
+  85:.\socket.c    **** }
+  61              		.loc 1 85 0
+  62              		@ sp needed for prologue
+  63 002a 38BD     		pop	{r3, r4, r5, pc}
+  64              		.cfi_endproc
+  65              	.LFE1:
+  66              		.size	close, .-close
+  67              		.section	.text.socket,"ax",%progbits
+  68              		.align	1
+  69              		.global	socket
+  70              		.code	16
+  71              		.thumb_func
+  72              		.type	socket, %function
+  73              	socket:
+  74              	.LFB0:
+  32:.\socket.c    **** {
+  75              		.loc 1 32 0
+  76              		.cfi_startproc
+  77              	.LVL5:
+  78 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  79              	.LCFI1:
+  80              		.cfi_def_cfa_offset 24
+  81              		.cfi_offset 3, -24
+  82              		.cfi_offset 4, -20
+  83              		.cfi_offset 5, -16
+  84              		.cfi_offset 6, -12
+  85              		.cfi_offset 7, -8
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 4
+
+
+  86              		.cfi_offset 14, -4
+  32:.\socket.c    **** {
+  87              		.loc 1 32 0
+  88 0002 1F1C     		mov	r7, r3
+  37:.\socket.c    **** 	if ((protocol == Sn_MR_TCP) || (protocol == Sn_MR_UDP) || (protocol == Sn_MR_IPRAW) || (protocol =
+  89              		.loc 1 37 0
+  90 0004 4B1E     		sub	r3, r1, #1
+  91              	.LVL6:
+  32:.\socket.c    **** {
+  92              		.loc 1 32 0
+  93 0006 041C     		mov	r4, r0
+  94 0008 0E1C     		mov	r6, r1
+  95 000a 151C     		mov	r5, r2
+  59:.\socket.c    **** 		ret = 0;
+  96              		.loc 1 59 0
+  97 000c 0020     		mov	r0, #0
+  98              	.LVL7:
+  37:.\socket.c    **** 	if ((protocol == Sn_MR_TCP) || (protocol == Sn_MR_UDP) || (protocol == Sn_MR_IPRAW) || (protocol =
+  99              		.loc 1 37 0
+ 100 000e 042B     		cmp	r3, #4
+ 101 0010 2ED8     		bhi	.L6
+  39:.\socket.c    **** 		close(s);
+ 102              		.loc 1 39 0
+ 103 0012 201C     		mov	r0, r4
+  40:.\socket.c    **** 		IINCHIP_WRITE(Sn_MR(s),protocol | flag);
+ 104              		.loc 1 40 0
+ 105 0014 4034     		add	r4, r4, #64
+  39:.\socket.c    **** 		close(s);
+ 106              		.loc 1 39 0
+ 107 0016 FFF7FEFF 		bl	close
+ 108              	.LVL8:
+  40:.\socket.c    **** 		IINCHIP_WRITE(Sn_MR(s),protocol | flag);
+ 109              		.loc 1 40 0
+ 110 001a 2002     		lsl	r0, r4, #8
+ 111 001c 84B2     		uxth	r4, r0
+ 112 001e 391C     		mov	r1, r7
+ 113 0020 3143     		orr	r1, r6
+ 114 0022 201C     		mov	r0, r4
+ 115 0024 FFF7FEFF 		bl	IINCHIP_WRITE
+ 116              	.LVL9:
+ 117 0028 661D     		add	r6, r4, #5
+ 118 002a 221D     		add	r2, r4, #4
+  41:.\socket.c    **** 		if (port != 0) {
+ 119              		.loc 1 41 0
+ 120 002c 002D     		cmp	r5, #0
+ 121 002e 06D0     		beq	.L7
+  42:.\socket.c    **** 			IINCHIP_WRITE(Sn_PORT0(s),(uint8_t)((port & 0xff00) >> 8));
+ 122              		.loc 1 42 0
+ 123 0030 290A     		lsr	r1, r5, #8
+ 124 0032 90B2     		uxth	r0, r2
+ 125 0034 FFF7FEFF 		bl	IINCHIP_WRITE
+ 126              	.LVL10:
+  43:.\socket.c    **** 			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8_t)(port & 0x00ff));
+ 127              		.loc 1 43 0
+ 128 0038 B0B2     		uxth	r0, r6
+ 129 003a E9B2     		uxtb	r1, r5
+ 130 003c 0AE0     		b	.L12
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 5
+
+
+ 131              	.L7:
+  45:.\socket.c    **** 			local_port++; // if don't set the source port, set local_port number.
+ 132              		.loc 1 45 0
+ 133 003e 0D4D     		ldr	r5, .L13
+  46:.\socket.c    **** 			IINCHIP_WRITE(Sn_PORT0(s),(uint8_t)((local_port & 0xff00) >> 8));
+ 134              		.loc 1 46 0
+ 135 0040 90B2     		uxth	r0, r2
+  45:.\socket.c    **** 			local_port++; // if don't set the source port, set local_port number.
+ 136              		.loc 1 45 0
+ 137 0042 2988     		ldrh	r1, [r5]
+ 138 0044 0131     		add	r1, r1, #1
+ 139 0046 8FB2     		uxth	r7, r1
+  46:.\socket.c    **** 			IINCHIP_WRITE(Sn_PORT0(s),(uint8_t)((local_port & 0xff00) >> 8));
+ 140              		.loc 1 46 0
+ 141 0048 390A     		lsr	r1, r7, #8
+  45:.\socket.c    **** 			local_port++; // if don't set the source port, set local_port number.
+ 142              		.loc 1 45 0
+ 143 004a 2F80     		strh	r7, [r5]
+  46:.\socket.c    **** 			IINCHIP_WRITE(Sn_PORT0(s),(uint8_t)((local_port & 0xff00) >> 8));
+ 144              		.loc 1 46 0
+ 145 004c FFF7FEFF 		bl	IINCHIP_WRITE
+ 146              	.LVL11:
+  47:.\socket.c    **** 			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8_t)(local_port & 0x00ff));
+ 147              		.loc 1 47 0
+ 148 0050 2978     		ldrb	r1, [r5]
+ 149 0052 B0B2     		uxth	r0, r6
+ 150              	.L12:
+  49:.\socket.c    **** 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_OPEN); // run sockinit Sn_CR
+ 151              		.loc 1 49 0
+ 152 0054 0134     		add	r4, r4, #1
+ 153 0056 A4B2     		uxth	r4, r4
+  47:.\socket.c    **** 			IINCHIP_WRITE((Sn_PORT0(s) + 1),(uint8_t)(local_port & 0x00ff));
+ 154              		.loc 1 47 0
+ 155 0058 FFF7FEFF 		bl	IINCHIP_WRITE
+ 156              	.LVL12:
+  49:.\socket.c    **** 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_OPEN); // run sockinit Sn_CR
+ 157              		.loc 1 49 0
+ 158 005c 201C     		mov	r0, r4
+ 159 005e 0121     		mov	r1, #1
+ 160 0060 FFF7FEFF 		bl	IINCHIP_WRITE
+ 161              	.LVL13:
+ 162              	.L9:
+  52:.\socket.c    **** 		while( IINCHIP_READ(Sn_CR(s)) ) 
+ 163              		.loc 1 52 0 discriminator 1
+ 164 0064 201C     		mov	r0, r4
+ 165 0066 FFF7FEFF 		bl	IINCHIP_READ
+ 166              	.LVL14:
+ 167 006a 0028     		cmp	r0, #0
+ 168 006c FAD1     		bne	.L9
+  55:.\socket.c    **** 		ret = 1;
+ 169              		.loc 1 55 0
+ 170 006e 0120     		mov	r0, #1
+ 171              	.L6:
+ 172              	.LVL15:
+  65:.\socket.c    **** }
+ 173              		.loc 1 65 0
+ 174              		@ sp needed for prologue
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 6
+
+
+ 175 0070 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 176              	.L14:
+ 177 0072 C046     		.align	2
+ 178              	.L13:
+ 179 0074 00000000 		.word	.LANCHOR0
+ 180              		.cfi_endproc
+ 181              	.LFE0:
+ 182              		.size	socket, .-socket
+ 183              		.section	.text.listen,"ax",%progbits
+ 184              		.align	1
+ 185              		.global	listen
+ 186              		.code	16
+ 187              		.thumb_func
+ 188              		.type	listen, %function
+ 189              	listen:
+ 190              	.LFB2:
+  86:.\socket.c    **** 
+  87:.\socket.c    **** 
+  88:.\socket.c    **** /**
+  89:.\socket.c    **** @brief	This function established  the connection for the channel in passive (server) mode. This fun
+  90:.\socket.c    **** @return	1 for success else 0.
+  91:.\socket.c    **** */ 
+  92:.\socket.c    **** uint8_t listen(SOCKET s)
+  93:.\socket.c    **** {
+ 191              		.loc 1 93 0
+ 192              		.cfi_startproc
+ 193              	.LVL16:
+ 194 0000 10B5     		push	{r4, lr}
+ 195              	.LCFI2:
+ 196              		.cfi_def_cfa_offset 8
+ 197              		.cfi_offset 4, -8
+ 198              		.cfi_offset 14, -4
+  94:.\socket.c    **** 	uint8_t ret;
+  95:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+  96:.\socket.c    **** 	// printf("listen()\r\n");
+  97:.\socket.c    **** #endif
+  98:.\socket.c    **** 	if (IINCHIP_READ(Sn_SR(s)) == SOCK_INIT)
+ 199              		.loc 1 98 0
+ 200 0002 041C     		mov	r4, r0
+ 201 0004 4034     		add	r4, r4, #64
+ 202 0006 2002     		lsl	r0, r4, #8
+ 203              	.LVL17:
+ 204 0008 84B2     		uxth	r4, r0
+ 205 000a E11C     		add	r1, r4, #3
+ 206 000c 88B2     		uxth	r0, r1
+ 207 000e FFF7FEFF 		bl	IINCHIP_READ
+ 208              	.LVL18:
+  99:.\socket.c    **** 	{
+ 100:.\socket.c    **** 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_LISTEN);
+ 101:.\socket.c    **** 		/* wait to process the command... */
+ 102:.\socket.c    **** 		while( IINCHIP_READ(Sn_CR(s)) ) 
+ 103:.\socket.c    **** 			;
+ 104:.\socket.c    **** 		/* ------- */
+ 105:.\socket.c    **** 		ret = 1;
+ 106:.\socket.c    **** 	}
+ 107:.\socket.c    **** 	else
+ 108:.\socket.c    **** 	{
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 7
+
+
+ 109:.\socket.c    **** 		ret = 0;
+ 209              		.loc 1 109 0
+ 210 0012 0023     		mov	r3, #0
+  98:.\socket.c    **** 	if (IINCHIP_READ(Sn_SR(s)) == SOCK_INIT)
+ 211              		.loc 1 98 0
+ 212 0014 1328     		cmp	r0, #19
+ 213 0016 0BD1     		bne	.L16
+ 100:.\socket.c    **** 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_LISTEN);
+ 214              		.loc 1 100 0
+ 215 0018 0134     		add	r4, r4, #1
+ 216 001a A4B2     		uxth	r4, r4
+ 217 001c 201C     		mov	r0, r4
+ 218 001e 0221     		mov	r1, #2
+ 219 0020 FFF7FEFF 		bl	IINCHIP_WRITE
+ 220              	.LVL19:
+ 221              	.L17:
+ 102:.\socket.c    **** 		while( IINCHIP_READ(Sn_CR(s)) ) 
+ 222              		.loc 1 102 0 discriminator 1
+ 223 0024 201C     		mov	r0, r4
+ 224 0026 FFF7FEFF 		bl	IINCHIP_READ
+ 225              	.LVL20:
+ 226 002a 0028     		cmp	r0, #0
+ 227 002c FAD1     		bne	.L17
+ 105:.\socket.c    **** 		ret = 1;
+ 228              		.loc 1 105 0
+ 229 002e 0123     		mov	r3, #1
+ 230              	.L16:
+ 231              	.LVL21:
+ 110:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 111:.\socket.c    **** 	// printf("Fail[invalid ip,port]\r\n");
+ 112:.\socket.c    **** #endif
+ 113:.\socket.c    **** 	}
+ 114:.\socket.c    **** 	return ret;
+ 115:.\socket.c    **** }
+ 232              		.loc 1 115 0
+ 233 0030 181C     		mov	r0, r3
+ 234              		@ sp needed for prologue
+ 235 0032 10BD     		pop	{r4, pc}
+ 236              		.cfi_endproc
+ 237              	.LFE2:
+ 238              		.size	listen, .-listen
+ 239              		.section	.text.connect,"ax",%progbits
+ 240              		.align	1
+ 241              		.global	connect
+ 242              		.code	16
+ 243              		.thumb_func
+ 244              		.type	connect, %function
+ 245              	connect:
+ 246              	.LFB3:
+ 116:.\socket.c    **** 
+ 117:.\socket.c    **** 
+ 118:.\socket.c    **** /**
+ 119:.\socket.c    **** @brief	This function established  the connection for the channel in Active (client) mode. 
+ 120:.\socket.c    **** 		This function waits for the untill the connection is established.
+ 121:.\socket.c    **** 		
+ 122:.\socket.c    **** @return	1 for success else 0.
+ 123:.\socket.c    **** */ 
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 8
+
+
+ 124:.\socket.c    **** uint8_t connect(SOCKET s, uint8_t * addr, uint16_t port)
+ 125:.\socket.c    **** {
+ 247              		.loc 1 125 0
+ 248              		.cfi_startproc
+ 249              	.LVL22:
+ 250 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 251              	.LCFI3:
+ 252              		.cfi_def_cfa_offset 24
+ 253              		.cfi_offset 3, -24
+ 254              		.cfi_offset 4, -20
+ 255              		.cfi_offset 5, -16
+ 256              		.cfi_offset 6, -12
+ 257              		.cfi_offset 7, -8
+ 258              		.cfi_offset 14, -4
+ 259              		.loc 1 125 0
+ 260 0002 0C1C     		mov	r4, r1
+ 126:.\socket.c    **** 	uint8_t ret;
+ 127:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 128:.\socket.c    **** 	// printf("connect()\r\n");
+ 129:.\socket.c    **** #endif
+ 130:.\socket.c    **** 	if 
+ 131:.\socket.c    **** 		(
+ 132:.\socket.c    **** 			((addr[0] == 0xFF) && (addr[1] == 0xFF) && (addr[2] == 0xFF) && (addr[3] == 0xFF)) ||
+ 261              		.loc 1 132 0
+ 262 0004 0978     		ldrb	r1, [r1]
+ 263              	.LVL23:
+ 125:.\socket.c    **** {
+ 264              		.loc 1 125 0
+ 265 0006 071C     		mov	r7, r0
+ 266 0008 161C     		mov	r6, r2
+ 131:.\socket.c    **** 		(
+ 267              		.loc 1 131 0
+ 268 000a FF29     		cmp	r1, #255
+ 269 000c 09D1     		bne	.L21
+ 270              		.loc 1 132 0
+ 271 000e 6578     		ldrb	r5, [r4, #1]
+ 272 0010 FF2D     		cmp	r5, #255
+ 273 0012 12D1     		bne	.L22
+ 274              		.loc 1 132 0 is_stmt 0 discriminator 1
+ 275 0014 A378     		ldrb	r3, [r4, #2]
+ 276 0016 FF2B     		cmp	r3, #255
+ 277 0018 0FD1     		bne	.L22
+ 278 001a E078     		ldrb	r0, [r4, #3]
+ 279              	.LVL24:
+ 280 001c FF28     		cmp	r0, #255
+ 281 001e 0CD1     		bne	.L22
+ 282 0020 5EE0     		b	.L41
+ 283              	.LVL25:
+ 284              	.L21:
+ 285              		.loc 1 132 0 discriminator 2
+ 286 0022 0029     		cmp	r1, #0
+ 287 0024 09D1     		bne	.L22
+ 133:.\socket.c    **** 		 	((addr[0] == 0x00) && (addr[1] == 0x00) && (addr[2] == 0x00) && (addr[3] == 0x00)) ||
+ 288              		.loc 1 133 0 is_stmt 1
+ 289 0026 6378     		ldrb	r3, [r4, #1]
+ 290 0028 002B     		cmp	r3, #0
+ 291 002a 06D1     		bne	.L22
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 9
+
+
+ 292              		.loc 1 133 0 is_stmt 0 discriminator 1
+ 293 002c A078     		ldrb	r0, [r4, #2]
+ 294              	.LVL26:
+ 295 002e 0028     		cmp	r0, #0
+ 296 0030 03D1     		bne	.L22
+ 297 0032 E278     		ldrb	r2, [r4, #3]
+ 298              	.LVL27:
+ 134:.\socket.c    **** 		 	(port == 0x00) 
+ 135:.\socket.c    **** 		) 
+ 136:.\socket.c    ****  	{
+ 137:.\socket.c    ****  		ret = 0;
+ 299              		.loc 1 137 0 is_stmt 1 discriminator 1
+ 300 0034 0D1C     		mov	r5, r1
+ 133:.\socket.c    **** 		 	((addr[0] == 0x00) && (addr[1] == 0x00) && (addr[2] == 0x00) && (addr[3] == 0x00)) ||
+ 301              		.loc 1 133 0 discriminator 1
+ 302 0036 002A     		cmp	r2, #0
+ 303 0038 53D0     		beq	.L23
+ 304              	.L22:
+ 305              		.loc 1 137 0 discriminator 2
+ 306 003a 0025     		mov	r5, #0
+ 133:.\socket.c    **** 		 	((addr[0] == 0x00) && (addr[1] == 0x00) && (addr[2] == 0x00) && (addr[3] == 0x00)) ||
+ 307              		.loc 1 133 0 discriminator 2
+ 308 003c AE42     		cmp	r6, r5
+ 309 003e 50D0     		beq	.L23
+ 310              	.LVL28:
+ 138:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 139:.\socket.c    **** 	// printf("Fail[invalid ip,port]\r\n");
+ 140:.\socket.c    **** #endif
+ 141:.\socket.c    **** 	}
+ 142:.\socket.c    **** 	else
+ 143:.\socket.c    **** 	{
+ 144:.\socket.c    **** 		ret = 1;
+ 145:.\socket.c    **** 		// set destination IP
+ 146:.\socket.c    **** 		IINCHIP_WRITE(Sn_DIPR0(s),addr[0]);
+ 311              		.loc 1 146 0
+ 312 0040 3A1C     		mov	r2, r7
+ 313 0042 4032     		add	r2, r2, #64
+ 314 0044 1502     		lsl	r5, r2, #8
+ 315 0046 ADB2     		uxth	r5, r5
+ 316 0048 2B1C     		mov	r3, r5
+ 317 004a 0C33     		add	r3, r3, #12
+ 318 004c 98B2     		uxth	r0, r3
+ 319 004e FFF7FEFF 		bl	IINCHIP_WRITE
+ 320              	.LVL29:
+ 147:.\socket.c    **** 		IINCHIP_WRITE((Sn_DIPR0(s) + 1),addr[1]);
+ 321              		.loc 1 147 0
+ 322 0052 291C     		mov	r1, r5
+ 323 0054 0D31     		add	r1, r1, #13
+ 324 0056 88B2     		uxth	r0, r1
+ 325 0058 6178     		ldrb	r1, [r4, #1]
+ 326 005a FFF7FEFF 		bl	IINCHIP_WRITE
+ 327              	.LVL30:
+ 148:.\socket.c    **** 		IINCHIP_WRITE((Sn_DIPR0(s) + 2),addr[2]);
+ 328              		.loc 1 148 0
+ 329 005e 281C     		mov	r0, r5
+ 330 0060 0E30     		add	r0, r0, #14
+ 331 0062 A178     		ldrb	r1, [r4, #2]
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 10
+
+
+ 332 0064 80B2     		uxth	r0, r0
+ 333 0066 FFF7FEFF 		bl	IINCHIP_WRITE
+ 334              	.LVL31:
+ 149:.\socket.c    **** 		IINCHIP_WRITE((Sn_DIPR0(s) + 3),addr[3]);
+ 335              		.loc 1 149 0
+ 336 006a 2A1C     		mov	r2, r5
+ 337 006c 0F32     		add	r2, r2, #15
+ 338 006e E178     		ldrb	r1, [r4, #3]
+ 150:.\socket.c    **** 		IINCHIP_WRITE(Sn_DPORT0(s),(uint8_t)((port & 0xff00) >> 8));
+ 339              		.loc 1 150 0
+ 340 0070 2C1C     		mov	r4, r5
+ 341              	.LVL32:
+ 149:.\socket.c    **** 		IINCHIP_WRITE((Sn_DIPR0(s) + 3),addr[3]);
+ 342              		.loc 1 149 0
+ 343 0072 90B2     		uxth	r0, r2
+ 344              		.loc 1 150 0
+ 345 0074 1034     		add	r4, r4, #16
+ 149:.\socket.c    **** 		IINCHIP_WRITE((Sn_DIPR0(s) + 3),addr[3]);
+ 346              		.loc 1 149 0
+ 347 0076 FFF7FEFF 		bl	IINCHIP_WRITE
+ 348              	.LVL33:
+ 349              		.loc 1 150 0
+ 350 007a 310A     		lsr	r1, r6, #8
+ 351 007c A0B2     		uxth	r0, r4
+ 352 007e FFF7FEFF 		bl	IINCHIP_WRITE
+ 353              	.LVL34:
+ 151:.\socket.c    **** 		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8_t)(port & 0x00ff));
+ 354              		.loc 1 151 0
+ 355 0082 2B1C     		mov	r3, r5
+ 356 0084 F1B2     		uxtb	r1, r6
+ 357 0086 1133     		add	r3, r3, #17
+ 152:.\socket.c    **** 		clearSUBR();   // clear the subnet mask again and keep it because of the ARP errata of W5100
+ 153:.\socket.c    **** 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_CONNECT);
+ 358              		.loc 1 153 0
+ 359 0088 6E1C     		add	r6, r5, #1
+ 151:.\socket.c    **** 		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8_t)(port & 0x00ff));
+ 360              		.loc 1 151 0
+ 361 008a 98B2     		uxth	r0, r3
+ 362              		.loc 1 153 0
+ 363 008c B4B2     		uxth	r4, r6
+ 151:.\socket.c    **** 		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8_t)(port & 0x00ff));
+ 364              		.loc 1 151 0
+ 365 008e FFF7FEFF 		bl	IINCHIP_WRITE
+ 366              	.LVL35:
+ 152:.\socket.c    **** 		clearSUBR();   // clear the subnet mask again and keep it because of the ARP errata of W5100
+ 367              		.loc 1 152 0
+ 368 0092 FFF7FEFF 		bl	clearSUBR
+ 369              	.LVL36:
+ 370              		.loc 1 153 0
+ 371 0096 201C     		mov	r0, r4
+ 372 0098 0421     		mov	r1, #4
+ 373 009a FFF7FEFF 		bl	IINCHIP_WRITE
+ 374              	.LVL37:
+ 375              	.L24:
+ 154:.\socket.c    ****                 /* wait for completion */
+ 155:.\socket.c    **** 		while ( IINCHIP_READ(Sn_CR(s)) ) ;
+ 376              		.loc 1 155 0 discriminator 1
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 11
+
+
+ 377 009e 201C     		mov	r0, r4
+ 378 00a0 FFF7FEFF 		bl	IINCHIP_READ
+ 379              	.LVL38:
+ 380 00a4 0028     		cmp	r0, #0
+ 381 00a6 FAD1     		bne	.L24
+ 382              	.L35:
+ 156:.\socket.c    **** 		while ( IINCHIP_READ(Sn_SR(s)) != SOCK_SYNSENT )
+ 383              		.loc 1 156 0
+ 384 00a8 E91C     		add	r1, r5, #3
+ 385 00aa 8EB2     		uxth	r6, r1
+ 386 00ac 301C     		mov	r0, r6
+ 387 00ae FFF7FEFF 		bl	IINCHIP_READ
+ 388              	.LVL39:
+ 389 00b2 1528     		cmp	r0, #21
+ 390 00b4 04D0     		beq	.L29
+ 391              	.L28:
+ 157:.\socket.c    **** 		{
+ 158:.\socket.c    **** 			if(IINCHIP_READ(Sn_SR(s)) == SOCK_ESTABLISHED)
+ 392              		.loc 1 158 0
+ 393 00b6 301C     		mov	r0, r6
+ 394 00b8 FFF7FEFF 		bl	IINCHIP_READ
+ 395              	.LVL40:
+ 396 00bc 1728     		cmp	r0, #23
+ 397 00be 01D1     		bne	.L26
+ 398              	.L29:
+ 144:.\socket.c    **** 		ret = 1;
+ 399              		.loc 1 144 0
+ 400 00c0 0125     		mov	r5, #1
+ 401 00c2 0AE0     		b	.L27
+ 402              	.L26:
+ 159:.\socket.c    **** 			{
+ 160:.\socket.c    **** 				break;
+ 161:.\socket.c    **** 			}
+ 162:.\socket.c    **** 			if (getSn_IR(s) & Sn_IR_TIMEOUT)
+ 403              		.loc 1 162 0
+ 404 00c4 381C     		mov	r0, r7
+ 405 00c6 FFF7FEFF 		bl	getSn_IR
+ 406              	.LVL41:
+ 407 00ca 0821     		mov	r1, #8
+ 408 00cc 0842     		tst	r0, r1
+ 409 00ce EBD0     		beq	.L35
+ 163:.\socket.c    **** 			{
+ 164:.\socket.c    **** 				IINCHIP_WRITE(Sn_IR(s), (Sn_IR_TIMEOUT));  // clear TIMEOUT Interrupt
+ 410              		.loc 1 164 0
+ 411 00d0 0235     		add	r5, r5, #2
+ 412 00d2 A8B2     		uxth	r0, r5
+ 413 00d4 FFF7FEFF 		bl	IINCHIP_WRITE
+ 414              	.LVL42:
+ 165:.\socket.c    **** 				ret = 0;
+ 415              		.loc 1 165 0
+ 416 00d8 0025     		mov	r5, #0
+ 417              	.LVL43:
+ 418              	.L27:
+ 166:.\socket.c    **** 				break;
+ 167:.\socket.c    **** 			}
+ 168:.\socket.c    **** 		}
+ 169:.\socket.c    **** 		setSUBR();	 // set the subnet mask register
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 12
+
+
+ 419              		.loc 1 169 0
+ 420 00da FFF7FEFF 		bl	setSUBR
+ 421              	.LVL44:
+ 422 00de 00E0     		b	.L23
+ 423              	.LVL45:
+ 424              	.L41:
+ 137:.\socket.c    ****  		ret = 0;
+ 425              		.loc 1 137 0
+ 426 00e0 0025     		mov	r5, #0
+ 427              	.LVL46:
+ 428              	.L23:
+ 170:.\socket.c    **** 	}
+ 171:.\socket.c    **** 	
+ 172:.\socket.c    **** 	return ret;
+ 173:.\socket.c    **** }
+ 429              		.loc 1 173 0
+ 430 00e2 281C     		mov	r0, r5
+ 431              		@ sp needed for prologue
+ 432              	.LVL47:
+ 433 00e4 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 434              		.cfi_endproc
+ 435              	.LFE3:
+ 436              		.size	connect, .-connect
+ 437              		.section	.text.disconnect,"ax",%progbits
+ 438              		.align	1
+ 439              		.global	disconnect
+ 440              		.code	16
+ 441              		.thumb_func
+ 442              		.type	disconnect, %function
+ 443              	disconnect:
+ 444              	.LFB4:
+ 174:.\socket.c    **** 
+ 175:.\socket.c    **** 
+ 176:.\socket.c    **** 
+ 177:.\socket.c    **** /**
+ 178:.\socket.c    **** @brief	This function used for disconnect the socket and parameter is "s" which represent the socket
+ 179:.\socket.c    **** @return	1 for success else 0.
+ 180:.\socket.c    **** */ 
+ 181:.\socket.c    **** void disconnect(SOCKET s)
+ 182:.\socket.c    **** {
+ 445              		.loc 1 182 0
+ 446              		.cfi_startproc
+ 447              	.LVL48:
+ 183:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 184:.\socket.c    **** 	// printf("disconnect()\r\n");
+ 185:.\socket.c    **** #endif
+ 186:.\socket.c    **** 	IINCHIP_WRITE(Sn_CR(s),Sn_CR_DISCON);
+ 448              		.loc 1 186 0
+ 449 0000 074B     		ldr	r3, .L45
+ 182:.\socket.c    **** {
+ 450              		.loc 1 182 0
+ 451 0002 10B5     		push	{r4, lr}
+ 452              	.LCFI4:
+ 453              		.cfi_def_cfa_offset 8
+ 454              		.cfi_offset 4, -8
+ 455              		.cfi_offset 14, -4
+ 456              		.loc 1 186 0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 13
+
+
+ 457 0004 0402     		lsl	r4, r0, #8
+ 458 0006 E018     		add	r0, r4, r3
+ 459              	.LVL49:
+ 460 0008 84B2     		uxth	r4, r0
+ 461 000a 201C     		mov	r0, r4
+ 462 000c 0821     		mov	r1, #8
+ 463 000e FFF7FEFF 		bl	IINCHIP_WRITE
+ 464              	.LVL50:
+ 465              	.L43:
+ 187:.\socket.c    **** 
+ 188:.\socket.c    **** 	/* wait to process the command... */
+ 189:.\socket.c    **** 	while( IINCHIP_READ(Sn_CR(s)) ) 
+ 466              		.loc 1 189 0 discriminator 1
+ 467 0012 201C     		mov	r0, r4
+ 468 0014 FFF7FEFF 		bl	IINCHIP_READ
+ 469              	.LVL51:
+ 470 0018 0028     		cmp	r0, #0
+ 471 001a FAD1     		bne	.L43
+ 190:.\socket.c    **** 		;
+ 191:.\socket.c    **** 	/* ------- */
+ 192:.\socket.c    **** }
+ 472              		.loc 1 192 0
+ 473              		@ sp needed for prologue
+ 474 001c 10BD     		pop	{r4, pc}
+ 475              	.L46:
+ 476 001e C046     		.align	2
+ 477              	.L45:
+ 478 0020 01400000 		.word	16385
+ 479              		.cfi_endproc
+ 480              	.LFE4:
+ 481              		.size	disconnect, .-disconnect
+ 482              		.section	.text.send,"ax",%progbits
+ 483              		.align	1
+ 484              		.global	send
+ 485              		.code	16
+ 486              		.thumb_func
+ 487              		.type	send, %function
+ 488              	send:
+ 489              	.LFB5:
+ 193:.\socket.c    **** 
+ 194:.\socket.c    **** 
+ 195:.\socket.c    **** /**
+ 196:.\socket.c    **** @brief	This function used to send the data in TCP mode
+ 197:.\socket.c    **** @return	1 for success else 0.
+ 198:.\socket.c    **** */ 
+ 199:.\socket.c    **** uint16_t send(SOCKET s, const uint8_t * buf, uint16_t len, bool retry)
+ 200:.\socket.c    **** {
+ 490              		.loc 1 200 0
+ 491              		.cfi_startproc
+ 492              	.LVL52:
+ 493 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 494              	.LCFI5:
+ 495              		.cfi_def_cfa_offset 20
+ 496              		.cfi_offset 4, -20
+ 497              		.cfi_offset 5, -16
+ 498              		.cfi_offset 6, -12
+ 499              		.cfi_offset 7, -8
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 14
+
+
+ 500              		.cfi_offset 14, -4
+ 501 0002 051C     		mov	r5, r0
+ 502 0004 85B0     		sub	sp, sp, #20
+ 503              	.LCFI6:
+ 504              		.cfi_def_cfa_offset 40
+ 505              		.loc 1 200 0
+ 506 0006 041C     		mov	r4, r0
+ 507 0008 0191     		str	r1, [sp, #4]
+ 508 000a 161C     		mov	r6, r2
+ 509 000c 4035     		add	r5, r5, #64
+ 201:.\socket.c    **** 	uint8_t status=0;
+ 202:.\socket.c    **** 	uint16_t ret=0;
+ 203:.\socket.c    **** 	uint16_t freesize=0;
+ 204:.\socket.c    **** 	uint16_t txrd, txrd_before_send;
+ 205:.\socket.c    **** 
+ 206:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 207:.\socket.c    **** 	// printf("send()\r\n");
+ 208:.\socket.c    **** #endif        
+ 209:.\socket.c    **** 	if(retry) ;
+ 510              		.loc 1 209 0
+ 511 000e 002B     		cmp	r3, #0
+ 512 0010 17D0     		beq	.L48
+ 513              	.LVL53:
+ 514              	.L54:
+ 210:.\socket.c    **** 	else {     
+ 211:.\socket.c    **** 		if (len > getIINCHIP_TxMAX(s)) ret = getIINCHIP_TxMAX(s); // check size not to exceed MAX size.
+ 212:.\socket.c    **** 		else ret = len;
+ 213:.\socket.c    **** 
+ 214:.\socket.c    **** 		// if freebuf is available, start.
+ 215:.\socket.c    **** 		do 
+ 216:.\socket.c    **** 		{
+ 217:.\socket.c    **** 			freesize = getSn_TX_FSR(s);
+ 218:.\socket.c    **** 			status = IINCHIP_READ(Sn_SR(s));
+ 219:.\socket.c    **** 			if ((status != SOCK_ESTABLISHED) && (status != SOCK_CLOSE_WAIT))
+ 220:.\socket.c    **** 			{
+ 221:.\socket.c    **** 				ret = 0; 
+ 222:.\socket.c    **** 				break;
+ 223:.\socket.c    **** 			}
+ 224:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 225:.\socket.c    **** 			// printf("socket %d freesize(%d) empty or error\r\n", s, freesize);
+ 226:.\socket.c    **** #endif
+ 227:.\socket.c    **** 		} while (freesize < ret);
+ 228:.\socket.c    **** 
+ 229:.\socket.c    **** 		// copy data
+ 230:.\socket.c    **** 		send_data_processing(s, (uint8_t *)buf, ret);
+ 231:.\socket.c    **** 	}
+ 232:.\socket.c    **** 
+ 233:.\socket.c    **** 
+ 234:.\socket.c    **** //	if(ret != 0) // error code
+ 235:.\socket.c    **** // 2013-07-30 wiznet fix the code to add condition "retry"
+ 236:.\socket.c    **** 	if(retry || ret != 0)
+ 237:.\socket.c    **** 	{
+ 238:.\socket.c    **** 		txrd_before_send = IINCHIP_READ(Sn_TX_RD0(s));
+ 515              		.loc 1 238 0
+ 516 0012 2802     		lsl	r0, r5, #8
+ 517 0014 85B2     		uxth	r5, r0
+ 518 0016 291C     		mov	r1, r5
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 15
+
+
+ 519 0018 2231     		add	r1, r1, #34
+ 520 001a 8FB2     		uxth	r7, r1
+ 521 001c 381C     		mov	r0, r7
+ 522 001e FFF7FEFF 		bl	IINCHIP_READ
+ 523              	.LVL54:
+ 239:.\socket.c    **** 		txrd_before_send = (txrd_before_send << 8) + IINCHIP_READ(Sn_TX_RD0(s) + 1);
+ 524              		.loc 1 239 0
+ 525 0022 2A1C     		mov	r2, r5
+ 526 0024 2332     		add	r2, r2, #35
+ 527 0026 96B2     		uxth	r6, r2
+ 238:.\socket.c    **** 		txrd_before_send = IINCHIP_READ(Sn_TX_RD0(s));
+ 528              		.loc 1 238 0
+ 529 0028 0290     		str	r0, [sp, #8]
+ 530              	.LVL55:
+ 531              		.loc 1 239 0
+ 532 002a 301C     		mov	r0, r6
+ 533 002c 0196     		str	r6, [sp, #4]
+ 534 002e FFF7FEFF 		bl	IINCHIP_READ
+ 535              	.LVL56:
+ 240:.\socket.c    ****   
+ 241:.\socket.c    **** 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_SEND);
+ 536              		.loc 1 241 0
+ 537 0032 6B1C     		add	r3, r5, #1
+ 538 0034 9EB2     		uxth	r6, r3
+ 239:.\socket.c    **** 		txrd_before_send = (txrd_before_send << 8) + IINCHIP_READ(Sn_TX_RD0(s) + 1);
+ 539              		.loc 1 239 0
+ 540 0036 0390     		str	r0, [sp, #12]
+ 541              	.LVL57:
+ 542              		.loc 1 241 0
+ 543 0038 2021     		mov	r1, #32
+ 544 003a 301C     		mov	r0, r6
+ 545 003c FFF7FEFF 		bl	IINCHIP_WRITE
+ 546              	.LVL58:
+ 242:.\socket.c    **** 	
+ 243:.\socket.c    **** 		/* wait to process the command... */
+ 244:.\socket.c    **** 		while( IINCHIP_READ(Sn_CR(s)) );
+ 547              		.loc 1 244 0
+ 548 0040 22E0     		b	.L49
+ 549              	.LVL59:
+ 550              	.L48:
+ 211:.\socket.c    **** 		if (len > getIINCHIP_TxMAX(s)) ret = getIINCHIP_TxMAX(s); // check size not to exceed MAX size.
+ 551              		.loc 1 211 0
+ 552 0042 FFF7FEFF 		bl	getIINCHIP_TxMAX
+ 553              	.LVL60:
+ 554 0046 8642     		cmp	r6, r0
+ 555 0048 03D9     		bls	.L50
+ 211:.\socket.c    **** 		if (len > getIINCHIP_TxMAX(s)) ret = getIINCHIP_TxMAX(s); // check size not to exceed MAX size.
+ 556              		.loc 1 211 0 is_stmt 0 discriminator 1
+ 557 004a 201C     		mov	r0, r4
+ 558 004c FFF7FEFF 		bl	getIINCHIP_TxMAX
+ 559              	.LVL61:
+ 560 0050 061C     		mov	r6, r0
+ 561              	.LVL62:
+ 562              	.L50:
+ 218:.\socket.c    **** 			status = IINCHIP_READ(Sn_SR(s));
+ 563              		.loc 1 218 0 is_stmt 1
+ 564 0052 2F02     		lsl	r7, r5, #8
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 16
+
+
+ 565 0054 0337     		add	r7, r7, #3
+ 566 0056 BFB2     		uxth	r7, r7
+ 567              	.LVL63:
+ 568              	.L53:
+ 217:.\socket.c    **** 			freesize = getSn_TX_FSR(s);
+ 569              		.loc 1 217 0
+ 570 0058 201C     		mov	r0, r4
+ 571 005a FFF7FEFF 		bl	getSn_TX_FSR
+ 572              	.LVL64:
+ 573 005e 0290     		str	r0, [sp, #8]
+ 574              	.LVL65:
+ 218:.\socket.c    **** 			status = IINCHIP_READ(Sn_SR(s));
+ 575              		.loc 1 218 0
+ 576 0060 381C     		mov	r0, r7
+ 577              	.LVL66:
+ 578 0062 FFF7FEFF 		bl	IINCHIP_READ
+ 579              	.LVL67:
+ 219:.\socket.c    **** 			if ((status != SOCK_ESTABLISHED) && (status != SOCK_CLOSE_WAIT))
+ 580              		.loc 1 219 0
+ 581 0066 1728     		cmp	r0, #23
+ 582 0068 01D0     		beq	.L51
+ 219:.\socket.c    **** 			if ((status != SOCK_ESTABLISHED) && (status != SOCK_CLOSE_WAIT))
+ 583              		.loc 1 219 0 is_stmt 0 discriminator 1
+ 584 006a 1C28     		cmp	r0, #28
+ 585 006c 03D1     		bne	.L60
+ 586              	.L51:
+ 227:.\socket.c    **** 		} while (freesize < ret);
+ 587              		.loc 1 227 0 is_stmt 1
+ 588 006e 029B     		ldr	r3, [sp, #8]
+ 589 0070 B342     		cmp	r3, r6
+ 590 0072 F1D3     		bcc	.L53
+ 591 0074 00E0     		b	.L52
+ 592              	.L60:
+ 221:.\socket.c    **** 				ret = 0; 
+ 593              		.loc 1 221 0
+ 594 0076 0026     		mov	r6, #0
+ 595              	.L52:
+ 596              	.LVL68:
+ 230:.\socket.c    **** 		send_data_processing(s, (uint8_t *)buf, ret);
+ 597              		.loc 1 230 0
+ 598 0078 201C     		mov	r0, r4
+ 599              	.LVL69:
+ 600 007a 0199     		ldr	r1, [sp, #4]
+ 601 007c 321C     		mov	r2, r6
+ 602 007e FFF7FEFF 		bl	send_data_processing
+ 603              	.LVL70:
+ 236:.\socket.c    **** 	if(retry || ret != 0)
+ 604              		.loc 1 236 0
+ 605 0082 002E     		cmp	r6, #0
+ 606 0084 C5D1     		bne	.L54
+ 607 0086 29E0     		b	.L55
+ 608              	.LVL71:
+ 609              	.L49:
+ 610              		.loc 1 244 0 discriminator 1
+ 611 0088 301C     		mov	r0, r6
+ 612 008a FFF7FEFF 		bl	IINCHIP_READ
+ 613              	.LVL72:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 17
+
+
+ 614 008e 0028     		cmp	r0, #0
+ 615 0090 FAD1     		bne	.L49
+ 616              	.L63:
+ 245:.\socket.c    **** 
+ 246:.\socket.c    **** 		while ( (IINCHIP_READ(Sn_IR(s)) & Sn_IR_SEND_OK) != Sn_IR_SEND_OK )
+ 617              		.loc 1 246 0
+ 618 0092 A81C     		add	r0, r5, #2
+ 619 0094 86B2     		uxth	r6, r0
+ 620 0096 301C     		mov	r0, r6
+ 621 0098 FFF7FEFF 		bl	IINCHIP_READ
+ 622              	.LVL73:
+ 623 009c 1021     		mov	r1, #16
+ 624 009e 0842     		tst	r0, r1
+ 625 00a0 08D1     		bne	.L68
+ 626              	.L57:
+ 247:.\socket.c    ****                 {
+ 248:.\socket.c    **** 			if(IINCHIP_READ(Sn_IR(s)) == SOCK_CLOSED)
+ 627              		.loc 1 248 0
+ 628 00a2 301C     		mov	r0, r6
+ 629 00a4 FFF7FEFF 		bl	IINCHIP_READ
+ 630              	.LVL74:
+ 631 00a8 061E     		sub	r6, r0, #0
+ 632 00aa F2D1     		bne	.L63
+ 249:.\socket.c    **** 			{
+ 250:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 251:.\socket.c    **** 				// printf("SOCK_CLOSED.\r\n");                    
+ 252:.\socket.c    **** #endif
+ 253:.\socket.c    **** 				close(s);
+ 633              		.loc 1 253 0
+ 634 00ac 201C     		mov	r0, r4
+ 635 00ae FFF7FEFF 		bl	close
+ 636              	.LVL75:
+ 254:.\socket.c    **** 				return 0;
+ 637              		.loc 1 254 0
+ 638 00b2 13E0     		b	.L55
+ 639              	.L68:
+ 239:.\socket.c    **** 		txrd_before_send = (txrd_before_send << 8) + IINCHIP_READ(Sn_TX_RD0(s) + 1);
+ 640              		.loc 1 239 0
+ 641 00b4 029C     		ldr	r4, [sp, #8]
+ 642 00b6 039A     		ldr	r2, [sp, #12]
+ 643 00b8 2502     		lsl	r5, r4, #8
+ 644 00ba AB18     		add	r3, r5, r2
+ 255:.\socket.c    **** 			}
+ 256:.\socket.c    **** 		}
+ 257:.\socket.c    **** 		IINCHIP_WRITE(Sn_IR(s), Sn_IR_SEND_OK);
+ 645              		.loc 1 257 0
+ 646 00bc 301C     		mov	r0, r6
+ 239:.\socket.c    **** 		txrd_before_send = (txrd_before_send << 8) + IINCHIP_READ(Sn_TX_RD0(s) + 1);
+ 647              		.loc 1 239 0
+ 648 00be 9CB2     		uxth	r4, r3
+ 649              		.loc 1 257 0
+ 650 00c0 FFF7FEFF 		bl	IINCHIP_WRITE
+ 651              	.LVL76:
+ 258:.\socket.c    **** 
+ 259:.\socket.c    **** 		txrd = IINCHIP_READ(Sn_TX_RD0(s));
+ 652              		.loc 1 259 0
+ 653 00c4 381C     		mov	r0, r7
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 18
+
+
+ 654 00c6 FFF7FEFF 		bl	IINCHIP_READ
+ 655              	.LVL77:
+ 260:.\socket.c    **** 		txrd = (txrd << 8) + IINCHIP_READ(Sn_TX_RD0(s) + 1);
+ 656              		.loc 1 260 0
+ 657 00ca 0702     		lsl	r7, r0, #8
+ 658 00cc 0198     		ldr	r0, [sp, #4]
+ 659              	.LVL78:
+ 660 00ce FFF7FEFF 		bl	IINCHIP_READ
+ 661              	.LVL79:
+ 662 00d2 BEB2     		uxth	r6, r7
+ 663 00d4 3118     		add	r1, r6, r0
+ 664 00d6 88B2     		uxth	r0, r1
+ 665              	.LVL80:
+ 261:.\socket.c    **** 
+ 262:.\socket.c    **** 		if(txrd > txrd_before_send) {
+ 263:.\socket.c    **** 			ret = txrd - txrd_before_send;
+ 264:.\socket.c    **** 		} else {
+ 265:.\socket.c    **** 			ret = (0xffff - txrd_before_send) + txrd + 1;
+ 666              		.loc 1 265 0
+ 667 00d8 051B     		sub	r5, r0, r4
+ 668 00da AEB2     		uxth	r6, r5
+ 669              	.LVL81:
+ 670              	.L55:
+ 266:.\socket.c    **** 		}
+ 267:.\socket.c    **** 	}
+ 268:.\socket.c    ****                 
+ 269:.\socket.c    **** 	return ret;
+ 270:.\socket.c    **** }
+ 671              		.loc 1 270 0
+ 672 00dc 301C     		mov	r0, r6
+ 673 00de 05B0     		add	sp, sp, #20
+ 674              		@ sp needed for prologue
+ 675 00e0 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 676              		.cfi_endproc
+ 677              	.LFE5:
+ 678              		.size	send, .-send
+ 679              		.section	.text.recv,"ax",%progbits
+ 680              		.align	1
+ 681              		.global	recv
+ 682              		.code	16
+ 683              		.thumb_func
+ 684              		.type	recv, %function
+ 685              	recv:
+ 686              	.LFB6:
+ 271:.\socket.c    **** 
+ 272:.\socket.c    **** 
+ 273:.\socket.c    **** /**
+ 274:.\socket.c    **** @brief	This function is an application I/F function which is used to receive the data in TCP mode.
+ 275:.\socket.c    **** 		It continues to wait for data as much as the application wants to receive.
+ 276:.\socket.c    **** 		
+ 277:.\socket.c    **** @return	received data size for success else -1.
+ 278:.\socket.c    **** */ 
+ 279:.\socket.c    **** uint16_t recv(SOCKET s, uint8_t * buf, uint16_t len)
+ 280:.\socket.c    **** {
+ 687              		.loc 1 280 0
+ 688              		.cfi_startproc
+ 689              	.LVL82:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 19
+
+
+ 690 0000 38B5     		push	{r3, r4, r5, lr}
+ 691              	.LCFI7:
+ 692              		.cfi_def_cfa_offset 16
+ 693              		.cfi_offset 3, -16
+ 694              		.cfi_offset 4, -12
+ 695              		.cfi_offset 5, -8
+ 696              		.cfi_offset 14, -4
+ 697              		.loc 1 280 0
+ 698 0002 051C     		mov	r5, r0
+ 699 0004 141E     		sub	r4, r2, #0
+ 281:.\socket.c    **** 	uint16_t ret=0;
+ 282:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 283:.\socket.c    **** 	// printf("recv()\r\n");
+ 284:.\socket.c    **** #endif
+ 285:.\socket.c    **** 
+ 286:.\socket.c    **** 	if ( len > 0 )
+ 700              		.loc 1 286 0
+ 701 0006 0ED0     		beq	.L70
+ 287:.\socket.c    **** 	{
+ 288:.\socket.c    **** 		recv_data_processing(s, buf, len);
+ 702              		.loc 1 288 0
+ 703 0008 FFF7FEFF 		bl	recv_data_processing
+ 704              	.LVL83:
+ 289:.\socket.c    **** 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_RECV);
+ 705              		.loc 1 289 0
+ 706 000c 074B     		ldr	r3, .L75
+ 707 000e 2802     		lsl	r0, r5, #8
+ 708 0010 C118     		add	r1, r0, r3
+ 709 0012 8DB2     		uxth	r5, r1
+ 710 0014 281C     		mov	r0, r5
+ 711 0016 4021     		mov	r1, #64
+ 712 0018 FFF7FEFF 		bl	IINCHIP_WRITE
+ 713              	.LVL84:
+ 714              	.L71:
+ 290:.\socket.c    **** 
+ 291:.\socket.c    **** 		/* wait to process the command... */
+ 292:.\socket.c    **** 		while( IINCHIP_READ(Sn_CR(s)));
+ 715              		.loc 1 292 0 discriminator 1
+ 716 001c 281C     		mov	r0, r5
+ 717 001e FFF7FEFF 		bl	IINCHIP_READ
+ 718              	.LVL85:
+ 719 0022 0028     		cmp	r0, #0
+ 720 0024 FAD1     		bne	.L71
+ 721              	.L70:
+ 722              	.LVL86:
+ 293:.\socket.c    **** 		/* ------- */
+ 294:.\socket.c    **** 	
+ 295:.\socket.c    **** 		ret = len;
+ 296:.\socket.c    **** 	}
+ 297:.\socket.c    **** 	return ret;
+ 298:.\socket.c    **** }
+ 723              		.loc 1 298 0
+ 724 0026 201C     		mov	r0, r4
+ 725              		@ sp needed for prologue
+ 726              	.LVL87:
+ 727 0028 38BD     		pop	{r3, r4, r5, pc}
+ 728              	.L76:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 20
+
+
+ 729 002a C046     		.align	2
+ 730              	.L75:
+ 731 002c 01400000 		.word	16385
+ 732              		.cfi_endproc
+ 733              	.LFE6:
+ 734              		.size	recv, .-recv
+ 735              		.section	.text.sendto,"ax",%progbits
+ 736              		.align	1
+ 737              		.global	sendto
+ 738              		.code	16
+ 739              		.thumb_func
+ 740              		.type	sendto, %function
+ 741              	sendto:
+ 742              	.LFB7:
+ 299:.\socket.c    **** 
+ 300:.\socket.c    **** 
+ 301:.\socket.c    **** /**
+ 302:.\socket.c    **** @brief	This function is an application I/F function which is used to send the data for other then T
+ 303:.\socket.c    **** 		Unlike TCP transmission, The peer's destination address and the port is needed.
+ 304:.\socket.c    **** 		
+ 305:.\socket.c    **** @return	This function return send data size for success else -1.
+ 306:.\socket.c    **** */ 
+ 307:.\socket.c    **** uint16_t sendto(SOCKET s, const uint8_t * buf, uint16_t len, uint8_t * addr, uint16_t port)
+ 308:.\socket.c    **** {
+ 743              		.loc 1 308 0
+ 744              		.cfi_startproc
+ 745              	.LVL88:
+ 746 0000 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+ 747              	.LCFI8:
+ 748              		.cfi_def_cfa_offset 32
+ 749              		.cfi_offset 0, -32
+ 750              		.cfi_offset 1, -28
+ 751              		.cfi_offset 2, -24
+ 752              		.cfi_offset 4, -20
+ 753              		.cfi_offset 5, -16
+ 754              		.cfi_offset 6, -12
+ 755              		.cfi_offset 7, -8
+ 756              		.cfi_offset 14, -4
+ 757              		.loc 1 308 0
+ 758 0002 1E1C     		mov	r6, r3
+ 759 0004 08AB     		add	r3, sp, #32
+ 760              	.LVL89:
+ 761 0006 071C     		mov	r7, r0
+ 762 0008 1888     		ldrh	r0, [r3]
+ 763              	.LVL90:
+ 764 000a 141C     		mov	r4, r2
+ 765 000c 0090     		str	r0, [sp]
+ 309:.\socket.c    **** 	uint16_t ret=0;
+ 310:.\socket.c    **** 	
+ 311:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 312:.\socket.c    **** 	// printf("sendto()\r\n");
+ 313:.\socket.c    **** #endif
+ 314:.\socket.c    ****    if (len > getIINCHIP_TxMAX(s)) ret = getIINCHIP_TxMAX(s); // check size not to exceed MAX size.
+ 766              		.loc 1 314 0
+ 767 000e 381C     		mov	r0, r7
+ 308:.\socket.c    **** {
+ 768              		.loc 1 308 0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 21
+
+
+ 769 0010 0191     		str	r1, [sp, #4]
+ 770              		.loc 1 314 0
+ 771 0012 FFF7FEFF 		bl	getIINCHIP_TxMAX
+ 772              	.LVL91:
+ 773 0016 8442     		cmp	r4, r0
+ 774 0018 03D9     		bls	.L78
+ 775              		.loc 1 314 0 is_stmt 0 discriminator 1
+ 776 001a 381C     		mov	r0, r7
+ 777 001c FFF7FEFF 		bl	getIINCHIP_TxMAX
+ 778              	.LVL92:
+ 779 0020 041C     		mov	r4, r0
+ 780              	.LVL93:
+ 781              	.L78:
+ 315:.\socket.c    ****    else ret = len;
+ 316:.\socket.c    **** 
+ 317:.\socket.c    **** 	if
+ 318:.\socket.c    **** 		(
+ 319:.\socket.c    **** 		 	((addr[0] == 0x00) && (addr[1] == 0x00) && (addr[2] == 0x00) && (addr[3] == 0x00)) ||
+ 782              		.loc 1 319 0 is_stmt 1
+ 783 0022 3178     		ldrb	r1, [r6]
+ 318:.\socket.c    **** 		(
+ 784              		.loc 1 318 0
+ 785 0024 0029     		cmp	r1, #0
+ 786 0026 08D1     		bne	.L79
+ 787              		.loc 1 319 0
+ 788 0028 7278     		ldrb	r2, [r6, #1]
+ 789 002a 002A     		cmp	r2, #0
+ 790 002c 05D1     		bne	.L79
+ 791              		.loc 1 319 0 is_stmt 0 discriminator 1
+ 792 002e B578     		ldrb	r5, [r6, #2]
+ 793 0030 002D     		cmp	r5, #0
+ 794 0032 02D1     		bne	.L79
+ 795 0034 F378     		ldrb	r3, [r6, #3]
+ 796 0036 002B     		cmp	r3, #0
+ 797 0038 59D0     		beq	.L85
+ 798              	.L79:
+ 799              		.loc 1 319 0 discriminator 2
+ 800 003a 0098     		ldr	r0, [sp]
+ 801 003c 0028     		cmp	r0, #0
+ 802 003e 58D0     		beq	.L86
+ 320:.\socket.c    **** 		 	((port == 0x00)) ||(ret == 0)
+ 803              		.loc 1 320 0 is_stmt 1
+ 804 0040 002C     		cmp	r4, #0
+ 805 0042 57D0     		beq	.L80
+ 321:.\socket.c    **** 		) 
+ 322:.\socket.c    ****  	{
+ 323:.\socket.c    ****  	   /* added return value */
+ 324:.\socket.c    ****  	   ret = 0;
+ 325:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 326:.\socket.c    **** 	// printf("%d Fail[%.2x.%.2x.%.2x.%.2x, %.d, %d]\r\n",s, addr[0], addr[1], addr[2], addr[3] , port
+ 327:.\socket.c    **** 	// printf("Fail[invalid ip,port]\r\n");
+ 328:.\socket.c    **** #endif
+ 329:.\socket.c    **** 	}
+ 330:.\socket.c    **** 	else
+ 331:.\socket.c    **** 	{
+ 332:.\socket.c    **** 		IINCHIP_WRITE(Sn_DIPR0(s),addr[0]);
+ 806              		.loc 1 332 0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 22
+
+
+ 807 0044 3A1C     		mov	r2, r7
+ 808 0046 4032     		add	r2, r2, #64
+ 809 0048 1502     		lsl	r5, r2, #8
+ 810 004a ADB2     		uxth	r5, r5
+ 811 004c 2B1C     		mov	r3, r5
+ 812 004e 0C33     		add	r3, r3, #12
+ 813 0050 98B2     		uxth	r0, r3
+ 814 0052 FFF7FEFF 		bl	IINCHIP_WRITE
+ 815              	.LVL94:
+ 333:.\socket.c    **** 		IINCHIP_WRITE((Sn_DIPR0(s) + 1),addr[1]);
+ 816              		.loc 1 333 0
+ 817 0056 291C     		mov	r1, r5
+ 818 0058 0D31     		add	r1, r1, #13
+ 819 005a 88B2     		uxth	r0, r1
+ 820 005c 7178     		ldrb	r1, [r6, #1]
+ 821 005e FFF7FEFF 		bl	IINCHIP_WRITE
+ 822              	.LVL95:
+ 334:.\socket.c    **** 		IINCHIP_WRITE((Sn_DIPR0(s) + 2),addr[2]);
+ 823              		.loc 1 334 0
+ 824 0062 281C     		mov	r0, r5
+ 825 0064 0E30     		add	r0, r0, #14
+ 826 0066 B178     		ldrb	r1, [r6, #2]
+ 827 0068 80B2     		uxth	r0, r0
+ 828 006a FFF7FEFF 		bl	IINCHIP_WRITE
+ 829              	.LVL96:
+ 335:.\socket.c    **** 		IINCHIP_WRITE((Sn_DIPR0(s) + 3),addr[3]);
+ 830              		.loc 1 335 0
+ 831 006e 2A1C     		mov	r2, r5
+ 832 0070 0F32     		add	r2, r2, #15
+ 833 0072 90B2     		uxth	r0, r2
+ 834 0074 F178     		ldrb	r1, [r6, #3]
+ 835 0076 FFF7FEFF 		bl	IINCHIP_WRITE
+ 836              	.LVL97:
+ 336:.\socket.c    **** 		IINCHIP_WRITE(Sn_DPORT0(s),(uint8_t)((port & 0xff00) >> 8));
+ 837              		.loc 1 336 0
+ 838 007a 2E1C     		mov	r6, r5
+ 839              	.LVL98:
+ 840 007c 009B     		ldr	r3, [sp]
+ 841 007e 1036     		add	r6, r6, #16
+ 842 0080 190A     		lsr	r1, r3, #8
+ 843 0082 B0B2     		uxth	r0, r6
+ 844 0084 FFF7FEFF 		bl	IINCHIP_WRITE
+ 845              	.LVL99:
+ 337:.\socket.c    **** 		IINCHIP_WRITE((Sn_DPORT0(s) + 1),(uint8_t)(port & 0x00ff));     			
+ 846              		.loc 1 337 0
+ 847 0088 291C     		mov	r1, r5
+ 848 008a 6A46     		mov	r2, sp
+ 849 008c 1131     		add	r1, r1, #17
+ 850 008e 88B2     		uxth	r0, r1
+ 851 0090 1178     		ldrb	r1, [r2]
+ 852 0092 FFF7FEFF 		bl	IINCHIP_WRITE
+ 853              	.LVL100:
+ 338:.\socket.c    ****   		// copy data
+ 339:.\socket.c    ****  		send_data_processing(s, (uint8_t *)buf, ret);
+ 854              		.loc 1 339 0
+ 855 0096 381C     		mov	r0, r7
+ 340:.\socket.c    **** 		clearSUBR();	   // clear the subnet mask again and keep it because of the ARP errata of W5100
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 23
+
+
+ 341:.\socket.c    **** 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_SEND);
+ 856              		.loc 1 341 0
+ 857 0098 6F1C     		add	r7, r5, #1
+ 339:.\socket.c    ****  		send_data_processing(s, (uint8_t *)buf, ret);
+ 858              		.loc 1 339 0
+ 859 009a 0199     		ldr	r1, [sp, #4]
+ 860 009c 221C     		mov	r2, r4
+ 861              		.loc 1 341 0
+ 862 009e BEB2     		uxth	r6, r7
+ 339:.\socket.c    ****  		send_data_processing(s, (uint8_t *)buf, ret);
+ 863              		.loc 1 339 0
+ 864 00a0 FFF7FEFF 		bl	send_data_processing
+ 865              	.LVL101:
+ 340:.\socket.c    **** 		clearSUBR();	   // clear the subnet mask again and keep it because of the ARP errata of W5100
+ 866              		.loc 1 340 0
+ 867 00a4 FFF7FEFF 		bl	clearSUBR
+ 868              	.LVL102:
+ 869              		.loc 1 341 0
+ 870 00a8 301C     		mov	r0, r6
+ 871 00aa 2021     		mov	r1, #32
+ 872 00ac FFF7FEFF 		bl	IINCHIP_WRITE
+ 873              	.LVL103:
+ 874              	.L81:
+ 342:.\socket.c    **** 		/* wait to process the command... */
+ 343:.\socket.c    **** 		while( IINCHIP_READ(Sn_CR(s)) ) 
+ 875              		.loc 1 343 0 discriminator 1
+ 876 00b0 301C     		mov	r0, r6
+ 877 00b2 FFF7FEFF 		bl	IINCHIP_READ
+ 878              	.LVL104:
+ 879 00b6 0028     		cmp	r0, #0
+ 880 00b8 FAD1     		bne	.L81
+ 881              	.L91:
+ 344:.\socket.c    **** 			;
+ 345:.\socket.c    **** 		/* ------- */
+ 346:.\socket.c    **** 
+ 347:.\socket.c    **** 	   while ( (IINCHIP_READ(Sn_IR(s)) & Sn_IR_SEND_OK) != Sn_IR_SEND_OK ) 
+ 882              		.loc 1 347 0
+ 883 00ba A81C     		add	r0, r5, #2
+ 884 00bc 86B2     		uxth	r6, r0
+ 885 00be 301C     		mov	r0, r6
+ 886 00c0 FFF7FEFF 		bl	IINCHIP_READ
+ 887              	.LVL105:
+ 888 00c4 1027     		mov	r7, #16
+ 889 00c6 0740     		and	r7, r0
+ 890 00c8 0AD1     		bne	.L96
+ 891              	.L83:
+ 348:.\socket.c    **** 	   {
+ 349:.\socket.c    ****     	        if (IINCHIP_READ(Sn_IR(s)) & Sn_IR_TIMEOUT)
+ 892              		.loc 1 349 0
+ 893 00ca 301C     		mov	r0, r6
+ 894 00cc FFF7FEFF 		bl	IINCHIP_READ
+ 895              	.LVL106:
+ 896 00d0 0307     		lsl	r3, r0, #28
+ 897 00d2 F2D5     		bpl	.L91
+ 350:.\socket.c    **** 		{
+ 351:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 352:.\socket.c    **** 				// printf("send fail.\r\n");
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 24
+
+
+ 353:.\socket.c    **** #endif
+ 354:.\socket.c    ****                 /* clear interrupt */
+ 355:.\socket.c    ****            	IINCHIP_WRITE(Sn_IR(s), (Sn_IR_SEND_OK | Sn_IR_TIMEOUT)); /* clear SEND_OK & TIMEOUT */
+ 898              		.loc 1 355 0
+ 899 00d4 301C     		mov	r0, r6
+ 900 00d6 1821     		mov	r1, #24
+ 901 00d8 FFF7FEFF 		bl	IINCHIP_WRITE
+ 902              	.LVL107:
+ 356:.\socket.c    **** 		return 0;
+ 903              		.loc 1 356 0
+ 904 00dc 3C1C     		mov	r4, r7
+ 905              	.LVL108:
+ 906 00de 09E0     		b	.L80
+ 907              	.LVL109:
+ 908              	.L96:
+ 357:.\socket.c    **** 		}
+ 358:.\socket.c    **** 	   }
+ 359:.\socket.c    **** 
+ 360:.\socket.c    **** 	   setSUBR();    // set the subnet mask register
+ 909              		.loc 1 360 0
+ 910 00e0 FFF7FEFF 		bl	setSUBR
+ 911              	.LVL110:
+ 361:.\socket.c    **** 	   IINCHIP_WRITE(Sn_IR(s), Sn_IR_SEND_OK);
+ 912              		.loc 1 361 0
+ 913 00e4 301C     		mov	r0, r6
+ 914 00e6 1021     		mov	r1, #16
+ 915 00e8 FFF7FEFF 		bl	IINCHIP_WRITE
+ 916              	.LVL111:
+ 917 00ec 02E0     		b	.L80
+ 918              	.LVL112:
+ 919              	.L85:
+ 324:.\socket.c    ****  	   ret = 0;
+ 920              		.loc 1 324 0
+ 921 00ee 1C1C     		mov	r4, r3
+ 922              	.LVL113:
+ 923 00f0 00E0     		b	.L80
+ 924              	.LVL114:
+ 925              	.L86:
+ 926 00f2 009C     		ldr	r4, [sp]
+ 927              	.LVL115:
+ 928              	.L80:
+ 362:.\socket.c    **** 	}
+ 363:.\socket.c    **** 	return ret;
+ 364:.\socket.c    **** }
+ 929              		.loc 1 364 0
+ 930 00f4 201C     		mov	r0, r4
+ 931              		@ sp needed for prologue
+ 932 00f6 FEBD     		pop	{r1, r2, r3, r4, r5, r6, r7, pc}
+ 933              		.cfi_endproc
+ 934              	.LFE7:
+ 935              		.size	sendto, .-sendto
+ 936              		.section	.text.recvfrom,"ax",%progbits
+ 937              		.align	1
+ 938              		.global	recvfrom
+ 939              		.code	16
+ 940              		.thumb_func
+ 941              		.type	recvfrom, %function
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 25
+
+
+ 942              	recvfrom:
+ 943              	.LFB8:
+ 365:.\socket.c    **** 
+ 366:.\socket.c    **** 
+ 367:.\socket.c    **** /**
+ 368:.\socket.c    **** @brief	This function is an application I/F function which is used to receive the data in other then
+ 369:.\socket.c    **** 	TCP mode. This function is used to receive UDP, IP_RAW and MAC_RAW mode, and handle the header as 
+ 370:.\socket.c    **** 	
+ 371:.\socket.c    **** @return	This function return received data size for success else -1.
+ 372:.\socket.c    **** */ 
+ 373:.\socket.c    **** uint16_t recvfrom(SOCKET s, uint8_t * buf, uint16_t len, uint8_t * addr, uint16_t *port)
+ 374:.\socket.c    **** {
+ 944              		.loc 1 374 0
+ 945              		.cfi_startproc
+ 946              	.LVL116:
+ 947 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 948              	.LCFI9:
+ 949              		.cfi_def_cfa_offset 20
+ 950              		.cfi_offset 4, -20
+ 951              		.cfi_offset 5, -16
+ 952              		.cfi_offset 6, -12
+ 953              		.cfi_offset 7, -8
+ 954              		.cfi_offset 14, -4
+ 375:.\socket.c    **** 	uint8_t head[8];
+ 376:.\socket.c    **** 	uint16_t data_len=0;
+ 955              		.loc 1 376 0
+ 956 0002 0024     		mov	r4, #0
+ 374:.\socket.c    **** {
+ 957              		.loc 1 374 0
+ 958 0004 87B0     		sub	sp, sp, #28
+ 959              	.LCFI10:
+ 960              		.cfi_def_cfa_offset 48
+ 374:.\socket.c    **** {
+ 961              		.loc 1 374 0
+ 962 0006 061C     		mov	r6, r0
+ 963 0008 0391     		str	r1, [sp, #12]
+ 964 000a 1D1C     		mov	r5, r3
+ 377:.\socket.c    **** 	uint16_t ptr=0;
+ 378:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 379:.\socket.c    **** 	// printf("recvfrom()\r\n");
+ 380:.\socket.c    **** #endif
+ 381:.\socket.c    **** 
+ 382:.\socket.c    **** 	if ( len > 0 )
+ 965              		.loc 1 382 0
+ 966 000c A242     		cmp	r2, r4
+ 967 000e 00D1     		bne	.LCB918
+ 968 0010 80E0     		b	.L98	@long jump
+ 969              	.LCB918:
+ 383:.\socket.c    **** 	{
+ 384:.\socket.c    ****    	ptr = IINCHIP_READ(Sn_RX_RD0(s));
+ 970              		.loc 1 384 0
+ 971 0012 031C     		mov	r3, r0
+ 972              	.LVL117:
+ 973 0014 4033     		add	r3, r3, #64
+ 974 0016 1802     		lsl	r0, r3, #8
+ 975              	.LVL118:
+ 976 0018 81B2     		uxth	r1, r0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 26
+
+
+ 977              	.LVL119:
+ 978 001a 0091     		str	r1, [sp]
+ 979 001c 2831     		add	r1, r1, #40
+ 980 001e 8AB2     		uxth	r2, r1
+ 981              	.LVL120:
+ 982 0020 101C     		mov	r0, r2
+ 983 0022 0192     		str	r2, [sp, #4]
+ 984 0024 FFF7FEFF 		bl	IINCHIP_READ
+ 985              	.LVL121:
+ 385:.\socket.c    ****    	ptr = ((ptr & 0x00ff) << 8) + IINCHIP_READ(Sn_RX_RD0(s) + 1);
+ 986              		.loc 1 385 0
+ 987 0028 009B     		ldr	r3, [sp]
+ 384:.\socket.c    ****    	ptr = IINCHIP_READ(Sn_RX_RD0(s));
+ 988              		.loc 1 384 0
+ 989 002a 071C     		mov	r7, r0
+ 990              	.LVL122:
+ 991              		.loc 1 385 0
+ 992 002c 2933     		add	r3, r3, #41
+ 993 002e 98B2     		uxth	r0, r3
+ 994              	.LVL123:
+ 995 0030 0290     		str	r0, [sp, #8]
+ 996 0032 FFF7FEFF 		bl	IINCHIP_READ
+ 997              	.LVL124:
+ 998 0036 3902     		lsl	r1, r7, #8
+ 999 0038 4218     		add	r2, r0, r1
+ 386:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 387:.\socket.c    ****    	// printf("ISR_RX: rd_ptr : %.4x\r\n", ptr);
+ 388:.\socket.c    **** #endif
+ 389:.\socket.c    ****    	switch (IINCHIP_READ(Sn_MR(s)) & 0x07)
+ 1000              		.loc 1 389 0
+ 1001 003a 0098     		ldr	r0, [sp]
+ 385:.\socket.c    ****    	ptr = ((ptr & 0x00ff) << 8) + IINCHIP_READ(Sn_RX_RD0(s) + 1);
+ 1002              		.loc 1 385 0
+ 1003 003c 97B2     		uxth	r7, r2
+ 1004              	.LVL125:
+ 1005              		.loc 1 389 0
+ 1006 003e FFF7FEFF 		bl	IINCHIP_READ
+ 1007              	.LVL126:
+ 1008 0042 0723     		mov	r3, #7
+ 1009 0044 1840     		and	r0, r3
+ 1010 0046 0328     		cmp	r0, #3
+ 1011 0048 1ED0     		beq	.L101
+ 1012 004a 0428     		cmp	r0, #4
+ 1013 004c 33D0     		beq	.L102
+ 1014 004e 0228     		cmp	r0, #2
+ 1015 0050 54D1     		bne	.L99
+ 390:.\socket.c    ****    	{
+ 391:.\socket.c    ****    	case Sn_MR_UDP :
+ 392:.\socket.c    ****    			read_data(s, (uint8_t *)ptr, head, 0x08);
+ 1016              		.loc 1 392 0
+ 1017 0052 391C     		mov	r1, r7
+ 1018 0054 301C     		mov	r0, r6
+ 1019 0056 04AA     		add	r2, sp, #16
+ 1020 0058 0823     		mov	r3, #8
+ 1021 005a FFF7FEFF 		bl	read_data
+ 1022              	.LVL127:
+ 393:.\socket.c    ****    			ptr += 8;
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 27
+
+
+ 394:.\socket.c    ****    			// read peer's IP address, port number.
+ 395:.\socket.c    ****     			addr[0] = head[0];
+ 1023              		.loc 1 395 0
+ 1024 005e 6846     		mov	r0, sp
+ 1025 0060 047C     		ldrb	r4, [r0, #16]
+ 393:.\socket.c    ****    			ptr += 8;
+ 1026              		.loc 1 393 0
+ 1027 0062 0837     		add	r7, r7, #8
+ 1028              	.LVL128:
+ 1029              		.loc 1 395 0
+ 1030 0064 2C70     		strb	r4, [r5]
+ 396:.\socket.c    ****    			addr[1] = head[1];
+ 1031              		.loc 1 396 0
+ 1032 0066 417C     		ldrb	r1, [r0, #17]
+ 393:.\socket.c    ****    			ptr += 8;
+ 1033              		.loc 1 393 0
+ 1034 0068 BFB2     		uxth	r7, r7
+ 1035              	.LVL129:
+ 1036              		.loc 1 396 0
+ 1037 006a 6970     		strb	r1, [r5, #1]
+ 397:.\socket.c    ****    			addr[2] = head[2];
+ 1038              		.loc 1 397 0
+ 1039 006c 827C     		ldrb	r2, [r0, #18]
+ 1040 006e AA70     		strb	r2, [r5, #2]
+ 398:.\socket.c    ****    			addr[3] = head[3];
+ 1041              		.loc 1 398 0
+ 1042 0070 C37C     		ldrb	r3, [r0, #19]
+ 399:.\socket.c    ****    			*port = head[4];
+ 400:.\socket.c    ****    			*port = (*port << 8) + head[5];
+ 1043              		.loc 1 400 0
+ 1044 0072 0C9A     		ldr	r2, [sp, #48]
+ 398:.\socket.c    ****    			addr[3] = head[3];
+ 1045              		.loc 1 398 0
+ 1046 0074 EB70     		strb	r3, [r5, #3]
+ 399:.\socket.c    ****    			*port = head[4];
+ 1047              		.loc 1 399 0
+ 1048 0076 057D     		ldrb	r5, [r0, #20]
+ 1049              	.LVL130:
+ 1050              		.loc 1 400 0
+ 1051 0078 417D     		ldrb	r1, [r0, #21]
+ 1052 007a 2C02     		lsl	r4, r5, #8
+ 1053 007c 6318     		add	r3, r4, r1
+ 1054 007e 1380     		strh	r3, [r2]
+ 1055              	.LVL131:
+ 401:.\socket.c    ****    			data_len = head[6];
+ 1056              		.loc 1 401 0
+ 1057 0080 857D     		ldrb	r5, [r0, #22]
+ 402:.\socket.c    ****    			data_len = (data_len << 8) + head[7];
+ 1058              		.loc 1 402 0
+ 1059 0082 C07D     		ldrb	r0, [r0, #23]
+ 1060 0084 2902     		lsl	r1, r5, #8
+ 1061 0086 13E0     		b	.L112
+ 1062              	.LVL132:
+ 1063              	.L101:
+ 403:.\socket.c    ****    			
+ 404:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 405:.\socket.c    ****    			// printf("UDP msg arrived\r\n");
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 28
+
+
+ 406:.\socket.c    ****    			// printf("source Port : %d\r\n", *port);
+ 407:.\socket.c    ****    			// printf("source IP : %d.%d.%d.%d\r\n", addr[0], addr[1], addr[2], addr[3]);
+ 408:.\socket.c    **** #endif
+ 409:.\socket.c    **** 
+ 410:.\socket.c    **** 			read_data(s, (uint8_t *)ptr, buf, data_len); // data copy.
+ 411:.\socket.c    **** 			ptr += data_len;
+ 412:.\socket.c    **** 
+ 413:.\socket.c    **** 			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8_t)((ptr & 0xff00) >> 8));
+ 414:.\socket.c    **** 			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8_t)(ptr & 0x00ff));
+ 415:.\socket.c    ****    			break;
+ 416:.\socket.c    ****    
+ 417:.\socket.c    ****    	case Sn_MR_IPRAW :
+ 418:.\socket.c    ****    			read_data(s, (uint8_t *)ptr, head, 0x06);
+ 1064              		.loc 1 418 0
+ 1065 0088 391C     		mov	r1, r7
+ 1066 008a 301C     		mov	r0, r6
+ 1067 008c 04AA     		add	r2, sp, #16
+ 1068 008e 0623     		mov	r3, #6
+ 1069 0090 FFF7FEFF 		bl	read_data
+ 1070              	.LVL133:
+ 419:.\socket.c    ****    			ptr += 6;
+ 420:.\socket.c    ****    
+ 421:.\socket.c    ****    			addr[0] = head[0];
+ 1071              		.loc 1 421 0
+ 1072 0094 6846     		mov	r0, sp
+ 1073 0096 017C     		ldrb	r1, [r0, #16]
+ 419:.\socket.c    ****    			ptr += 6;
+ 1074              		.loc 1 419 0
+ 1075 0098 0637     		add	r7, r7, #6
+ 1076              	.LVL134:
+ 1077              		.loc 1 421 0
+ 1078 009a 2970     		strb	r1, [r5]
+ 422:.\socket.c    ****    			addr[1] = head[1];
+ 1079              		.loc 1 422 0
+ 1080 009c 437C     		ldrb	r3, [r0, #17]
+ 419:.\socket.c    ****    			ptr += 6;
+ 1081              		.loc 1 419 0
+ 1082 009e BFB2     		uxth	r7, r7
+ 1083              	.LVL135:
+ 1084              		.loc 1 422 0
+ 1085 00a0 6B70     		strb	r3, [r5, #1]
+ 423:.\socket.c    ****    			addr[2] = head[2];
+ 1086              		.loc 1 423 0
+ 1087 00a2 827C     		ldrb	r2, [r0, #18]
+ 1088 00a4 AA70     		strb	r2, [r5, #2]
+ 424:.\socket.c    ****    			addr[3] = head[3];
+ 1089              		.loc 1 424 0
+ 1090 00a6 C47C     		ldrb	r4, [r0, #19]
+ 1091 00a8 EC70     		strb	r4, [r5, #3]
+ 1092              	.LVL136:
+ 425:.\socket.c    ****    			data_len = head[4];
+ 1093              		.loc 1 425 0
+ 1094 00aa 057D     		ldrb	r5, [r0, #20]
+ 1095              	.LVL137:
+ 426:.\socket.c    ****    			data_len = (data_len << 8) + head[5];
+ 1096              		.loc 1 426 0
+ 1097 00ac 407D     		ldrb	r0, [r0, #21]
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 29
+
+
+ 1098 00ae 2902     		lsl	r1, r5, #8
+ 1099              	.LVL138:
+ 1100              	.L112:
+ 1101 00b0 0B18     		add	r3, r1, r0
+ 1102 00b2 9CB2     		uxth	r4, r3
+ 1103              	.LVL139:
+ 1104 00b4 12E0     		b	.L111
+ 1105              	.LVL140:
+ 1106              	.L102:
+ 427:.\socket.c    ****    	
+ 428:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 429:.\socket.c    ****    			// printf("IP RAW msg arrived\r\n");
+ 430:.\socket.c    ****    			// printf("source IP : %d.%d.%d.%d\r\n", addr[0], addr[1], addr[2], addr[3]);
+ 431:.\socket.c    **** #endif
+ 432:.\socket.c    **** 			read_data(s, (uint8_t *)ptr, buf, data_len); // data copy.
+ 433:.\socket.c    **** 			ptr += data_len;
+ 434:.\socket.c    **** 
+ 435:.\socket.c    **** 			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8_t)((ptr & 0xff00) >> 8));
+ 436:.\socket.c    **** 			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8_t)(ptr & 0x00ff));
+ 437:.\socket.c    ****    			break;
+ 438:.\socket.c    ****    	case Sn_MR_MACRAW :
+ 439:.\socket.c    ****    			read_data(s,(uint8_t*)ptr,head,2);
+ 1107              		.loc 1 439 0
+ 1108 00b6 301C     		mov	r0, r6
+ 1109 00b8 391C     		mov	r1, r7
+ 1110 00ba 04AA     		add	r2, sp, #16
+ 1111 00bc 0223     		mov	r3, #2
+ 1112 00be FFF7FEFF 		bl	read_data
+ 1113              	.LVL141:
+ 440:.\socket.c    ****    			ptr+=2;
+ 441:.\socket.c    ****    			data_len = head[0];
+ 1114              		.loc 1 441 0
+ 1115 00c2 6846     		mov	r0, sp
+ 1116 00c4 047C     		ldrb	r4, [r0, #16]
+ 442:.\socket.c    ****    			data_len = (data_len<<8) + head[1] - 2;
+ 1117              		.loc 1 442 0
+ 1118 00c6 437C     		ldrb	r3, [r0, #17]
+ 1119 00c8 2102     		lsl	r1, r4, #8
+ 1120 00ca 023B     		sub	r3, r3, #2
+ 1121 00cc CA18     		add	r2, r1, r3
+ 443:.\socket.c    ****    			if(data_len > 1514) 
+ 1122              		.loc 1 443 0
+ 1123 00ce 134D     		ldr	r5, .L113
+ 1124              	.LVL142:
+ 442:.\socket.c    ****    			data_len = (data_len<<8) + head[1] - 2;
+ 1125              		.loc 1 442 0
+ 1126 00d0 94B2     		uxth	r4, r2
+ 1127              	.LVL143:
+ 1128              		.loc 1 443 0
+ 1129 00d2 AC42     		cmp	r4, r5
+ 1130 00d4 00D9     		bls	.L103
+ 1131              	.L110:
+ 1132 00d6 FEE7     		b	.L110
+ 1133              	.L103:
+ 440:.\socket.c    ****    			ptr+=2;
+ 1134              		.loc 1 440 0
+ 1135 00d8 0237     		add	r7, r7, #2
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 30
+
+
+ 1136              	.LVL144:
+ 1137 00da BFB2     		uxth	r7, r7
+ 1138              	.LVL145:
+ 1139              	.L111:
+ 444:.\socket.c    ****    			{
+ 445:.\socket.c    ****    				// printf("data_len over 1514\r\n");
+ 446:.\socket.c    ****    				while(1);
+ 447:.\socket.c    ****    			}
+ 448:.\socket.c    **** 
+ 449:.\socket.c    ****    			read_data(s,(uint8_t*) ptr,buf,data_len);
+ 1140              		.loc 1 449 0
+ 1141 00dc 301C     		mov	r0, r6
+ 450:.\socket.c    ****    			ptr += data_len;
+ 1142              		.loc 1 450 0
+ 1143 00de 3E19     		add	r6, r7, r4
+ 449:.\socket.c    ****    			read_data(s,(uint8_t*) ptr,buf,data_len);
+ 1144              		.loc 1 449 0
+ 1145 00e0 391C     		mov	r1, r7
+ 1146 00e2 039A     		ldr	r2, [sp, #12]
+ 1147 00e4 231C     		mov	r3, r4
+ 1148              		.loc 1 450 0
+ 1149 00e6 B7B2     		uxth	r7, r6
+ 449:.\socket.c    ****    			read_data(s,(uint8_t*) ptr,buf,data_len);
+ 1150              		.loc 1 449 0
+ 1151 00e8 FFF7FEFF 		bl	read_data
+ 1152              	.LVL146:
+ 451:.\socket.c    ****    			IINCHIP_WRITE(Sn_RX_RD0(s),(uint8_t)((ptr & 0xff00) >> 8));
+ 1153              		.loc 1 451 0
+ 1154 00ec 390A     		lsr	r1, r7, #8
+ 1155 00ee 0198     		ldr	r0, [sp, #4]
+ 1156 00f0 FFF7FEFF 		bl	IINCHIP_WRITE
+ 1157              	.LVL147:
+ 452:.\socket.c    ****    			IINCHIP_WRITE((Sn_RX_RD0(s) + 1),(uint8_t)(ptr & 0x00ff));
+ 1158              		.loc 1 452 0
+ 1159 00f4 F9B2     		uxtb	r1, r7
+ 1160 00f6 0298     		ldr	r0, [sp, #8]
+ 1161 00f8 FFF7FEFF 		bl	IINCHIP_WRITE
+ 1162              	.LVL148:
+ 1163              	.L99:
+ 453:.\socket.c    ****    			
+ 454:.\socket.c    **** #ifdef __DEF_IINCHIP_DGB__
+ 455:.\socket.c    **** 			// printf("MAC RAW msg arrived\r\n");
+ 456:.\socket.c    **** 			// printf("dest mac=%.2X.%.2X.%.2X.%.2X.%.2X.%.2X\r\n",buf[0],buf[1],buf[2],buf[3],buf[4],buf[5]
+ 457:.\socket.c    **** 			// printf("src  mac=%.2X.%.2X.%.2X.%.2X.%.2X.%.2X\r\n",buf[6],buf[7],buf[8],buf[9],buf[10],buf[1
+ 458:.\socket.c    **** 			// printf("type    =%.2X%.2X\r\n",buf[12],buf[13]); 
+ 459:.\socket.c    **** #endif			
+ 460:.\socket.c    **** 			break;
+ 461:.\socket.c    **** 
+ 462:.\socket.c    ****    	default :
+ 463:.\socket.c    ****    			break;
+ 464:.\socket.c    ****    	}
+ 465:.\socket.c    **** 		IINCHIP_WRITE(Sn_CR(s),Sn_CR_RECV);
+ 1164              		.loc 1 465 0
+ 1165 00fc 009A     		ldr	r2, [sp]
+ 1166 00fe 4021     		mov	r1, #64
+ 1167 0100 0132     		add	r2, r2, #1
+ 1168 0102 95B2     		uxth	r5, r2
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 31
+
+
+ 1169 0104 281C     		mov	r0, r5
+ 1170 0106 FFF7FEFF 		bl	IINCHIP_WRITE
+ 1171              	.LVL149:
+ 1172              	.L105:
+ 466:.\socket.c    **** 
+ 467:.\socket.c    **** 		/* wait to process the command... */
+ 468:.\socket.c    **** 		while( IINCHIP_READ(Sn_CR(s)) ) ;
+ 1173              		.loc 1 468 0 discriminator 1
+ 1174 010a 281C     		mov	r0, r5
+ 1175 010c FFF7FEFF 		bl	IINCHIP_READ
+ 1176              	.LVL150:
+ 1177 0110 0028     		cmp	r0, #0
+ 1178 0112 FAD1     		bne	.L105
+ 1179              	.LVL151:
+ 1180              	.L98:
+ 469:.\socket.c    **** 		/* ------- */
+ 470:.\socket.c    **** 	}
+ 471:.\socket.c    **** #ifdef __DEF_IINCHIP_DBG__
+ 472:.\socket.c    **** 	// printf("recvfrom() end ..\r\n");
+ 473:.\socket.c    **** #endif
+ 474:.\socket.c    ****  	return data_len;
+ 475:.\socket.c    **** }
+ 1181              		.loc 1 475 0
+ 1182 0114 201C     		mov	r0, r4
+ 1183 0116 07B0     		add	sp, sp, #28
+ 1184              		@ sp needed for prologue
+ 1185              	.LVL152:
+ 1186 0118 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 1187              	.L114:
+ 1188 011a C046     		.align	2
+ 1189              	.L113:
+ 1190 011c EA050000 		.word	1514
+ 1191              		.cfi_endproc
+ 1192              	.LFE8:
+ 1193              		.size	recvfrom, .-recvfrom
+ 1194              		.bss
+ 1195              		.align	1
+ 1196              		.set	.LANCHOR0,. + 0
+ 1197              		.type	local_port, %object
+ 1198              		.size	local_port, 2
+ 1199              	local_port:
+ 1200 0000 0000     		.space	2
+ 1201              		.text
+ 1202              	.Letext0:
+ 1203              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\3.0\\psoc creator\\import\\gnu_cs\\arm\\4
+ 1204              		.file 3 ".\\util.h"
+ 1205              		.file 4 ".\\w5200.h"
+ 1206              		.section	.debug_info,"",%progbits
+ 1207              	.Ldebug_info0:
+ 1208 0000 BB0B0000 		.4byte	0xbbb
+ 1209 0004 0200     		.2byte	0x2
+ 1210 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1211 000a 04       		.byte	0x4
+ 1212 000b 01       		.uleb128 0x1
+ 1213 000c FC010000 		.4byte	.LASF49
+ 1214 0010 01       		.byte	0x1
+ 1215 0011 4C020000 		.4byte	.LASF50
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 32
+
+
+ 1216 0015 09010000 		.4byte	.LASF51
+ 1217 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1218 001d 00000000 		.4byte	0
+ 1219 0021 00000000 		.4byte	0
+ 1220 0025 00000000 		.4byte	.Ldebug_line0
+ 1221 0029 02       		.uleb128 0x2
+ 1222 002a 01       		.byte	0x1
+ 1223 002b 06       		.byte	0x6
+ 1224 002c 91000000 		.4byte	.LASF0
+ 1225 0030 03       		.uleb128 0x3
+ 1226 0031 94010000 		.4byte	.LASF3
+ 1227 0035 02       		.byte	0x2
+ 1228 0036 2A       		.byte	0x2a
+ 1229 0037 3B000000 		.4byte	0x3b
+ 1230 003b 02       		.uleb128 0x2
+ 1231 003c 01       		.byte	0x1
+ 1232 003d 08       		.byte	0x8
+ 1233 003e AA000000 		.4byte	.LASF1
+ 1234 0042 02       		.uleb128 0x2
+ 1235 0043 02       		.byte	0x2
+ 1236 0044 05       		.byte	0x5
+ 1237 0045 E9010000 		.4byte	.LASF2
+ 1238 0049 03       		.uleb128 0x3
+ 1239 004a F3010000 		.4byte	.LASF4
+ 1240 004e 02       		.byte	0x2
+ 1241 004f 36       		.byte	0x36
+ 1242 0050 54000000 		.4byte	0x54
+ 1243 0054 02       		.uleb128 0x2
+ 1244 0055 02       		.byte	0x2
+ 1245 0056 07       		.byte	0x7
+ 1246 0057 4E000000 		.4byte	.LASF5
+ 1247 005b 02       		.uleb128 0x2
+ 1248 005c 04       		.byte	0x4
+ 1249 005d 05       		.byte	0x5
+ 1250 005e 45000000 		.4byte	.LASF6
+ 1251 0062 02       		.uleb128 0x2
+ 1252 0063 04       		.byte	0x4
+ 1253 0064 07       		.byte	0x7
+ 1254 0065 C6000000 		.4byte	.LASF7
+ 1255 0069 02       		.uleb128 0x2
+ 1256 006a 08       		.byte	0x8
+ 1257 006b 05       		.byte	0x5
+ 1258 006c C4010000 		.4byte	.LASF8
+ 1259 0070 02       		.uleb128 0x2
+ 1260 0071 08       		.byte	0x8
+ 1261 0072 07       		.byte	0x7
+ 1262 0073 7D010000 		.4byte	.LASF9
+ 1263 0077 04       		.uleb128 0x4
+ 1264 0078 04       		.byte	0x4
+ 1265 0079 05       		.byte	0x5
+ 1266 007a 696E7400 		.ascii	"int\000"
+ 1267 007e 02       		.uleb128 0x2
+ 1268 007f 04       		.byte	0x4
+ 1269 0080 07       		.byte	0x7
+ 1270 0081 6B010000 		.4byte	.LASF10
+ 1271 0085 02       		.uleb128 0x2
+ 1272 0086 04       		.byte	0x4
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 33
+
+
+ 1273 0087 04       		.byte	0x4
+ 1274 0088 8B000000 		.4byte	.LASF11
+ 1275 008c 02       		.uleb128 0x2
+ 1276 008d 08       		.byte	0x8
+ 1277 008e 04       		.byte	0x4
+ 1278 008f FD000000 		.4byte	.LASF12
+ 1279 0093 02       		.uleb128 0x2
+ 1280 0094 01       		.byte	0x1
+ 1281 0095 08       		.byte	0x8
+ 1282 0096 D2010000 		.4byte	.LASF13
+ 1283 009a 03       		.uleb128 0x3
+ 1284 009b 9C010000 		.4byte	.LASF14
+ 1285 009f 03       		.byte	0x3
+ 1286 00a0 27       		.byte	0x27
+ 1287 00a1 A5000000 		.4byte	0xa5
+ 1288 00a5 05       		.uleb128 0x5
+ 1289 00a6 3B000000 		.4byte	0x3b
+ 1290 00aa 03       		.uleb128 0x3
+ 1291 00ab 78020000 		.4byte	.LASF15
+ 1292 00af 03       		.byte	0x3
+ 1293 00b0 29       		.byte	0x29
+ 1294 00b1 30000000 		.4byte	0x30
+ 1295 00b5 02       		.uleb128 0x2
+ 1296 00b6 04       		.byte	0x4
+ 1297 00b7 07       		.byte	0x7
+ 1298 00b8 B6010000 		.4byte	.LASF16
+ 1299 00bc 06       		.uleb128 0x6
+ 1300 00bd 01       		.byte	0x1
+ 1301 00be 72020000 		.4byte	.LASF24
+ 1302 00c2 01       		.byte	0x1
+ 1303 00c3 47       		.byte	0x47
+ 1304 00c4 01       		.byte	0x1
+ 1305 00c5 00000000 		.4byte	.LFB1
+ 1306 00c9 2C000000 		.4byte	.LFE1
+ 1307 00cd 00000000 		.4byte	.LLST0
+ 1308 00d1 01       		.byte	0x1
+ 1309 00d2 27010000 		.4byte	0x127
+ 1310 00d6 07       		.uleb128 0x7
+ 1311 00d7 7300     		.ascii	"s\000"
+ 1312 00d9 01       		.byte	0x1
+ 1313 00da 47       		.byte	0x47
+ 1314 00db AA000000 		.4byte	0xaa
+ 1315 00df 20000000 		.4byte	.LLST1
+ 1316 00e3 08       		.uleb128 0x8
+ 1317 00e4 16000000 		.4byte	.LVL2
+ 1318 00e8 BE0A0000 		.4byte	0xabe
+ 1319 00ec FC000000 		.4byte	0xfc
+ 1320 00f0 09       		.uleb128 0x9
+ 1321 00f1 01       		.byte	0x1
+ 1322 00f2 51       		.byte	0x51
+ 1323 00f3 01       		.byte	0x1
+ 1324 00f4 40       		.byte	0x40
+ 1325 00f5 09       		.uleb128 0x9
+ 1326 00f6 01       		.byte	0x1
+ 1327 00f7 50       		.byte	0x50
+ 1328 00f8 02       		.byte	0x2
+ 1329 00f9 75       		.byte	0x75
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 34
+
+
+ 1330 00fa 00       		.sleb128 0
+ 1331 00fb 00       		.byte	0
+ 1332 00fc 08       		.uleb128 0x8
+ 1333 00fd 1C000000 		.4byte	.LVL3
+ 1334 0101 DC0A0000 		.4byte	0xadc
+ 1335 0105 10010000 		.4byte	0x110
+ 1336 0109 09       		.uleb128 0x9
+ 1337 010a 01       		.byte	0x1
+ 1338 010b 50       		.byte	0x50
+ 1339 010c 02       		.byte	0x2
+ 1340 010d 75       		.byte	0x75
+ 1341 010e 00       		.sleb128 0
+ 1342 010f 00       		.byte	0
+ 1343 0110 0A       		.uleb128 0xa
+ 1344 0111 2A000000 		.4byte	.LVL4
+ 1345 0115 BE0A0000 		.4byte	0xabe
+ 1346 0119 09       		.uleb128 0x9
+ 1347 011a 01       		.byte	0x1
+ 1348 011b 51       		.byte	0x51
+ 1349 011c 02       		.byte	0x2
+ 1350 011d 09       		.byte	0x9
+ 1351 011e FF       		.byte	0xff
+ 1352 011f 09       		.uleb128 0x9
+ 1353 0120 01       		.byte	0x1
+ 1354 0121 50       		.byte	0x50
+ 1355 0122 02       		.byte	0x2
+ 1356 0123 74       		.byte	0x74
+ 1357 0124 00       		.sleb128 0
+ 1358 0125 00       		.byte	0
+ 1359 0126 00       		.byte	0
+ 1360 0127 0B       		.uleb128 0xb
+ 1361 0128 01       		.byte	0x1
+ 1362 0129 45020000 		.4byte	.LASF20
+ 1363 012d 01       		.byte	0x1
+ 1364 012e 1F       		.byte	0x1f
+ 1365 012f 01       		.byte	0x1
+ 1366 0130 30000000 		.4byte	0x30
+ 1367 0134 00000000 		.4byte	.LFB0
+ 1368 0138 78000000 		.4byte	.LFE0
+ 1369 013c 41000000 		.4byte	.LLST2
+ 1370 0140 01       		.byte	0x1
+ 1371 0141 22020000 		.4byte	0x222
+ 1372 0145 07       		.uleb128 0x7
+ 1373 0146 7300     		.ascii	"s\000"
+ 1374 0148 01       		.byte	0x1
+ 1375 0149 1F       		.byte	0x1f
+ 1376 014a AA000000 		.4byte	0xaa
+ 1377 014e 61000000 		.4byte	.LLST3
+ 1378 0152 0C       		.uleb128 0xc
+ 1379 0153 0E000000 		.4byte	.LASF17
+ 1380 0157 01       		.byte	0x1
+ 1381 0158 1F       		.byte	0x1f
+ 1382 0159 30000000 		.4byte	0x30
+ 1383 015d 82000000 		.4byte	.LLST4
+ 1384 0161 0C       		.uleb128 0xc
+ 1385 0162 E4010000 		.4byte	.LASF18
+ 1386 0166 01       		.byte	0x1
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 35
+
+
+ 1387 0167 1F       		.byte	0x1f
+ 1388 0168 49000000 		.4byte	0x49
+ 1389 016c A3000000 		.4byte	.LLST5
+ 1390 0170 0C       		.uleb128 0xc
+ 1391 0171 66010000 		.4byte	.LASF19
+ 1392 0175 01       		.byte	0x1
+ 1393 0176 1F       		.byte	0x1f
+ 1394 0177 30000000 		.4byte	0x30
+ 1395 017b C4000000 		.4byte	.LLST6
+ 1396 017f 0D       		.uleb128 0xd
+ 1397 0180 72657400 		.ascii	"ret\000"
+ 1398 0184 01       		.byte	0x1
+ 1399 0185 21       		.byte	0x21
+ 1400 0186 30000000 		.4byte	0x30
+ 1401 018a 01       		.byte	0x1
+ 1402 018b 50       		.byte	0x50
+ 1403 018c 08       		.uleb128 0x8
+ 1404 018d 1A000000 		.4byte	.LVL8
+ 1405 0191 BC000000 		.4byte	0xbc
+ 1406 0195 A0010000 		.4byte	0x1a0
+ 1407 0199 09       		.uleb128 0x9
+ 1408 019a 01       		.byte	0x1
+ 1409 019b 50       		.byte	0x50
+ 1410 019c 02       		.byte	0x2
+ 1411 019d 74       		.byte	0x74
+ 1412 019e 40       		.sleb128 -64
+ 1413 019f 00       		.byte	0
+ 1414 01a0 08       		.uleb128 0x8
+ 1415 01a1 28000000 		.4byte	.LVL9
+ 1416 01a5 BE0A0000 		.4byte	0xabe
+ 1417 01a9 BD010000 		.4byte	0x1bd
+ 1418 01ad 09       		.uleb128 0x9
+ 1419 01ae 01       		.byte	0x1
+ 1420 01af 51       		.byte	0x51
+ 1421 01b0 05       		.byte	0x5
+ 1422 01b1 77       		.byte	0x77
+ 1423 01b2 00       		.sleb128 0
+ 1424 01b3 76       		.byte	0x76
+ 1425 01b4 00       		.sleb128 0
+ 1426 01b5 21       		.byte	0x21
+ 1427 01b6 09       		.uleb128 0x9
+ 1428 01b7 01       		.byte	0x1
+ 1429 01b8 50       		.byte	0x50
+ 1430 01b9 02       		.byte	0x2
+ 1431 01ba 74       		.byte	0x74
+ 1432 01bb 00       		.sleb128 0
+ 1433 01bc 00       		.byte	0
+ 1434 01bd 08       		.uleb128 0x8
+ 1435 01be 38000000 		.4byte	.LVL10
+ 1436 01c2 BE0A0000 		.4byte	0xabe
+ 1437 01c6 D9010000 		.4byte	0x1d9
+ 1438 01ca 09       		.uleb128 0x9
+ 1439 01cb 01       		.byte	0x1
+ 1440 01cc 51       		.byte	0x51
+ 1441 01cd 04       		.byte	0x4
+ 1442 01ce 75       		.byte	0x75
+ 1443 01cf 00       		.sleb128 0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 36
+
+
+ 1444 01d0 38       		.byte	0x38
+ 1445 01d1 25       		.byte	0x25
+ 1446 01d2 09       		.uleb128 0x9
+ 1447 01d3 01       		.byte	0x1
+ 1448 01d4 50       		.byte	0x50
+ 1449 01d5 02       		.byte	0x2
+ 1450 01d6 74       		.byte	0x74
+ 1451 01d7 04       		.sleb128 4
+ 1452 01d8 00       		.byte	0
+ 1453 01d9 08       		.uleb128 0x8
+ 1454 01da 50000000 		.4byte	.LVL11
+ 1455 01de BE0A0000 		.4byte	0xabe
+ 1456 01e2 EF010000 		.4byte	0x1ef
+ 1457 01e6 09       		.uleb128 0x9
+ 1458 01e7 01       		.byte	0x1
+ 1459 01e8 51       		.byte	0x51
+ 1460 01e9 04       		.byte	0x4
+ 1461 01ea 77       		.byte	0x77
+ 1462 01eb 00       		.sleb128 0
+ 1463 01ec 38       		.byte	0x38
+ 1464 01ed 25       		.byte	0x25
+ 1465 01ee 00       		.byte	0
+ 1466 01ef 0E       		.uleb128 0xe
+ 1467 01f0 5C000000 		.4byte	.LVL12
+ 1468 01f4 BE0A0000 		.4byte	0xabe
+ 1469 01f8 08       		.uleb128 0x8
+ 1470 01f9 64000000 		.4byte	.LVL13
+ 1471 01fd BE0A0000 		.4byte	0xabe
+ 1472 0201 11020000 		.4byte	0x211
+ 1473 0205 09       		.uleb128 0x9
+ 1474 0206 01       		.byte	0x1
+ 1475 0207 51       		.byte	0x51
+ 1476 0208 01       		.byte	0x1
+ 1477 0209 31       		.byte	0x31
+ 1478 020a 09       		.uleb128 0x9
+ 1479 020b 01       		.byte	0x1
+ 1480 020c 50       		.byte	0x50
+ 1481 020d 02       		.byte	0x2
+ 1482 020e 74       		.byte	0x74
+ 1483 020f 00       		.sleb128 0
+ 1484 0210 00       		.byte	0
+ 1485 0211 0A       		.uleb128 0xa
+ 1486 0212 6A000000 		.4byte	.LVL14
+ 1487 0216 DC0A0000 		.4byte	0xadc
+ 1488 021a 09       		.uleb128 0x9
+ 1489 021b 01       		.byte	0x1
+ 1490 021c 50       		.byte	0x50
+ 1491 021d 02       		.byte	0x2
+ 1492 021e 74       		.byte	0x74
+ 1493 021f 00       		.sleb128 0
+ 1494 0220 00       		.byte	0
+ 1495 0221 00       		.byte	0
+ 1496 0222 0B       		.uleb128 0xb
+ 1497 0223 01       		.byte	0x1
+ 1498 0224 A5010000 		.4byte	.LASF21
+ 1499 0228 01       		.byte	0x1
+ 1500 0229 5C       		.byte	0x5c
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 37
+
+
+ 1501 022a 01       		.byte	0x1
+ 1502 022b 30000000 		.4byte	0x30
+ 1503 022f 00000000 		.4byte	.LFB2
+ 1504 0233 34000000 		.4byte	.LFE2
+ 1505 0237 E5000000 		.4byte	.LLST7
+ 1506 023b 01       		.byte	0x1
+ 1507 023c 98020000 		.4byte	0x298
+ 1508 0240 07       		.uleb128 0x7
+ 1509 0241 7300     		.ascii	"s\000"
+ 1510 0243 01       		.byte	0x1
+ 1511 0244 5C       		.byte	0x5c
+ 1512 0245 AA000000 		.4byte	0xaa
+ 1513 0249 05010000 		.4byte	.LLST8
+ 1514 024d 0D       		.uleb128 0xd
+ 1515 024e 72657400 		.ascii	"ret\000"
+ 1516 0252 01       		.byte	0x1
+ 1517 0253 5E       		.byte	0x5e
+ 1518 0254 30000000 		.4byte	0x30
+ 1519 0258 01       		.byte	0x1
+ 1520 0259 53       		.byte	0x53
+ 1521 025a 08       		.uleb128 0x8
+ 1522 025b 12000000 		.4byte	.LVL18
+ 1523 025f DC0A0000 		.4byte	0xadc
+ 1524 0263 6E020000 		.4byte	0x26e
+ 1525 0267 09       		.uleb128 0x9
+ 1526 0268 01       		.byte	0x1
+ 1527 0269 50       		.byte	0x50
+ 1528 026a 02       		.byte	0x2
+ 1529 026b 74       		.byte	0x74
+ 1530 026c 03       		.sleb128 3
+ 1531 026d 00       		.byte	0
+ 1532 026e 08       		.uleb128 0x8
+ 1533 026f 24000000 		.4byte	.LVL19
+ 1534 0273 BE0A0000 		.4byte	0xabe
+ 1535 0277 87020000 		.4byte	0x287
+ 1536 027b 09       		.uleb128 0x9
+ 1537 027c 01       		.byte	0x1
+ 1538 027d 51       		.byte	0x51
+ 1539 027e 01       		.byte	0x1
+ 1540 027f 32       		.byte	0x32
+ 1541 0280 09       		.uleb128 0x9
+ 1542 0281 01       		.byte	0x1
+ 1543 0282 50       		.byte	0x50
+ 1544 0283 02       		.byte	0x2
+ 1545 0284 74       		.byte	0x74
+ 1546 0285 00       		.sleb128 0
+ 1547 0286 00       		.byte	0
+ 1548 0287 0A       		.uleb128 0xa
+ 1549 0288 2A000000 		.4byte	.LVL20
+ 1550 028c DC0A0000 		.4byte	0xadc
+ 1551 0290 09       		.uleb128 0x9
+ 1552 0291 01       		.byte	0x1
+ 1553 0292 50       		.byte	0x50
+ 1554 0293 02       		.byte	0x2
+ 1555 0294 74       		.byte	0x74
+ 1556 0295 00       		.sleb128 0
+ 1557 0296 00       		.byte	0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 38
+
+
+ 1558 0297 00       		.byte	0
+ 1559 0298 0B       		.uleb128 0xb
+ 1560 0299 01       		.byte	0x1
+ 1561 029a BE000000 		.4byte	.LASF22
+ 1562 029e 01       		.byte	0x1
+ 1563 029f 7C       		.byte	0x7c
+ 1564 02a0 01       		.byte	0x1
+ 1565 02a1 30000000 		.4byte	0x30
+ 1566 02a5 00000000 		.4byte	.LFB3
+ 1567 02a9 E6000000 		.4byte	.LFE3
+ 1568 02ad 26010000 		.4byte	.LLST9
+ 1569 02b1 01       		.byte	0x1
+ 1570 02b2 05040000 		.4byte	0x405
+ 1571 02b6 07       		.uleb128 0x7
+ 1572 02b7 7300     		.ascii	"s\000"
+ 1573 02b9 01       		.byte	0x1
+ 1574 02ba 7C       		.byte	0x7c
+ 1575 02bb AA000000 		.4byte	0xaa
+ 1576 02bf 46010000 		.4byte	.LLST10
+ 1577 02c3 0C       		.uleb128 0xc
+ 1578 02c4 86000000 		.4byte	.LASF23
+ 1579 02c8 01       		.byte	0x1
+ 1580 02c9 7C       		.byte	0x7c
+ 1581 02ca 05040000 		.4byte	0x405
+ 1582 02ce 80010000 		.4byte	.LLST11
+ 1583 02d2 0C       		.uleb128 0xc
+ 1584 02d3 E4010000 		.4byte	.LASF18
+ 1585 02d7 01       		.byte	0x1
+ 1586 02d8 7C       		.byte	0x7c
+ 1587 02d9 49000000 		.4byte	0x49
+ 1588 02dd C5010000 		.4byte	.LLST12
+ 1589 02e1 0F       		.uleb128 0xf
+ 1590 02e2 72657400 		.ascii	"ret\000"
+ 1591 02e6 01       		.byte	0x1
+ 1592 02e7 7E       		.byte	0x7e
+ 1593 02e8 30000000 		.4byte	0x30
+ 1594 02ec FF010000 		.4byte	.LLST13
+ 1595 02f0 08       		.uleb128 0x8
+ 1596 02f1 52000000 		.4byte	.LVL29
+ 1597 02f5 BE0A0000 		.4byte	0xabe
+ 1598 02f9 04030000 		.4byte	0x304
+ 1599 02fd 09       		.uleb128 0x9
+ 1600 02fe 01       		.byte	0x1
+ 1601 02ff 50       		.byte	0x50
+ 1602 0300 02       		.byte	0x2
+ 1603 0301 75       		.byte	0x75
+ 1604 0302 0C       		.sleb128 12
+ 1605 0303 00       		.byte	0
+ 1606 0304 08       		.uleb128 0x8
+ 1607 0305 5E000000 		.4byte	.LVL30
+ 1608 0309 BE0A0000 		.4byte	0xabe
+ 1609 030d 18030000 		.4byte	0x318
+ 1610 0311 09       		.uleb128 0x9
+ 1611 0312 01       		.byte	0x1
+ 1612 0313 50       		.byte	0x50
+ 1613 0314 02       		.byte	0x2
+ 1614 0315 75       		.byte	0x75
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 39
+
+
+ 1615 0316 0D       		.sleb128 13
+ 1616 0317 00       		.byte	0
+ 1617 0318 08       		.uleb128 0x8
+ 1618 0319 6A000000 		.4byte	.LVL31
+ 1619 031d BE0A0000 		.4byte	0xabe
+ 1620 0321 2C030000 		.4byte	0x32c
+ 1621 0325 09       		.uleb128 0x9
+ 1622 0326 01       		.byte	0x1
+ 1623 0327 50       		.byte	0x50
+ 1624 0328 02       		.byte	0x2
+ 1625 0329 75       		.byte	0x75
+ 1626 032a 0E       		.sleb128 14
+ 1627 032b 00       		.byte	0
+ 1628 032c 08       		.uleb128 0x8
+ 1629 032d 7A000000 		.4byte	.LVL33
+ 1630 0331 BE0A0000 		.4byte	0xabe
+ 1631 0335 40030000 		.4byte	0x340
+ 1632 0339 09       		.uleb128 0x9
+ 1633 033a 01       		.byte	0x1
+ 1634 033b 50       		.byte	0x50
+ 1635 033c 02       		.byte	0x2
+ 1636 033d 75       		.byte	0x75
+ 1637 033e 0F       		.sleb128 15
+ 1638 033f 00       		.byte	0
+ 1639 0340 08       		.uleb128 0x8
+ 1640 0341 82000000 		.4byte	.LVL34
+ 1641 0345 BE0A0000 		.4byte	0xabe
+ 1642 0349 5C030000 		.4byte	0x35c
+ 1643 034d 09       		.uleb128 0x9
+ 1644 034e 01       		.byte	0x1
+ 1645 034f 51       		.byte	0x51
+ 1646 0350 04       		.byte	0x4
+ 1647 0351 76       		.byte	0x76
+ 1648 0352 00       		.sleb128 0
+ 1649 0353 38       		.byte	0x38
+ 1650 0354 25       		.byte	0x25
+ 1651 0355 09       		.uleb128 0x9
+ 1652 0356 01       		.byte	0x1
+ 1653 0357 50       		.byte	0x50
+ 1654 0358 02       		.byte	0x2
+ 1655 0359 74       		.byte	0x74
+ 1656 035a 00       		.sleb128 0
+ 1657 035b 00       		.byte	0
+ 1658 035c 08       		.uleb128 0x8
+ 1659 035d 92000000 		.4byte	.LVL35
+ 1660 0361 BE0A0000 		.4byte	0xabe
+ 1661 0365 70030000 		.4byte	0x370
+ 1662 0369 09       		.uleb128 0x9
+ 1663 036a 01       		.byte	0x1
+ 1664 036b 50       		.byte	0x50
+ 1665 036c 02       		.byte	0x2
+ 1666 036d 75       		.byte	0x75
+ 1667 036e 11       		.sleb128 17
+ 1668 036f 00       		.byte	0
+ 1669 0370 0E       		.uleb128 0xe
+ 1670 0371 96000000 		.4byte	.LVL36
+ 1671 0375 F50A0000 		.4byte	0xaf5
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 40
+
+
+ 1672 0379 08       		.uleb128 0x8
+ 1673 037a 9E000000 		.4byte	.LVL37
+ 1674 037e BE0A0000 		.4byte	0xabe
+ 1675 0382 92030000 		.4byte	0x392
+ 1676 0386 09       		.uleb128 0x9
+ 1677 0387 01       		.byte	0x1
+ 1678 0388 51       		.byte	0x51
+ 1679 0389 01       		.byte	0x1
+ 1680 038a 34       		.byte	0x34
+ 1681 038b 09       		.uleb128 0x9
+ 1682 038c 01       		.byte	0x1
+ 1683 038d 50       		.byte	0x50
+ 1684 038e 02       		.byte	0x2
+ 1685 038f 74       		.byte	0x74
+ 1686 0390 00       		.sleb128 0
+ 1687 0391 00       		.byte	0
+ 1688 0392 08       		.uleb128 0x8
+ 1689 0393 A4000000 		.4byte	.LVL38
+ 1690 0397 DC0A0000 		.4byte	0xadc
+ 1691 039b A6030000 		.4byte	0x3a6
+ 1692 039f 09       		.uleb128 0x9
+ 1693 03a0 01       		.byte	0x1
+ 1694 03a1 50       		.byte	0x50
+ 1695 03a2 02       		.byte	0x2
+ 1696 03a3 74       		.byte	0x74
+ 1697 03a4 00       		.sleb128 0
+ 1698 03a5 00       		.byte	0
+ 1699 03a6 08       		.uleb128 0x8
+ 1700 03a7 B2000000 		.4byte	.LVL39
+ 1701 03ab DC0A0000 		.4byte	0xadc
+ 1702 03af BA030000 		.4byte	0x3ba
+ 1703 03b3 09       		.uleb128 0x9
+ 1704 03b4 01       		.byte	0x1
+ 1705 03b5 50       		.byte	0x50
+ 1706 03b6 02       		.byte	0x2
+ 1707 03b7 76       		.byte	0x76
+ 1708 03b8 00       		.sleb128 0
+ 1709 03b9 00       		.byte	0
+ 1710 03ba 08       		.uleb128 0x8
+ 1711 03bb BC000000 		.4byte	.LVL40
+ 1712 03bf DC0A0000 		.4byte	0xadc
+ 1713 03c3 CE030000 		.4byte	0x3ce
+ 1714 03c7 09       		.uleb128 0x9
+ 1715 03c8 01       		.byte	0x1
+ 1716 03c9 50       		.byte	0x50
+ 1717 03ca 02       		.byte	0x2
+ 1718 03cb 76       		.byte	0x76
+ 1719 03cc 00       		.sleb128 0
+ 1720 03cd 00       		.byte	0
+ 1721 03ce 08       		.uleb128 0x8
+ 1722 03cf CA000000 		.4byte	.LVL41
+ 1723 03d3 000B0000 		.4byte	0xb00
+ 1724 03d7 E2030000 		.4byte	0x3e2
+ 1725 03db 09       		.uleb128 0x9
+ 1726 03dc 01       		.byte	0x1
+ 1727 03dd 50       		.byte	0x50
+ 1728 03de 02       		.byte	0x2
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 41
+
+
+ 1729 03df 77       		.byte	0x77
+ 1730 03e0 00       		.sleb128 0
+ 1731 03e1 00       		.byte	0
+ 1732 03e2 08       		.uleb128 0x8
+ 1733 03e3 D8000000 		.4byte	.LVL42
+ 1734 03e7 BE0A0000 		.4byte	0xabe
+ 1735 03eb FB030000 		.4byte	0x3fb
+ 1736 03ef 09       		.uleb128 0x9
+ 1737 03f0 01       		.byte	0x1
+ 1738 03f1 51       		.byte	0x51
+ 1739 03f2 01       		.byte	0x1
+ 1740 03f3 38       		.byte	0x38
+ 1741 03f4 09       		.uleb128 0x9
+ 1742 03f5 01       		.byte	0x1
+ 1743 03f6 50       		.byte	0x50
+ 1744 03f7 02       		.byte	0x2
+ 1745 03f8 75       		.byte	0x75
+ 1746 03f9 00       		.sleb128 0
+ 1747 03fa 00       		.byte	0
+ 1748 03fb 0E       		.uleb128 0xe
+ 1749 03fc DE000000 		.4byte	.LVL44
+ 1750 0400 190B0000 		.4byte	0xb19
+ 1751 0404 00       		.byte	0
+ 1752 0405 10       		.uleb128 0x10
+ 1753 0406 04       		.byte	0x4
+ 1754 0407 30000000 		.4byte	0x30
+ 1755 040b 06       		.uleb128 0x6
+ 1756 040c 01       		.byte	0x1
+ 1757 040d E1000000 		.4byte	.LASF25
+ 1758 0411 01       		.byte	0x1
+ 1759 0412 B5       		.byte	0xb5
+ 1760 0413 01       		.byte	0x1
+ 1761 0414 00000000 		.4byte	.LFB4
+ 1762 0418 24000000 		.4byte	.LFE4
+ 1763 041c 40020000 		.4byte	.LLST14
+ 1764 0420 01       		.byte	0x1
+ 1765 0421 5C040000 		.4byte	0x45c
+ 1766 0425 07       		.uleb128 0x7
+ 1767 0426 7300     		.ascii	"s\000"
+ 1768 0428 01       		.byte	0x1
+ 1769 0429 B5       		.byte	0xb5
+ 1770 042a AA000000 		.4byte	0xaa
+ 1771 042e 60020000 		.4byte	.LLST15
+ 1772 0432 08       		.uleb128 0x8
+ 1773 0433 12000000 		.4byte	.LVL50
+ 1774 0437 BE0A0000 		.4byte	0xabe
+ 1775 043b 4B040000 		.4byte	0x44b
+ 1776 043f 09       		.uleb128 0x9
+ 1777 0440 01       		.byte	0x1
+ 1778 0441 51       		.byte	0x51
+ 1779 0442 01       		.byte	0x1
+ 1780 0443 38       		.byte	0x38
+ 1781 0444 09       		.uleb128 0x9
+ 1782 0445 01       		.byte	0x1
+ 1783 0446 50       		.byte	0x50
+ 1784 0447 02       		.byte	0x2
+ 1785 0448 74       		.byte	0x74
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 42
+
+
+ 1786 0449 00       		.sleb128 0
+ 1787 044a 00       		.byte	0
+ 1788 044b 0A       		.uleb128 0xa
+ 1789 044c 18000000 		.4byte	.LVL51
+ 1790 0450 DC0A0000 		.4byte	0xadc
+ 1791 0454 09       		.uleb128 0x9
+ 1792 0455 01       		.byte	0x1
+ 1793 0456 50       		.byte	0x50
+ 1794 0457 02       		.byte	0x2
+ 1795 0458 74       		.byte	0x74
+ 1796 0459 00       		.sleb128 0
+ 1797 045a 00       		.byte	0
+ 1798 045b 00       		.byte	0
+ 1799 045c 0B       		.uleb128 0xb
+ 1800 045d 01       		.byte	0x1
+ 1801 045e 78010000 		.4byte	.LASF26
+ 1802 0462 01       		.byte	0x1
+ 1803 0463 C7       		.byte	0xc7
+ 1804 0464 01       		.byte	0x1
+ 1805 0465 49000000 		.4byte	0x49
+ 1806 0469 00000000 		.4byte	.LFB5
+ 1807 046d E2000000 		.4byte	.LFE5
+ 1808 0471 81020000 		.4byte	.LLST16
+ 1809 0475 01       		.byte	0x1
+ 1810 0476 32060000 		.4byte	0x632
+ 1811 047a 07       		.uleb128 0x7
+ 1812 047b 7300     		.ascii	"s\000"
+ 1813 047d 01       		.byte	0x1
+ 1814 047e C7       		.byte	0xc7
+ 1815 047f AA000000 		.4byte	0xaa
+ 1816 0483 AD020000 		.4byte	.LLST17
+ 1817 0487 07       		.uleb128 0x7
+ 1818 0488 62756600 		.ascii	"buf\000"
+ 1819 048c 01       		.byte	0x1
+ 1820 048d C7       		.byte	0xc7
+ 1821 048e 32060000 		.4byte	0x632
+ 1822 0492 E7020000 		.4byte	.LLST18
+ 1823 0496 07       		.uleb128 0x7
+ 1824 0497 6C656E00 		.ascii	"len\000"
+ 1825 049b 01       		.byte	0x1
+ 1826 049c C7       		.byte	0xc7
+ 1827 049d 49000000 		.4byte	0x49
+ 1828 04a1 1D030000 		.4byte	.LLST19
+ 1829 04a5 0C       		.uleb128 0xc
+ 1830 04a6 B8000000 		.4byte	.LASF27
+ 1831 04aa 01       		.byte	0x1
+ 1832 04ab C7       		.byte	0xc7
+ 1833 04ac 3D060000 		.4byte	0x63d
+ 1834 04b0 57030000 		.4byte	.LLST20
+ 1835 04b4 11       		.uleb128 0x11
+ 1836 04b5 6B020000 		.4byte	.LASF28
+ 1837 04b9 01       		.byte	0x1
+ 1838 04ba C9       		.byte	0xc9
+ 1839 04bb 30000000 		.4byte	0x30
+ 1840 04bf 91030000 		.4byte	.LLST21
+ 1841 04c3 0F       		.uleb128 0xf
+ 1842 04c4 72657400 		.ascii	"ret\000"
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 43
+
+
+ 1843 04c8 01       		.byte	0x1
+ 1844 04c9 CA       		.byte	0xca
+ 1845 04ca 49000000 		.4byte	0x49
+ 1846 04ce BC030000 		.4byte	.LLST22
+ 1847 04d2 11       		.uleb128 0x11
+ 1848 04d3 62020000 		.4byte	.LASF29
+ 1849 04d7 01       		.byte	0x1
+ 1850 04d8 CB       		.byte	0xcb
+ 1851 04d9 49000000 		.4byte	0x49
+ 1852 04dd E7030000 		.4byte	.LLST23
+ 1853 04e1 11       		.uleb128 0x11
+ 1854 04e2 04010000 		.4byte	.LASF30
+ 1855 04e6 01       		.byte	0x1
+ 1856 04e7 CC       		.byte	0xcc
+ 1857 04e8 49000000 		.4byte	0x49
+ 1858 04ec 1E040000 		.4byte	.LLST24
+ 1859 04f0 11       		.uleb128 0x11
+ 1860 04f1 EC000000 		.4byte	.LASF31
+ 1861 04f5 01       		.byte	0x1
+ 1862 04f6 CC       		.byte	0xcc
+ 1863 04f7 49000000 		.4byte	0x49
+ 1864 04fb 41040000 		.4byte	.LLST25
+ 1865 04ff 08       		.uleb128 0x8
+ 1866 0500 22000000 		.4byte	.LVL54
+ 1867 0504 DC0A0000 		.4byte	0xadc
+ 1868 0508 13050000 		.4byte	0x513
+ 1869 050c 09       		.uleb128 0x9
+ 1870 050d 01       		.byte	0x1
+ 1871 050e 50       		.byte	0x50
+ 1872 050f 02       		.byte	0x2
+ 1873 0510 77       		.byte	0x77
+ 1874 0511 00       		.sleb128 0
+ 1875 0512 00       		.byte	0
+ 1876 0513 08       		.uleb128 0x8
+ 1877 0514 32000000 		.4byte	.LVL56
+ 1878 0518 DC0A0000 		.4byte	0xadc
+ 1879 051c 27050000 		.4byte	0x527
+ 1880 0520 09       		.uleb128 0x9
+ 1881 0521 01       		.byte	0x1
+ 1882 0522 50       		.byte	0x50
+ 1883 0523 02       		.byte	0x2
+ 1884 0524 76       		.byte	0x76
+ 1885 0525 00       		.sleb128 0
+ 1886 0526 00       		.byte	0
+ 1887 0527 08       		.uleb128 0x8
+ 1888 0528 40000000 		.4byte	.LVL58
+ 1889 052c BE0A0000 		.4byte	0xabe
+ 1890 0530 41050000 		.4byte	0x541
+ 1891 0534 09       		.uleb128 0x9
+ 1892 0535 01       		.byte	0x1
+ 1893 0536 51       		.byte	0x51
+ 1894 0537 02       		.byte	0x2
+ 1895 0538 08       		.byte	0x8
+ 1896 0539 20       		.byte	0x20
+ 1897 053a 09       		.uleb128 0x9
+ 1898 053b 01       		.byte	0x1
+ 1899 053c 50       		.byte	0x50
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 44
+
+
+ 1900 053d 02       		.byte	0x2
+ 1901 053e 76       		.byte	0x76
+ 1902 053f 00       		.sleb128 0
+ 1903 0540 00       		.byte	0
+ 1904 0541 0E       		.uleb128 0xe
+ 1905 0542 46000000 		.4byte	.LVL60
+ 1906 0546 240B0000 		.4byte	0xb24
+ 1907 054a 08       		.uleb128 0x8
+ 1908 054b 50000000 		.4byte	.LVL61
+ 1909 054f 240B0000 		.4byte	0xb24
+ 1910 0553 5E050000 		.4byte	0x55e
+ 1911 0557 09       		.uleb128 0x9
+ 1912 0558 01       		.byte	0x1
+ 1913 0559 50       		.byte	0x50
+ 1914 055a 02       		.byte	0x2
+ 1915 055b 74       		.byte	0x74
+ 1916 055c 00       		.sleb128 0
+ 1917 055d 00       		.byte	0
+ 1918 055e 08       		.uleb128 0x8
+ 1919 055f 5E000000 		.4byte	.LVL64
+ 1920 0563 3D0B0000 		.4byte	0xb3d
+ 1921 0567 72050000 		.4byte	0x572
+ 1922 056b 09       		.uleb128 0x9
+ 1923 056c 01       		.byte	0x1
+ 1924 056d 50       		.byte	0x50
+ 1925 056e 02       		.byte	0x2
+ 1926 056f 74       		.byte	0x74
+ 1927 0570 00       		.sleb128 0
+ 1928 0571 00       		.byte	0
+ 1929 0572 08       		.uleb128 0x8
+ 1930 0573 66000000 		.4byte	.LVL67
+ 1931 0577 DC0A0000 		.4byte	0xadc
+ 1932 057b 86050000 		.4byte	0x586
+ 1933 057f 09       		.uleb128 0x9
+ 1934 0580 01       		.byte	0x1
+ 1935 0581 50       		.byte	0x50
+ 1936 0582 02       		.byte	0x2
+ 1937 0583 77       		.byte	0x77
+ 1938 0584 00       		.sleb128 0
+ 1939 0585 00       		.byte	0
+ 1940 0586 08       		.uleb128 0x8
+ 1941 0587 82000000 		.4byte	.LVL70
+ 1942 058b 560B0000 		.4byte	0xb56
+ 1943 058f A7050000 		.4byte	0x5a7
+ 1944 0593 09       		.uleb128 0x9
+ 1945 0594 01       		.byte	0x1
+ 1946 0595 52       		.byte	0x52
+ 1947 0596 02       		.byte	0x2
+ 1948 0597 76       		.byte	0x76
+ 1949 0598 00       		.sleb128 0
+ 1950 0599 09       		.uleb128 0x9
+ 1951 059a 01       		.byte	0x1
+ 1952 059b 51       		.byte	0x51
+ 1953 059c 03       		.byte	0x3
+ 1954 059d 91       		.byte	0x91
+ 1955 059e 5C       		.sleb128 -36
+ 1956 059f 06       		.byte	0x6
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 45
+
+
+ 1957 05a0 09       		.uleb128 0x9
+ 1958 05a1 01       		.byte	0x1
+ 1959 05a2 50       		.byte	0x50
+ 1960 05a3 02       		.byte	0x2
+ 1961 05a4 74       		.byte	0x74
+ 1962 05a5 00       		.sleb128 0
+ 1963 05a6 00       		.byte	0
+ 1964 05a7 08       		.uleb128 0x8
+ 1965 05a8 8E000000 		.4byte	.LVL72
+ 1966 05ac DC0A0000 		.4byte	0xadc
+ 1967 05b0 BB050000 		.4byte	0x5bb
+ 1968 05b4 09       		.uleb128 0x9
+ 1969 05b5 01       		.byte	0x1
+ 1970 05b6 50       		.byte	0x50
+ 1971 05b7 02       		.byte	0x2
+ 1972 05b8 76       		.byte	0x76
+ 1973 05b9 00       		.sleb128 0
+ 1974 05ba 00       		.byte	0
+ 1975 05bb 08       		.uleb128 0x8
+ 1976 05bc 9C000000 		.4byte	.LVL73
+ 1977 05c0 DC0A0000 		.4byte	0xadc
+ 1978 05c4 CF050000 		.4byte	0x5cf
+ 1979 05c8 09       		.uleb128 0x9
+ 1980 05c9 01       		.byte	0x1
+ 1981 05ca 50       		.byte	0x50
+ 1982 05cb 02       		.byte	0x2
+ 1983 05cc 76       		.byte	0x76
+ 1984 05cd 00       		.sleb128 0
+ 1985 05ce 00       		.byte	0
+ 1986 05cf 08       		.uleb128 0x8
+ 1987 05d0 A8000000 		.4byte	.LVL74
+ 1988 05d4 DC0A0000 		.4byte	0xadc
+ 1989 05d8 E3050000 		.4byte	0x5e3
+ 1990 05dc 09       		.uleb128 0x9
+ 1991 05dd 01       		.byte	0x1
+ 1992 05de 50       		.byte	0x50
+ 1993 05df 02       		.byte	0x2
+ 1994 05e0 76       		.byte	0x76
+ 1995 05e1 00       		.sleb128 0
+ 1996 05e2 00       		.byte	0
+ 1997 05e3 08       		.uleb128 0x8
+ 1998 05e4 B2000000 		.4byte	.LVL75
+ 1999 05e8 BC000000 		.4byte	0xbc
+ 2000 05ec F7050000 		.4byte	0x5f7
+ 2001 05f0 09       		.uleb128 0x9
+ 2002 05f1 01       		.byte	0x1
+ 2003 05f2 50       		.byte	0x50
+ 2004 05f3 02       		.byte	0x2
+ 2005 05f4 74       		.byte	0x74
+ 2006 05f5 00       		.sleb128 0
+ 2007 05f6 00       		.byte	0
+ 2008 05f7 08       		.uleb128 0x8
+ 2009 05f8 C4000000 		.4byte	.LVL76
+ 2010 05fc BE0A0000 		.4byte	0xabe
+ 2011 0600 0B060000 		.4byte	0x60b
+ 2012 0604 09       		.uleb128 0x9
+ 2013 0605 01       		.byte	0x1
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 46
+
+
+ 2014 0606 50       		.byte	0x50
+ 2015 0607 02       		.byte	0x2
+ 2016 0608 76       		.byte	0x76
+ 2017 0609 00       		.sleb128 0
+ 2018 060a 00       		.byte	0
+ 2019 060b 08       		.uleb128 0x8
+ 2020 060c CA000000 		.4byte	.LVL77
+ 2021 0610 DC0A0000 		.4byte	0xadc
+ 2022 0614 1F060000 		.4byte	0x61f
+ 2023 0618 09       		.uleb128 0x9
+ 2024 0619 01       		.byte	0x1
+ 2025 061a 50       		.byte	0x50
+ 2026 061b 02       		.byte	0x2
+ 2027 061c 77       		.byte	0x77
+ 2028 061d 00       		.sleb128 0
+ 2029 061e 00       		.byte	0
+ 2030 061f 0A       		.uleb128 0xa
+ 2031 0620 D2000000 		.4byte	.LVL79
+ 2032 0624 DC0A0000 		.4byte	0xadc
+ 2033 0628 09       		.uleb128 0x9
+ 2034 0629 01       		.byte	0x1
+ 2035 062a 50       		.byte	0x50
+ 2036 062b 04       		.byte	0x4
+ 2037 062c 91       		.byte	0x91
+ 2038 062d 5C       		.sleb128 -36
+ 2039 062e 94       		.byte	0x94
+ 2040 062f 02       		.byte	0x2
+ 2041 0630 00       		.byte	0
+ 2042 0631 00       		.byte	0
+ 2043 0632 10       		.uleb128 0x10
+ 2044 0633 04       		.byte	0x4
+ 2045 0634 38060000 		.4byte	0x638
+ 2046 0638 12       		.uleb128 0x12
+ 2047 0639 30000000 		.4byte	0x30
+ 2048 063d 02       		.uleb128 0x2
+ 2049 063e 01       		.byte	0x1
+ 2050 063f 02       		.byte	0x2
+ 2051 0640 7F020000 		.4byte	.LASF32
+ 2052 0644 13       		.uleb128 0x13
+ 2053 0645 01       		.byte	0x1
+ 2054 0646 BF010000 		.4byte	.LASF33
+ 2055 064a 01       		.byte	0x1
+ 2056 064b 1701     		.2byte	0x117
+ 2057 064d 01       		.byte	0x1
+ 2058 064e 49000000 		.4byte	0x49
+ 2059 0652 00000000 		.4byte	.LFB6
+ 2060 0656 30000000 		.4byte	.LFE6
+ 2061 065a 93040000 		.4byte	.LLST26
+ 2062 065e 01       		.byte	0x1
+ 2063 065f ED060000 		.4byte	0x6ed
+ 2064 0663 14       		.uleb128 0x14
+ 2065 0664 7300     		.ascii	"s\000"
+ 2066 0666 01       		.byte	0x1
+ 2067 0667 1701     		.2byte	0x117
+ 2068 0669 AA000000 		.4byte	0xaa
+ 2069 066d B3040000 		.4byte	.LLST27
+ 2070 0671 14       		.uleb128 0x14
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 47
+
+
+ 2071 0672 62756600 		.ascii	"buf\000"
+ 2072 0676 01       		.byte	0x1
+ 2073 0677 1701     		.2byte	0x117
+ 2074 0679 05040000 		.4byte	0x405
+ 2075 067d D4040000 		.4byte	.LLST28
+ 2076 0681 14       		.uleb128 0x14
+ 2077 0682 6C656E00 		.ascii	"len\000"
+ 2078 0686 01       		.byte	0x1
+ 2079 0687 1701     		.2byte	0x117
+ 2080 0689 49000000 		.4byte	0x49
+ 2081 068d F5040000 		.4byte	.LLST29
+ 2082 0691 15       		.uleb128 0x15
+ 2083 0692 72657400 		.ascii	"ret\000"
+ 2084 0696 01       		.byte	0x1
+ 2085 0697 1901     		.2byte	0x119
+ 2086 0699 49000000 		.4byte	0x49
+ 2087 069d 16050000 		.4byte	.LLST30
+ 2088 06a1 08       		.uleb128 0x8
+ 2089 06a2 0C000000 		.4byte	.LVL83
+ 2090 06a6 750B0000 		.4byte	0xb75
+ 2091 06aa C2060000 		.4byte	0x6c2
+ 2092 06ae 09       		.uleb128 0x9
+ 2093 06af 01       		.byte	0x1
+ 2094 06b0 52       		.byte	0x52
+ 2095 06b1 02       		.byte	0x2
+ 2096 06b2 74       		.byte	0x74
+ 2097 06b3 00       		.sleb128 0
+ 2098 06b4 09       		.uleb128 0x9
+ 2099 06b5 01       		.byte	0x1
+ 2100 06b6 51       		.byte	0x51
+ 2101 06b7 03       		.byte	0x3
+ 2102 06b8 F3       		.byte	0xf3
+ 2103 06b9 01       		.uleb128 0x1
+ 2104 06ba 51       		.byte	0x51
+ 2105 06bb 09       		.uleb128 0x9
+ 2106 06bc 01       		.byte	0x1
+ 2107 06bd 50       		.byte	0x50
+ 2108 06be 02       		.byte	0x2
+ 2109 06bf 75       		.byte	0x75
+ 2110 06c0 00       		.sleb128 0
+ 2111 06c1 00       		.byte	0
+ 2112 06c2 08       		.uleb128 0x8
+ 2113 06c3 1C000000 		.4byte	.LVL84
+ 2114 06c7 BE0A0000 		.4byte	0xabe
+ 2115 06cb DC060000 		.4byte	0x6dc
+ 2116 06cf 09       		.uleb128 0x9
+ 2117 06d0 01       		.byte	0x1
+ 2118 06d1 51       		.byte	0x51
+ 2119 06d2 02       		.byte	0x2
+ 2120 06d3 08       		.byte	0x8
+ 2121 06d4 40       		.byte	0x40
+ 2122 06d5 09       		.uleb128 0x9
+ 2123 06d6 01       		.byte	0x1
+ 2124 06d7 50       		.byte	0x50
+ 2125 06d8 02       		.byte	0x2
+ 2126 06d9 75       		.byte	0x75
+ 2127 06da 00       		.sleb128 0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 48
+
+
+ 2128 06db 00       		.byte	0
+ 2129 06dc 0A       		.uleb128 0xa
+ 2130 06dd 22000000 		.4byte	.LVL85
+ 2131 06e1 DC0A0000 		.4byte	0xadc
+ 2132 06e5 09       		.uleb128 0x9
+ 2133 06e6 01       		.byte	0x1
+ 2134 06e7 50       		.byte	0x50
+ 2135 06e8 02       		.byte	0x2
+ 2136 06e9 75       		.byte	0x75
+ 2137 06ea 00       		.sleb128 0
+ 2138 06eb 00       		.byte	0
+ 2139 06ec 00       		.byte	0
+ 2140 06ed 13       		.uleb128 0x13
+ 2141 06ee 01       		.byte	0x1
+ 2142 06ef 76000000 		.4byte	.LASF34
+ 2143 06f3 01       		.byte	0x1
+ 2144 06f4 3301     		.2byte	0x133
+ 2145 06f6 01       		.byte	0x1
+ 2146 06f7 49000000 		.4byte	0x49
+ 2147 06fb 00000000 		.4byte	.LFB7
+ 2148 06ff F8000000 		.4byte	.LFE7
+ 2149 0703 40050000 		.4byte	.LLST31
+ 2150 0707 01       		.byte	0x1
+ 2151 0708 CB080000 		.4byte	0x8cb
+ 2152 070c 14       		.uleb128 0x14
+ 2153 070d 7300     		.ascii	"s\000"
+ 2154 070f 01       		.byte	0x1
+ 2155 0710 3301     		.2byte	0x133
+ 2156 0712 AA000000 		.4byte	0xaa
+ 2157 0716 60050000 		.4byte	.LLST32
+ 2158 071a 14       		.uleb128 0x14
+ 2159 071b 62756600 		.ascii	"buf\000"
+ 2160 071f 01       		.byte	0x1
+ 2161 0720 3301     		.2byte	0x133
+ 2162 0722 32060000 		.4byte	0x632
+ 2163 0726 81050000 		.4byte	.LLST33
+ 2164 072a 14       		.uleb128 0x14
+ 2165 072b 6C656E00 		.ascii	"len\000"
+ 2166 072f 01       		.byte	0x1
+ 2167 0730 3301     		.2byte	0x133
+ 2168 0732 49000000 		.4byte	0x49
+ 2169 0736 A0050000 		.4byte	.LLST34
+ 2170 073a 16       		.uleb128 0x16
+ 2171 073b 86000000 		.4byte	.LASF23
+ 2172 073f 01       		.byte	0x1
+ 2173 0740 3301     		.2byte	0x133
+ 2174 0742 05040000 		.4byte	0x405
+ 2175 0746 C1050000 		.4byte	.LLST35
+ 2176 074a 17       		.uleb128 0x17
+ 2177 074b E4010000 		.4byte	.LASF18
+ 2178 074f 01       		.byte	0x1
+ 2179 0750 3301     		.2byte	0x133
+ 2180 0752 49000000 		.4byte	0x49
+ 2181 0756 02       		.byte	0x2
+ 2182 0757 91       		.byte	0x91
+ 2183 0758 00       		.sleb128 0
+ 2184 0759 15       		.uleb128 0x15
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 49
+
+
+ 2185 075a 72657400 		.ascii	"ret\000"
+ 2186 075e 01       		.byte	0x1
+ 2187 075f 3501     		.2byte	0x135
+ 2188 0761 49000000 		.4byte	0x49
+ 2189 0765 06060000 		.4byte	.LLST36
+ 2190 0769 08       		.uleb128 0x8
+ 2191 076a 16000000 		.4byte	.LVL91
+ 2192 076e 240B0000 		.4byte	0xb24
+ 2193 0772 7D070000 		.4byte	0x77d
+ 2194 0776 09       		.uleb128 0x9
+ 2195 0777 01       		.byte	0x1
+ 2196 0778 50       		.byte	0x50
+ 2197 0779 02       		.byte	0x2
+ 2198 077a 77       		.byte	0x77
+ 2199 077b 00       		.sleb128 0
+ 2200 077c 00       		.byte	0
+ 2201 077d 08       		.uleb128 0x8
+ 2202 077e 20000000 		.4byte	.LVL92
+ 2203 0782 240B0000 		.4byte	0xb24
+ 2204 0786 91070000 		.4byte	0x791
+ 2205 078a 09       		.uleb128 0x9
+ 2206 078b 01       		.byte	0x1
+ 2207 078c 50       		.byte	0x50
+ 2208 078d 02       		.byte	0x2
+ 2209 078e 77       		.byte	0x77
+ 2210 078f 00       		.sleb128 0
+ 2211 0790 00       		.byte	0
+ 2212 0791 08       		.uleb128 0x8
+ 2213 0792 56000000 		.4byte	.LVL94
+ 2214 0796 BE0A0000 		.4byte	0xabe
+ 2215 079a A5070000 		.4byte	0x7a5
+ 2216 079e 09       		.uleb128 0x9
+ 2217 079f 01       		.byte	0x1
+ 2218 07a0 50       		.byte	0x50
+ 2219 07a1 02       		.byte	0x2
+ 2220 07a2 75       		.byte	0x75
+ 2221 07a3 0C       		.sleb128 12
+ 2222 07a4 00       		.byte	0
+ 2223 07a5 08       		.uleb128 0x8
+ 2224 07a6 62000000 		.4byte	.LVL95
+ 2225 07aa BE0A0000 		.4byte	0xabe
+ 2226 07ae B9070000 		.4byte	0x7b9
+ 2227 07b2 09       		.uleb128 0x9
+ 2228 07b3 01       		.byte	0x1
+ 2229 07b4 50       		.byte	0x50
+ 2230 07b5 02       		.byte	0x2
+ 2231 07b6 75       		.byte	0x75
+ 2232 07b7 0D       		.sleb128 13
+ 2233 07b8 00       		.byte	0
+ 2234 07b9 08       		.uleb128 0x8
+ 2235 07ba 6E000000 		.4byte	.LVL96
+ 2236 07be BE0A0000 		.4byte	0xabe
+ 2237 07c2 CD070000 		.4byte	0x7cd
+ 2238 07c6 09       		.uleb128 0x9
+ 2239 07c7 01       		.byte	0x1
+ 2240 07c8 50       		.byte	0x50
+ 2241 07c9 02       		.byte	0x2
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 50
+
+
+ 2242 07ca 75       		.byte	0x75
+ 2243 07cb 0E       		.sleb128 14
+ 2244 07cc 00       		.byte	0
+ 2245 07cd 08       		.uleb128 0x8
+ 2246 07ce 7A000000 		.4byte	.LVL97
+ 2247 07d2 BE0A0000 		.4byte	0xabe
+ 2248 07d6 E1070000 		.4byte	0x7e1
+ 2249 07da 09       		.uleb128 0x9
+ 2250 07db 01       		.byte	0x1
+ 2251 07dc 50       		.byte	0x50
+ 2252 07dd 02       		.byte	0x2
+ 2253 07de 75       		.byte	0x75
+ 2254 07df 0F       		.sleb128 15
+ 2255 07e0 00       		.byte	0
+ 2256 07e1 08       		.uleb128 0x8
+ 2257 07e2 88000000 		.4byte	.LVL99
+ 2258 07e6 BE0A0000 		.4byte	0xabe
+ 2259 07ea FD070000 		.4byte	0x7fd
+ 2260 07ee 09       		.uleb128 0x9
+ 2261 07ef 01       		.byte	0x1
+ 2262 07f0 51       		.byte	0x51
+ 2263 07f1 04       		.byte	0x4
+ 2264 07f2 91       		.byte	0x91
+ 2265 07f3 61       		.sleb128 -31
+ 2266 07f4 94       		.byte	0x94
+ 2267 07f5 01       		.byte	0x1
+ 2268 07f6 09       		.uleb128 0x9
+ 2269 07f7 01       		.byte	0x1
+ 2270 07f8 50       		.byte	0x50
+ 2271 07f9 02       		.byte	0x2
+ 2272 07fa 76       		.byte	0x76
+ 2273 07fb 00       		.sleb128 0
+ 2274 07fc 00       		.byte	0
+ 2275 07fd 08       		.uleb128 0x8
+ 2276 07fe 96000000 		.4byte	.LVL100
+ 2277 0802 BE0A0000 		.4byte	0xabe
+ 2278 0806 19080000 		.4byte	0x819
+ 2279 080a 09       		.uleb128 0x9
+ 2280 080b 01       		.byte	0x1
+ 2281 080c 51       		.byte	0x51
+ 2282 080d 04       		.byte	0x4
+ 2283 080e 91       		.byte	0x91
+ 2284 080f 60       		.sleb128 -32
+ 2285 0810 94       		.byte	0x94
+ 2286 0811 01       		.byte	0x1
+ 2287 0812 09       		.uleb128 0x9
+ 2288 0813 01       		.byte	0x1
+ 2289 0814 50       		.byte	0x50
+ 2290 0815 02       		.byte	0x2
+ 2291 0816 75       		.byte	0x75
+ 2292 0817 11       		.sleb128 17
+ 2293 0818 00       		.byte	0
+ 2294 0819 08       		.uleb128 0x8
+ 2295 081a A4000000 		.4byte	.LVL101
+ 2296 081e 560B0000 		.4byte	0xb56
+ 2297 0822 34080000 		.4byte	0x834
+ 2298 0826 09       		.uleb128 0x9
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 51
+
+
+ 2299 0827 01       		.byte	0x1
+ 2300 0828 52       		.byte	0x52
+ 2301 0829 02       		.byte	0x2
+ 2302 082a 74       		.byte	0x74
+ 2303 082b 00       		.sleb128 0
+ 2304 082c 09       		.uleb128 0x9
+ 2305 082d 01       		.byte	0x1
+ 2306 082e 51       		.byte	0x51
+ 2307 082f 03       		.byte	0x3
+ 2308 0830 91       		.byte	0x91
+ 2309 0831 64       		.sleb128 -28
+ 2310 0832 06       		.byte	0x6
+ 2311 0833 00       		.byte	0
+ 2312 0834 0E       		.uleb128 0xe
+ 2313 0835 A8000000 		.4byte	.LVL102
+ 2314 0839 F50A0000 		.4byte	0xaf5
+ 2315 083d 08       		.uleb128 0x8
+ 2316 083e B0000000 		.4byte	.LVL103
+ 2317 0842 BE0A0000 		.4byte	0xabe
+ 2318 0846 57080000 		.4byte	0x857
+ 2319 084a 09       		.uleb128 0x9
+ 2320 084b 01       		.byte	0x1
+ 2321 084c 51       		.byte	0x51
+ 2322 084d 02       		.byte	0x2
+ 2323 084e 08       		.byte	0x8
+ 2324 084f 20       		.byte	0x20
+ 2325 0850 09       		.uleb128 0x9
+ 2326 0851 01       		.byte	0x1
+ 2327 0852 50       		.byte	0x50
+ 2328 0853 02       		.byte	0x2
+ 2329 0854 76       		.byte	0x76
+ 2330 0855 00       		.sleb128 0
+ 2331 0856 00       		.byte	0
+ 2332 0857 08       		.uleb128 0x8
+ 2333 0858 B6000000 		.4byte	.LVL104
+ 2334 085c DC0A0000 		.4byte	0xadc
+ 2335 0860 6B080000 		.4byte	0x86b
+ 2336 0864 09       		.uleb128 0x9
+ 2337 0865 01       		.byte	0x1
+ 2338 0866 50       		.byte	0x50
+ 2339 0867 02       		.byte	0x2
+ 2340 0868 76       		.byte	0x76
+ 2341 0869 00       		.sleb128 0
+ 2342 086a 00       		.byte	0
+ 2343 086b 08       		.uleb128 0x8
+ 2344 086c C4000000 		.4byte	.LVL105
+ 2345 0870 DC0A0000 		.4byte	0xadc
+ 2346 0874 7F080000 		.4byte	0x87f
+ 2347 0878 09       		.uleb128 0x9
+ 2348 0879 01       		.byte	0x1
+ 2349 087a 50       		.byte	0x50
+ 2350 087b 02       		.byte	0x2
+ 2351 087c 76       		.byte	0x76
+ 2352 087d 00       		.sleb128 0
+ 2353 087e 00       		.byte	0
+ 2354 087f 08       		.uleb128 0x8
+ 2355 0880 D0000000 		.4byte	.LVL106
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 52
+
+
+ 2356 0884 DC0A0000 		.4byte	0xadc
+ 2357 0888 93080000 		.4byte	0x893
+ 2358 088c 09       		.uleb128 0x9
+ 2359 088d 01       		.byte	0x1
+ 2360 088e 50       		.byte	0x50
+ 2361 088f 02       		.byte	0x2
+ 2362 0890 76       		.byte	0x76
+ 2363 0891 00       		.sleb128 0
+ 2364 0892 00       		.byte	0
+ 2365 0893 08       		.uleb128 0x8
+ 2366 0894 DC000000 		.4byte	.LVL107
+ 2367 0898 BE0A0000 		.4byte	0xabe
+ 2368 089c AC080000 		.4byte	0x8ac
+ 2369 08a0 09       		.uleb128 0x9
+ 2370 08a1 01       		.byte	0x1
+ 2371 08a2 51       		.byte	0x51
+ 2372 08a3 01       		.byte	0x1
+ 2373 08a4 48       		.byte	0x48
+ 2374 08a5 09       		.uleb128 0x9
+ 2375 08a6 01       		.byte	0x1
+ 2376 08a7 50       		.byte	0x50
+ 2377 08a8 02       		.byte	0x2
+ 2378 08a9 76       		.byte	0x76
+ 2379 08aa 00       		.sleb128 0
+ 2380 08ab 00       		.byte	0
+ 2381 08ac 0E       		.uleb128 0xe
+ 2382 08ad E4000000 		.4byte	.LVL110
+ 2383 08b1 190B0000 		.4byte	0xb19
+ 2384 08b5 0A       		.uleb128 0xa
+ 2385 08b6 EC000000 		.4byte	.LVL111
+ 2386 08ba BE0A0000 		.4byte	0xabe
+ 2387 08be 09       		.uleb128 0x9
+ 2388 08bf 01       		.byte	0x1
+ 2389 08c0 51       		.byte	0x51
+ 2390 08c1 01       		.byte	0x1
+ 2391 08c2 40       		.byte	0x40
+ 2392 08c3 09       		.uleb128 0x9
+ 2393 08c4 01       		.byte	0x1
+ 2394 08c5 50       		.byte	0x50
+ 2395 08c6 02       		.byte	0x2
+ 2396 08c7 76       		.byte	0x76
+ 2397 08c8 00       		.sleb128 0
+ 2398 08c9 00       		.byte	0
+ 2399 08ca 00       		.byte	0
+ 2400 08cb 13       		.uleb128 0x13
+ 2401 08cc 01       		.byte	0x1
+ 2402 08cd 58010000 		.4byte	.LASF35
+ 2403 08d1 01       		.byte	0x1
+ 2404 08d2 7501     		.2byte	0x175
+ 2405 08d4 01       		.byte	0x1
+ 2406 08d5 49000000 		.4byte	0x49
+ 2407 08d9 00000000 		.4byte	.LFB8
+ 2408 08dd 20010000 		.4byte	.LFE8
+ 2409 08e1 3B060000 		.4byte	.LLST37
+ 2410 08e5 01       		.byte	0x1
+ 2411 08e6 970A0000 		.4byte	0xa97
+ 2412 08ea 14       		.uleb128 0x14
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 53
+
+
+ 2413 08eb 7300     		.ascii	"s\000"
+ 2414 08ed 01       		.byte	0x1
+ 2415 08ee 7501     		.2byte	0x175
+ 2416 08f0 AA000000 		.4byte	0xaa
+ 2417 08f4 67060000 		.4byte	.LLST38
+ 2418 08f8 14       		.uleb128 0x14
+ 2419 08f9 62756600 		.ascii	"buf\000"
+ 2420 08fd 01       		.byte	0x1
+ 2421 08fe 7501     		.2byte	0x175
+ 2422 0900 05040000 		.4byte	0x405
+ 2423 0904 88060000 		.4byte	.LLST39
+ 2424 0908 14       		.uleb128 0x14
+ 2425 0909 6C656E00 		.ascii	"len\000"
+ 2426 090d 01       		.byte	0x1
+ 2427 090e 7501     		.2byte	0x175
+ 2428 0910 49000000 		.4byte	0x49
+ 2429 0914 A7060000 		.4byte	.LLST40
+ 2430 0918 16       		.uleb128 0x16
+ 2431 0919 86000000 		.4byte	.LASF23
+ 2432 091d 01       		.byte	0x1
+ 2433 091e 7501     		.2byte	0x175
+ 2434 0920 05040000 		.4byte	0x405
+ 2435 0924 C8060000 		.4byte	.LLST41
+ 2436 0928 17       		.uleb128 0x17
+ 2437 0929 E4010000 		.4byte	.LASF18
+ 2438 092d 01       		.byte	0x1
+ 2439 092e 7501     		.2byte	0x175
+ 2440 0930 970A0000 		.4byte	0xa97
+ 2441 0934 02       		.byte	0x2
+ 2442 0935 91       		.byte	0x91
+ 2443 0936 00       		.sleb128 0
+ 2444 0937 18       		.uleb128 0x18
+ 2445 0938 61010000 		.4byte	.LASF36
+ 2446 093c 01       		.byte	0x1
+ 2447 093d 7701     		.2byte	0x177
+ 2448 093f 9D0A0000 		.4byte	0xa9d
+ 2449 0943 02       		.byte	0x2
+ 2450 0944 91       		.byte	0x91
+ 2451 0945 60       		.sleb128 -32
+ 2452 0946 19       		.uleb128 0x19
+ 2453 0947 7D000000 		.4byte	.LASF37
+ 2454 094b 01       		.byte	0x1
+ 2455 094c 7801     		.2byte	0x178
+ 2456 094e 49000000 		.4byte	0x49
+ 2457 0952 26070000 		.4byte	.LLST42
+ 2458 0956 15       		.uleb128 0x15
+ 2459 0957 70747200 		.ascii	"ptr\000"
+ 2460 095b 01       		.byte	0x1
+ 2461 095c 7901     		.2byte	0x179
+ 2462 095e 49000000 		.4byte	0x49
+ 2463 0962 B4070000 		.4byte	.LLST43
+ 2464 0966 08       		.uleb128 0x8
+ 2465 0967 28000000 		.4byte	.LVL121
+ 2466 096b DC0A0000 		.4byte	0xadc
+ 2467 096f 7C090000 		.4byte	0x97c
+ 2468 0973 09       		.uleb128 0x9
+ 2469 0974 01       		.byte	0x1
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 54
+
+
+ 2470 0975 50       		.byte	0x50
+ 2471 0976 04       		.byte	0x4
+ 2472 0977 91       		.byte	0x91
+ 2473 0978 54       		.sleb128 -44
+ 2474 0979 94       		.byte	0x94
+ 2475 097a 02       		.byte	0x2
+ 2476 097b 00       		.byte	0
+ 2477 097c 08       		.uleb128 0x8
+ 2478 097d 36000000 		.4byte	.LVL124
+ 2479 0981 DC0A0000 		.4byte	0xadc
+ 2480 0985 92090000 		.4byte	0x992
+ 2481 0989 09       		.uleb128 0x9
+ 2482 098a 01       		.byte	0x1
+ 2483 098b 50       		.byte	0x50
+ 2484 098c 04       		.byte	0x4
+ 2485 098d 91       		.byte	0x91
+ 2486 098e 58       		.sleb128 -40
+ 2487 098f 94       		.byte	0x94
+ 2488 0990 02       		.byte	0x2
+ 2489 0991 00       		.byte	0
+ 2490 0992 08       		.uleb128 0x8
+ 2491 0993 42000000 		.4byte	.LVL126
+ 2492 0997 DC0A0000 		.4byte	0xadc
+ 2493 099b A8090000 		.4byte	0x9a8
+ 2494 099f 09       		.uleb128 0x9
+ 2495 09a0 01       		.byte	0x1
+ 2496 09a1 50       		.byte	0x50
+ 2497 09a2 04       		.byte	0x4
+ 2498 09a3 7D       		.byte	0x7d
+ 2499 09a4 00       		.sleb128 0
+ 2500 09a5 94       		.byte	0x94
+ 2501 09a6 02       		.byte	0x2
+ 2502 09a7 00       		.byte	0
+ 2503 09a8 08       		.uleb128 0x8
+ 2504 09a9 5E000000 		.4byte	.LVL127
+ 2505 09ad 940B0000 		.4byte	0xb94
+ 2506 09b1 CD090000 		.4byte	0x9cd
+ 2507 09b5 09       		.uleb128 0x9
+ 2508 09b6 01       		.byte	0x1
+ 2509 09b7 53       		.byte	0x53
+ 2510 09b8 01       		.byte	0x1
+ 2511 09b9 38       		.byte	0x38
+ 2512 09ba 09       		.uleb128 0x9
+ 2513 09bb 01       		.byte	0x1
+ 2514 09bc 52       		.byte	0x52
+ 2515 09bd 02       		.byte	0x2
+ 2516 09be 91       		.byte	0x91
+ 2517 09bf 60       		.sleb128 -32
+ 2518 09c0 09       		.uleb128 0x9
+ 2519 09c1 01       		.byte	0x1
+ 2520 09c2 51       		.byte	0x51
+ 2521 09c3 02       		.byte	0x2
+ 2522 09c4 77       		.byte	0x77
+ 2523 09c5 00       		.sleb128 0
+ 2524 09c6 09       		.uleb128 0x9
+ 2525 09c7 01       		.byte	0x1
+ 2526 09c8 50       		.byte	0x50
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 55
+
+
+ 2527 09c9 02       		.byte	0x2
+ 2528 09ca 76       		.byte	0x76
+ 2529 09cb 00       		.sleb128 0
+ 2530 09cc 00       		.byte	0
+ 2531 09cd 08       		.uleb128 0x8
+ 2532 09ce 94000000 		.4byte	.LVL133
+ 2533 09d2 940B0000 		.4byte	0xb94
+ 2534 09d6 F2090000 		.4byte	0x9f2
+ 2535 09da 09       		.uleb128 0x9
+ 2536 09db 01       		.byte	0x1
+ 2537 09dc 53       		.byte	0x53
+ 2538 09dd 01       		.byte	0x1
+ 2539 09de 36       		.byte	0x36
+ 2540 09df 09       		.uleb128 0x9
+ 2541 09e0 01       		.byte	0x1
+ 2542 09e1 52       		.byte	0x52
+ 2543 09e2 02       		.byte	0x2
+ 2544 09e3 91       		.byte	0x91
+ 2545 09e4 60       		.sleb128 -32
+ 2546 09e5 09       		.uleb128 0x9
+ 2547 09e6 01       		.byte	0x1
+ 2548 09e7 51       		.byte	0x51
+ 2549 09e8 02       		.byte	0x2
+ 2550 09e9 77       		.byte	0x77
+ 2551 09ea 00       		.sleb128 0
+ 2552 09eb 09       		.uleb128 0x9
+ 2553 09ec 01       		.byte	0x1
+ 2554 09ed 50       		.byte	0x50
+ 2555 09ee 02       		.byte	0x2
+ 2556 09ef 76       		.byte	0x76
+ 2557 09f0 00       		.sleb128 0
+ 2558 09f1 00       		.byte	0
+ 2559 09f2 08       		.uleb128 0x8
+ 2560 09f3 C2000000 		.4byte	.LVL141
+ 2561 09f7 940B0000 		.4byte	0xb94
+ 2562 09fb 170A0000 		.4byte	0xa17
+ 2563 09ff 09       		.uleb128 0x9
+ 2564 0a00 01       		.byte	0x1
+ 2565 0a01 53       		.byte	0x53
+ 2566 0a02 01       		.byte	0x1
+ 2567 0a03 32       		.byte	0x32
+ 2568 0a04 09       		.uleb128 0x9
+ 2569 0a05 01       		.byte	0x1
+ 2570 0a06 52       		.byte	0x52
+ 2571 0a07 02       		.byte	0x2
+ 2572 0a08 91       		.byte	0x91
+ 2573 0a09 60       		.sleb128 -32
+ 2574 0a0a 09       		.uleb128 0x9
+ 2575 0a0b 01       		.byte	0x1
+ 2576 0a0c 51       		.byte	0x51
+ 2577 0a0d 02       		.byte	0x2
+ 2578 0a0e 77       		.byte	0x77
+ 2579 0a0f 00       		.sleb128 0
+ 2580 0a10 09       		.uleb128 0x9
+ 2581 0a11 01       		.byte	0x1
+ 2582 0a12 50       		.byte	0x50
+ 2583 0a13 02       		.byte	0x2
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 56
+
+
+ 2584 0a14 76       		.byte	0x76
+ 2585 0a15 00       		.sleb128 0
+ 2586 0a16 00       		.byte	0
+ 2587 0a17 08       		.uleb128 0x8
+ 2588 0a18 EC000000 		.4byte	.LVL146
+ 2589 0a1c 940B0000 		.4byte	0xb94
+ 2590 0a20 320A0000 		.4byte	0xa32
+ 2591 0a24 09       		.uleb128 0x9
+ 2592 0a25 01       		.byte	0x1
+ 2593 0a26 53       		.byte	0x53
+ 2594 0a27 02       		.byte	0x2
+ 2595 0a28 74       		.byte	0x74
+ 2596 0a29 00       		.sleb128 0
+ 2597 0a2a 09       		.uleb128 0x9
+ 2598 0a2b 01       		.byte	0x1
+ 2599 0a2c 52       		.byte	0x52
+ 2600 0a2d 03       		.byte	0x3
+ 2601 0a2e 91       		.byte	0x91
+ 2602 0a2f 5C       		.sleb128 -36
+ 2603 0a30 06       		.byte	0x6
+ 2604 0a31 00       		.byte	0
+ 2605 0a32 08       		.uleb128 0x8
+ 2606 0a33 F4000000 		.4byte	.LVL147
+ 2607 0a37 BE0A0000 		.4byte	0xabe
+ 2608 0a3b 500A0000 		.4byte	0xa50
+ 2609 0a3f 09       		.uleb128 0x9
+ 2610 0a40 01       		.byte	0x1
+ 2611 0a41 51       		.byte	0x51
+ 2612 0a42 04       		.byte	0x4
+ 2613 0a43 77       		.byte	0x77
+ 2614 0a44 00       		.sleb128 0
+ 2615 0a45 38       		.byte	0x38
+ 2616 0a46 25       		.byte	0x25
+ 2617 0a47 09       		.uleb128 0x9
+ 2618 0a48 01       		.byte	0x1
+ 2619 0a49 50       		.byte	0x50
+ 2620 0a4a 04       		.byte	0x4
+ 2621 0a4b 91       		.byte	0x91
+ 2622 0a4c 54       		.sleb128 -44
+ 2623 0a4d 94       		.byte	0x94
+ 2624 0a4e 02       		.byte	0x2
+ 2625 0a4f 00       		.byte	0
+ 2626 0a50 08       		.uleb128 0x8
+ 2627 0a51 FC000000 		.4byte	.LVL148
+ 2628 0a55 BE0A0000 		.4byte	0xabe
+ 2629 0a59 6C0A0000 		.4byte	0xa6c
+ 2630 0a5d 09       		.uleb128 0x9
+ 2631 0a5e 01       		.byte	0x1
+ 2632 0a5f 51       		.byte	0x51
+ 2633 0a60 02       		.byte	0x2
+ 2634 0a61 77       		.byte	0x77
+ 2635 0a62 00       		.sleb128 0
+ 2636 0a63 09       		.uleb128 0x9
+ 2637 0a64 01       		.byte	0x1
+ 2638 0a65 50       		.byte	0x50
+ 2639 0a66 04       		.byte	0x4
+ 2640 0a67 91       		.byte	0x91
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 57
+
+
+ 2641 0a68 58       		.sleb128 -40
+ 2642 0a69 94       		.byte	0x94
+ 2643 0a6a 02       		.byte	0x2
+ 2644 0a6b 00       		.byte	0
+ 2645 0a6c 08       		.uleb128 0x8
+ 2646 0a6d 0A010000 		.4byte	.LVL149
+ 2647 0a71 BE0A0000 		.4byte	0xabe
+ 2648 0a75 860A0000 		.4byte	0xa86
+ 2649 0a79 09       		.uleb128 0x9
+ 2650 0a7a 01       		.byte	0x1
+ 2651 0a7b 51       		.byte	0x51
+ 2652 0a7c 02       		.byte	0x2
+ 2653 0a7d 08       		.byte	0x8
+ 2654 0a7e 40       		.byte	0x40
+ 2655 0a7f 09       		.uleb128 0x9
+ 2656 0a80 01       		.byte	0x1
+ 2657 0a81 50       		.byte	0x50
+ 2658 0a82 02       		.byte	0x2
+ 2659 0a83 75       		.byte	0x75
+ 2660 0a84 00       		.sleb128 0
+ 2661 0a85 00       		.byte	0
+ 2662 0a86 0A       		.uleb128 0xa
+ 2663 0a87 10010000 		.4byte	.LVL150
+ 2664 0a8b DC0A0000 		.4byte	0xadc
+ 2665 0a8f 09       		.uleb128 0x9
+ 2666 0a90 01       		.byte	0x1
+ 2667 0a91 50       		.byte	0x50
+ 2668 0a92 02       		.byte	0x2
+ 2669 0a93 75       		.byte	0x75
+ 2670 0a94 00       		.sleb128 0
+ 2671 0a95 00       		.byte	0
+ 2672 0a96 00       		.byte	0
+ 2673 0a97 10       		.uleb128 0x10
+ 2674 0a98 04       		.byte	0x4
+ 2675 0a99 49000000 		.4byte	0x49
+ 2676 0a9d 1A       		.uleb128 0x1a
+ 2677 0a9e 30000000 		.4byte	0x30
+ 2678 0aa2 AD0A0000 		.4byte	0xaad
+ 2679 0aa6 1B       		.uleb128 0x1b
+ 2680 0aa7 B5000000 		.4byte	0xb5
+ 2681 0aab 07       		.byte	0x7
+ 2682 0aac 00       		.byte	0
+ 2683 0aad 1C       		.uleb128 0x1c
+ 2684 0aae 57020000 		.4byte	.LASF38
+ 2685 0ab2 01       		.byte	0x1
+ 2686 0ab3 18       		.byte	0x18
+ 2687 0ab4 49000000 		.4byte	0x49
+ 2688 0ab8 05       		.byte	0x5
+ 2689 0ab9 03       		.byte	0x3
+ 2690 0aba 00000000 		.4byte	local_port
+ 2691 0abe 1D       		.uleb128 0x1d
+ 2692 0abf 01       		.byte	0x1
+ 2693 0ac0 00000000 		.4byte	.LASF39
+ 2694 0ac4 04       		.byte	0x4
+ 2695 0ac5 1801     		.2byte	0x118
+ 2696 0ac7 01       		.byte	0x1
+ 2697 0ac8 30000000 		.4byte	0x30
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 58
+
+
+ 2698 0acc 01       		.byte	0x1
+ 2699 0acd DC0A0000 		.4byte	0xadc
+ 2700 0ad1 1E       		.uleb128 0x1e
+ 2701 0ad2 49000000 		.4byte	0x49
+ 2702 0ad6 1E       		.uleb128 0x1e
+ 2703 0ad7 30000000 		.4byte	0x30
+ 2704 0adb 00       		.byte	0
+ 2705 0adc 1D       		.uleb128 0x1d
+ 2706 0add 01       		.byte	0x1
+ 2707 0ade D7010000 		.4byte	.LASF40
+ 2708 0ae2 04       		.byte	0x4
+ 2709 0ae3 1701     		.2byte	0x117
+ 2710 0ae5 01       		.byte	0x1
+ 2711 0ae6 30000000 		.4byte	0x30
+ 2712 0aea 01       		.byte	0x1
+ 2713 0aeb F50A0000 		.4byte	0xaf5
+ 2714 0aef 1E       		.uleb128 0x1e
+ 2715 0af0 49000000 		.4byte	0x49
+ 2716 0af4 00       		.byte	0
+ 2717 0af5 1F       		.uleb128 0x1f
+ 2718 0af6 01       		.byte	0x1
+ 2719 0af7 AC010000 		.4byte	.LASF42
+ 2720 0afb 04       		.byte	0x4
+ 2721 0afc 3901     		.2byte	0x139
+ 2722 0afe 01       		.byte	0x1
+ 2723 0aff 01       		.byte	0x1
+ 2724 0b00 1D       		.uleb128 0x1d
+ 2725 0b01 01       		.byte	0x1
+ 2726 0b02 D8000000 		.4byte	.LASF41
+ 2727 0b06 04       		.byte	0x4
+ 2728 0b07 2B01     		.2byte	0x12b
+ 2729 0b09 01       		.byte	0x1
+ 2730 0b0a 30000000 		.4byte	0x30
+ 2731 0b0e 01       		.byte	0x1
+ 2732 0b0f 190B0000 		.4byte	0xb19
+ 2733 0b13 1E       		.uleb128 0x1e
+ 2734 0b14 AA000000 		.4byte	0xaa
+ 2735 0b18 00       		.byte	0
+ 2736 0b19 1F       		.uleb128 0x1f
+ 2737 0b1a 01       		.byte	0x1
+ 2738 0b1b 17000000 		.4byte	.LASF43
+ 2739 0b1f 04       		.byte	0x4
+ 2740 0b20 3801     		.2byte	0x138
+ 2741 0b22 01       		.byte	0x1
+ 2742 0b23 01       		.byte	0x1
+ 2743 0b24 1D       		.uleb128 0x1d
+ 2744 0b25 01       		.byte	0x1
+ 2745 0b26 34000000 		.4byte	.LASF44
+ 2746 0b2a 04       		.byte	0x4
+ 2747 0b2b 1F01     		.2byte	0x11f
+ 2748 0b2d 01       		.byte	0x1
+ 2749 0b2e 49000000 		.4byte	0x49
+ 2750 0b32 01       		.byte	0x1
+ 2751 0b33 3D0B0000 		.4byte	0xb3d
+ 2752 0b37 1E       		.uleb128 0x1e
+ 2753 0b38 30000000 		.4byte	0x30
+ 2754 0b3c 00       		.byte	0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 59
+
+
+ 2755 0b3d 1D       		.uleb128 0x1d
+ 2756 0b3e 01       		.byte	0x1
+ 2757 0b3f 9D000000 		.4byte	.LASF45
+ 2758 0b43 04       		.byte	0x4
+ 2759 0b44 2D01     		.2byte	0x12d
+ 2760 0b46 01       		.byte	0x1
+ 2761 0b47 49000000 		.4byte	0x49
+ 2762 0b4b 01       		.byte	0x1
+ 2763 0b4c 560B0000 		.4byte	0xb56
+ 2764 0b50 1E       		.uleb128 0x1e
+ 2765 0b51 AA000000 		.4byte	0xaa
+ 2766 0b55 00       		.byte	0
+ 2767 0b56 20       		.uleb128 0x20
+ 2768 0b57 01       		.byte	0x1
+ 2769 0b58 1F000000 		.4byte	.LASF46
+ 2770 0b5c 04       		.byte	0x4
+ 2771 0b5d 3101     		.2byte	0x131
+ 2772 0b5f 01       		.byte	0x1
+ 2773 0b60 01       		.byte	0x1
+ 2774 0b61 750B0000 		.4byte	0xb75
+ 2775 0b65 1E       		.uleb128 0x1e
+ 2776 0b66 AA000000 		.4byte	0xaa
+ 2777 0b6a 1E       		.uleb128 0x1e
+ 2778 0b6b 05040000 		.4byte	0x405
+ 2779 0b6f 1E       		.uleb128 0x1e
+ 2780 0b70 49000000 		.4byte	0x49
+ 2781 0b74 00       		.byte	0
+ 2782 0b75 20       		.uleb128 0x20
+ 2783 0b76 01       		.byte	0x1
+ 2784 0b77 61000000 		.4byte	.LASF47
+ 2785 0b7b 04       		.byte	0x4
+ 2786 0b7c 3201     		.2byte	0x132
+ 2787 0b7e 01       		.byte	0x1
+ 2788 0b7f 01       		.byte	0x1
+ 2789 0b80 940B0000 		.4byte	0xb94
+ 2790 0b84 1E       		.uleb128 0x1e
+ 2791 0b85 AA000000 		.4byte	0xaa
+ 2792 0b89 1E       		.uleb128 0x1e
+ 2793 0b8a 05040000 		.4byte	0x405
+ 2794 0b8e 1E       		.uleb128 0x1e
+ 2795 0b8f 49000000 		.4byte	0x49
+ 2796 0b93 00       		.byte	0
+ 2797 0b94 20       		.uleb128 0x20
+ 2798 0b95 01       		.byte	0x1
+ 2799 0b96 85020000 		.4byte	.LASF48
+ 2800 0b9a 04       		.byte	0x4
+ 2801 0b9b 3401     		.2byte	0x134
+ 2802 0b9d 01       		.byte	0x1
+ 2803 0b9e 01       		.byte	0x1
+ 2804 0b9f B80B0000 		.4byte	0xbb8
+ 2805 0ba3 1E       		.uleb128 0x1e
+ 2806 0ba4 AA000000 		.4byte	0xaa
+ 2807 0ba8 1E       		.uleb128 0x1e
+ 2808 0ba9 B80B0000 		.4byte	0xbb8
+ 2809 0bad 1E       		.uleb128 0x1e
+ 2810 0bae B80B0000 		.4byte	0xbb8
+ 2811 0bb2 1E       		.uleb128 0x1e
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 60
+
+
+ 2812 0bb3 49000000 		.4byte	0x49
+ 2813 0bb7 00       		.byte	0
+ 2814 0bb8 10       		.uleb128 0x10
+ 2815 0bb9 04       		.byte	0x4
+ 2816 0bba 9A000000 		.4byte	0x9a
+ 2817 0bbe 00       		.byte	0
+ 2818              		.section	.debug_abbrev,"",%progbits
+ 2819              	.Ldebug_abbrev0:
+ 2820 0000 01       		.uleb128 0x1
+ 2821 0001 11       		.uleb128 0x11
+ 2822 0002 01       		.byte	0x1
+ 2823 0003 25       		.uleb128 0x25
+ 2824 0004 0E       		.uleb128 0xe
+ 2825 0005 13       		.uleb128 0x13
+ 2826 0006 0B       		.uleb128 0xb
+ 2827 0007 03       		.uleb128 0x3
+ 2828 0008 0E       		.uleb128 0xe
+ 2829 0009 1B       		.uleb128 0x1b
+ 2830 000a 0E       		.uleb128 0xe
+ 2831 000b 55       		.uleb128 0x55
+ 2832 000c 06       		.uleb128 0x6
+ 2833 000d 11       		.uleb128 0x11
+ 2834 000e 01       		.uleb128 0x1
+ 2835 000f 52       		.uleb128 0x52
+ 2836 0010 01       		.uleb128 0x1
+ 2837 0011 10       		.uleb128 0x10
+ 2838 0012 06       		.uleb128 0x6
+ 2839 0013 00       		.byte	0
+ 2840 0014 00       		.byte	0
+ 2841 0015 02       		.uleb128 0x2
+ 2842 0016 24       		.uleb128 0x24
+ 2843 0017 00       		.byte	0
+ 2844 0018 0B       		.uleb128 0xb
+ 2845 0019 0B       		.uleb128 0xb
+ 2846 001a 3E       		.uleb128 0x3e
+ 2847 001b 0B       		.uleb128 0xb
+ 2848 001c 03       		.uleb128 0x3
+ 2849 001d 0E       		.uleb128 0xe
+ 2850 001e 00       		.byte	0
+ 2851 001f 00       		.byte	0
+ 2852 0020 03       		.uleb128 0x3
+ 2853 0021 16       		.uleb128 0x16
+ 2854 0022 00       		.byte	0
+ 2855 0023 03       		.uleb128 0x3
+ 2856 0024 0E       		.uleb128 0xe
+ 2857 0025 3A       		.uleb128 0x3a
+ 2858 0026 0B       		.uleb128 0xb
+ 2859 0027 3B       		.uleb128 0x3b
+ 2860 0028 0B       		.uleb128 0xb
+ 2861 0029 49       		.uleb128 0x49
+ 2862 002a 13       		.uleb128 0x13
+ 2863 002b 00       		.byte	0
+ 2864 002c 00       		.byte	0
+ 2865 002d 04       		.uleb128 0x4
+ 2866 002e 24       		.uleb128 0x24
+ 2867 002f 00       		.byte	0
+ 2868 0030 0B       		.uleb128 0xb
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 61
+
+
+ 2869 0031 0B       		.uleb128 0xb
+ 2870 0032 3E       		.uleb128 0x3e
+ 2871 0033 0B       		.uleb128 0xb
+ 2872 0034 03       		.uleb128 0x3
+ 2873 0035 08       		.uleb128 0x8
+ 2874 0036 00       		.byte	0
+ 2875 0037 00       		.byte	0
+ 2876 0038 05       		.uleb128 0x5
+ 2877 0039 35       		.uleb128 0x35
+ 2878 003a 00       		.byte	0
+ 2879 003b 49       		.uleb128 0x49
+ 2880 003c 13       		.uleb128 0x13
+ 2881 003d 00       		.byte	0
+ 2882 003e 00       		.byte	0
+ 2883 003f 06       		.uleb128 0x6
+ 2884 0040 2E       		.uleb128 0x2e
+ 2885 0041 01       		.byte	0x1
+ 2886 0042 3F       		.uleb128 0x3f
+ 2887 0043 0C       		.uleb128 0xc
+ 2888 0044 03       		.uleb128 0x3
+ 2889 0045 0E       		.uleb128 0xe
+ 2890 0046 3A       		.uleb128 0x3a
+ 2891 0047 0B       		.uleb128 0xb
+ 2892 0048 3B       		.uleb128 0x3b
+ 2893 0049 0B       		.uleb128 0xb
+ 2894 004a 27       		.uleb128 0x27
+ 2895 004b 0C       		.uleb128 0xc
+ 2896 004c 11       		.uleb128 0x11
+ 2897 004d 01       		.uleb128 0x1
+ 2898 004e 12       		.uleb128 0x12
+ 2899 004f 01       		.uleb128 0x1
+ 2900 0050 40       		.uleb128 0x40
+ 2901 0051 06       		.uleb128 0x6
+ 2902 0052 9742     		.uleb128 0x2117
+ 2903 0054 0C       		.uleb128 0xc
+ 2904 0055 01       		.uleb128 0x1
+ 2905 0056 13       		.uleb128 0x13
+ 2906 0057 00       		.byte	0
+ 2907 0058 00       		.byte	0
+ 2908 0059 07       		.uleb128 0x7
+ 2909 005a 05       		.uleb128 0x5
+ 2910 005b 00       		.byte	0
+ 2911 005c 03       		.uleb128 0x3
+ 2912 005d 08       		.uleb128 0x8
+ 2913 005e 3A       		.uleb128 0x3a
+ 2914 005f 0B       		.uleb128 0xb
+ 2915 0060 3B       		.uleb128 0x3b
+ 2916 0061 0B       		.uleb128 0xb
+ 2917 0062 49       		.uleb128 0x49
+ 2918 0063 13       		.uleb128 0x13
+ 2919 0064 02       		.uleb128 0x2
+ 2920 0065 06       		.uleb128 0x6
+ 2921 0066 00       		.byte	0
+ 2922 0067 00       		.byte	0
+ 2923 0068 08       		.uleb128 0x8
+ 2924 0069 898201   		.uleb128 0x4109
+ 2925 006c 01       		.byte	0x1
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 62
+
+
+ 2926 006d 11       		.uleb128 0x11
+ 2927 006e 01       		.uleb128 0x1
+ 2928 006f 31       		.uleb128 0x31
+ 2929 0070 13       		.uleb128 0x13
+ 2930 0071 01       		.uleb128 0x1
+ 2931 0072 13       		.uleb128 0x13
+ 2932 0073 00       		.byte	0
+ 2933 0074 00       		.byte	0
+ 2934 0075 09       		.uleb128 0x9
+ 2935 0076 8A8201   		.uleb128 0x410a
+ 2936 0079 00       		.byte	0
+ 2937 007a 02       		.uleb128 0x2
+ 2938 007b 0A       		.uleb128 0xa
+ 2939 007c 9142     		.uleb128 0x2111
+ 2940 007e 0A       		.uleb128 0xa
+ 2941 007f 00       		.byte	0
+ 2942 0080 00       		.byte	0
+ 2943 0081 0A       		.uleb128 0xa
+ 2944 0082 898201   		.uleb128 0x4109
+ 2945 0085 01       		.byte	0x1
+ 2946 0086 11       		.uleb128 0x11
+ 2947 0087 01       		.uleb128 0x1
+ 2948 0088 31       		.uleb128 0x31
+ 2949 0089 13       		.uleb128 0x13
+ 2950 008a 00       		.byte	0
+ 2951 008b 00       		.byte	0
+ 2952 008c 0B       		.uleb128 0xb
+ 2953 008d 2E       		.uleb128 0x2e
+ 2954 008e 01       		.byte	0x1
+ 2955 008f 3F       		.uleb128 0x3f
+ 2956 0090 0C       		.uleb128 0xc
+ 2957 0091 03       		.uleb128 0x3
+ 2958 0092 0E       		.uleb128 0xe
+ 2959 0093 3A       		.uleb128 0x3a
+ 2960 0094 0B       		.uleb128 0xb
+ 2961 0095 3B       		.uleb128 0x3b
+ 2962 0096 0B       		.uleb128 0xb
+ 2963 0097 27       		.uleb128 0x27
+ 2964 0098 0C       		.uleb128 0xc
+ 2965 0099 49       		.uleb128 0x49
+ 2966 009a 13       		.uleb128 0x13
+ 2967 009b 11       		.uleb128 0x11
+ 2968 009c 01       		.uleb128 0x1
+ 2969 009d 12       		.uleb128 0x12
+ 2970 009e 01       		.uleb128 0x1
+ 2971 009f 40       		.uleb128 0x40
+ 2972 00a0 06       		.uleb128 0x6
+ 2973 00a1 9742     		.uleb128 0x2117
+ 2974 00a3 0C       		.uleb128 0xc
+ 2975 00a4 01       		.uleb128 0x1
+ 2976 00a5 13       		.uleb128 0x13
+ 2977 00a6 00       		.byte	0
+ 2978 00a7 00       		.byte	0
+ 2979 00a8 0C       		.uleb128 0xc
+ 2980 00a9 05       		.uleb128 0x5
+ 2981 00aa 00       		.byte	0
+ 2982 00ab 03       		.uleb128 0x3
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 63
+
+
+ 2983 00ac 0E       		.uleb128 0xe
+ 2984 00ad 3A       		.uleb128 0x3a
+ 2985 00ae 0B       		.uleb128 0xb
+ 2986 00af 3B       		.uleb128 0x3b
+ 2987 00b0 0B       		.uleb128 0xb
+ 2988 00b1 49       		.uleb128 0x49
+ 2989 00b2 13       		.uleb128 0x13
+ 2990 00b3 02       		.uleb128 0x2
+ 2991 00b4 06       		.uleb128 0x6
+ 2992 00b5 00       		.byte	0
+ 2993 00b6 00       		.byte	0
+ 2994 00b7 0D       		.uleb128 0xd
+ 2995 00b8 34       		.uleb128 0x34
+ 2996 00b9 00       		.byte	0
+ 2997 00ba 03       		.uleb128 0x3
+ 2998 00bb 08       		.uleb128 0x8
+ 2999 00bc 3A       		.uleb128 0x3a
+ 3000 00bd 0B       		.uleb128 0xb
+ 3001 00be 3B       		.uleb128 0x3b
+ 3002 00bf 0B       		.uleb128 0xb
+ 3003 00c0 49       		.uleb128 0x49
+ 3004 00c1 13       		.uleb128 0x13
+ 3005 00c2 02       		.uleb128 0x2
+ 3006 00c3 0A       		.uleb128 0xa
+ 3007 00c4 00       		.byte	0
+ 3008 00c5 00       		.byte	0
+ 3009 00c6 0E       		.uleb128 0xe
+ 3010 00c7 898201   		.uleb128 0x4109
+ 3011 00ca 00       		.byte	0
+ 3012 00cb 11       		.uleb128 0x11
+ 3013 00cc 01       		.uleb128 0x1
+ 3014 00cd 31       		.uleb128 0x31
+ 3015 00ce 13       		.uleb128 0x13
+ 3016 00cf 00       		.byte	0
+ 3017 00d0 00       		.byte	0
+ 3018 00d1 0F       		.uleb128 0xf
+ 3019 00d2 34       		.uleb128 0x34
+ 3020 00d3 00       		.byte	0
+ 3021 00d4 03       		.uleb128 0x3
+ 3022 00d5 08       		.uleb128 0x8
+ 3023 00d6 3A       		.uleb128 0x3a
+ 3024 00d7 0B       		.uleb128 0xb
+ 3025 00d8 3B       		.uleb128 0x3b
+ 3026 00d9 0B       		.uleb128 0xb
+ 3027 00da 49       		.uleb128 0x49
+ 3028 00db 13       		.uleb128 0x13
+ 3029 00dc 02       		.uleb128 0x2
+ 3030 00dd 06       		.uleb128 0x6
+ 3031 00de 00       		.byte	0
+ 3032 00df 00       		.byte	0
+ 3033 00e0 10       		.uleb128 0x10
+ 3034 00e1 0F       		.uleb128 0xf
+ 3035 00e2 00       		.byte	0
+ 3036 00e3 0B       		.uleb128 0xb
+ 3037 00e4 0B       		.uleb128 0xb
+ 3038 00e5 49       		.uleb128 0x49
+ 3039 00e6 13       		.uleb128 0x13
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 64
+
+
+ 3040 00e7 00       		.byte	0
+ 3041 00e8 00       		.byte	0
+ 3042 00e9 11       		.uleb128 0x11
+ 3043 00ea 34       		.uleb128 0x34
+ 3044 00eb 00       		.byte	0
+ 3045 00ec 03       		.uleb128 0x3
+ 3046 00ed 0E       		.uleb128 0xe
+ 3047 00ee 3A       		.uleb128 0x3a
+ 3048 00ef 0B       		.uleb128 0xb
+ 3049 00f0 3B       		.uleb128 0x3b
+ 3050 00f1 0B       		.uleb128 0xb
+ 3051 00f2 49       		.uleb128 0x49
+ 3052 00f3 13       		.uleb128 0x13
+ 3053 00f4 02       		.uleb128 0x2
+ 3054 00f5 06       		.uleb128 0x6
+ 3055 00f6 00       		.byte	0
+ 3056 00f7 00       		.byte	0
+ 3057 00f8 12       		.uleb128 0x12
+ 3058 00f9 26       		.uleb128 0x26
+ 3059 00fa 00       		.byte	0
+ 3060 00fb 49       		.uleb128 0x49
+ 3061 00fc 13       		.uleb128 0x13
+ 3062 00fd 00       		.byte	0
+ 3063 00fe 00       		.byte	0
+ 3064 00ff 13       		.uleb128 0x13
+ 3065 0100 2E       		.uleb128 0x2e
+ 3066 0101 01       		.byte	0x1
+ 3067 0102 3F       		.uleb128 0x3f
+ 3068 0103 0C       		.uleb128 0xc
+ 3069 0104 03       		.uleb128 0x3
+ 3070 0105 0E       		.uleb128 0xe
+ 3071 0106 3A       		.uleb128 0x3a
+ 3072 0107 0B       		.uleb128 0xb
+ 3073 0108 3B       		.uleb128 0x3b
+ 3074 0109 05       		.uleb128 0x5
+ 3075 010a 27       		.uleb128 0x27
+ 3076 010b 0C       		.uleb128 0xc
+ 3077 010c 49       		.uleb128 0x49
+ 3078 010d 13       		.uleb128 0x13
+ 3079 010e 11       		.uleb128 0x11
+ 3080 010f 01       		.uleb128 0x1
+ 3081 0110 12       		.uleb128 0x12
+ 3082 0111 01       		.uleb128 0x1
+ 3083 0112 40       		.uleb128 0x40
+ 3084 0113 06       		.uleb128 0x6
+ 3085 0114 9742     		.uleb128 0x2117
+ 3086 0116 0C       		.uleb128 0xc
+ 3087 0117 01       		.uleb128 0x1
+ 3088 0118 13       		.uleb128 0x13
+ 3089 0119 00       		.byte	0
+ 3090 011a 00       		.byte	0
+ 3091 011b 14       		.uleb128 0x14
+ 3092 011c 05       		.uleb128 0x5
+ 3093 011d 00       		.byte	0
+ 3094 011e 03       		.uleb128 0x3
+ 3095 011f 08       		.uleb128 0x8
+ 3096 0120 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 65
+
+
+ 3097 0121 0B       		.uleb128 0xb
+ 3098 0122 3B       		.uleb128 0x3b
+ 3099 0123 05       		.uleb128 0x5
+ 3100 0124 49       		.uleb128 0x49
+ 3101 0125 13       		.uleb128 0x13
+ 3102 0126 02       		.uleb128 0x2
+ 3103 0127 06       		.uleb128 0x6
+ 3104 0128 00       		.byte	0
+ 3105 0129 00       		.byte	0
+ 3106 012a 15       		.uleb128 0x15
+ 3107 012b 34       		.uleb128 0x34
+ 3108 012c 00       		.byte	0
+ 3109 012d 03       		.uleb128 0x3
+ 3110 012e 08       		.uleb128 0x8
+ 3111 012f 3A       		.uleb128 0x3a
+ 3112 0130 0B       		.uleb128 0xb
+ 3113 0131 3B       		.uleb128 0x3b
+ 3114 0132 05       		.uleb128 0x5
+ 3115 0133 49       		.uleb128 0x49
+ 3116 0134 13       		.uleb128 0x13
+ 3117 0135 02       		.uleb128 0x2
+ 3118 0136 06       		.uleb128 0x6
+ 3119 0137 00       		.byte	0
+ 3120 0138 00       		.byte	0
+ 3121 0139 16       		.uleb128 0x16
+ 3122 013a 05       		.uleb128 0x5
+ 3123 013b 00       		.byte	0
+ 3124 013c 03       		.uleb128 0x3
+ 3125 013d 0E       		.uleb128 0xe
+ 3126 013e 3A       		.uleb128 0x3a
+ 3127 013f 0B       		.uleb128 0xb
+ 3128 0140 3B       		.uleb128 0x3b
+ 3129 0141 05       		.uleb128 0x5
+ 3130 0142 49       		.uleb128 0x49
+ 3131 0143 13       		.uleb128 0x13
+ 3132 0144 02       		.uleb128 0x2
+ 3133 0145 06       		.uleb128 0x6
+ 3134 0146 00       		.byte	0
+ 3135 0147 00       		.byte	0
+ 3136 0148 17       		.uleb128 0x17
+ 3137 0149 05       		.uleb128 0x5
+ 3138 014a 00       		.byte	0
+ 3139 014b 03       		.uleb128 0x3
+ 3140 014c 0E       		.uleb128 0xe
+ 3141 014d 3A       		.uleb128 0x3a
+ 3142 014e 0B       		.uleb128 0xb
+ 3143 014f 3B       		.uleb128 0x3b
+ 3144 0150 05       		.uleb128 0x5
+ 3145 0151 49       		.uleb128 0x49
+ 3146 0152 13       		.uleb128 0x13
+ 3147 0153 02       		.uleb128 0x2
+ 3148 0154 0A       		.uleb128 0xa
+ 3149 0155 00       		.byte	0
+ 3150 0156 00       		.byte	0
+ 3151 0157 18       		.uleb128 0x18
+ 3152 0158 34       		.uleb128 0x34
+ 3153 0159 00       		.byte	0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 66
+
+
+ 3154 015a 03       		.uleb128 0x3
+ 3155 015b 0E       		.uleb128 0xe
+ 3156 015c 3A       		.uleb128 0x3a
+ 3157 015d 0B       		.uleb128 0xb
+ 3158 015e 3B       		.uleb128 0x3b
+ 3159 015f 05       		.uleb128 0x5
+ 3160 0160 49       		.uleb128 0x49
+ 3161 0161 13       		.uleb128 0x13
+ 3162 0162 02       		.uleb128 0x2
+ 3163 0163 0A       		.uleb128 0xa
+ 3164 0164 00       		.byte	0
+ 3165 0165 00       		.byte	0
+ 3166 0166 19       		.uleb128 0x19
+ 3167 0167 34       		.uleb128 0x34
+ 3168 0168 00       		.byte	0
+ 3169 0169 03       		.uleb128 0x3
+ 3170 016a 0E       		.uleb128 0xe
+ 3171 016b 3A       		.uleb128 0x3a
+ 3172 016c 0B       		.uleb128 0xb
+ 3173 016d 3B       		.uleb128 0x3b
+ 3174 016e 05       		.uleb128 0x5
+ 3175 016f 49       		.uleb128 0x49
+ 3176 0170 13       		.uleb128 0x13
+ 3177 0171 02       		.uleb128 0x2
+ 3178 0172 06       		.uleb128 0x6
+ 3179 0173 00       		.byte	0
+ 3180 0174 00       		.byte	0
+ 3181 0175 1A       		.uleb128 0x1a
+ 3182 0176 01       		.uleb128 0x1
+ 3183 0177 01       		.byte	0x1
+ 3184 0178 49       		.uleb128 0x49
+ 3185 0179 13       		.uleb128 0x13
+ 3186 017a 01       		.uleb128 0x1
+ 3187 017b 13       		.uleb128 0x13
+ 3188 017c 00       		.byte	0
+ 3189 017d 00       		.byte	0
+ 3190 017e 1B       		.uleb128 0x1b
+ 3191 017f 21       		.uleb128 0x21
+ 3192 0180 00       		.byte	0
+ 3193 0181 49       		.uleb128 0x49
+ 3194 0182 13       		.uleb128 0x13
+ 3195 0183 2F       		.uleb128 0x2f
+ 3196 0184 0B       		.uleb128 0xb
+ 3197 0185 00       		.byte	0
+ 3198 0186 00       		.byte	0
+ 3199 0187 1C       		.uleb128 0x1c
+ 3200 0188 34       		.uleb128 0x34
+ 3201 0189 00       		.byte	0
+ 3202 018a 03       		.uleb128 0x3
+ 3203 018b 0E       		.uleb128 0xe
+ 3204 018c 3A       		.uleb128 0x3a
+ 3205 018d 0B       		.uleb128 0xb
+ 3206 018e 3B       		.uleb128 0x3b
+ 3207 018f 0B       		.uleb128 0xb
+ 3208 0190 49       		.uleb128 0x49
+ 3209 0191 13       		.uleb128 0x13
+ 3210 0192 02       		.uleb128 0x2
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 67
+
+
+ 3211 0193 0A       		.uleb128 0xa
+ 3212 0194 00       		.byte	0
+ 3213 0195 00       		.byte	0
+ 3214 0196 1D       		.uleb128 0x1d
+ 3215 0197 2E       		.uleb128 0x2e
+ 3216 0198 01       		.byte	0x1
+ 3217 0199 3F       		.uleb128 0x3f
+ 3218 019a 0C       		.uleb128 0xc
+ 3219 019b 03       		.uleb128 0x3
+ 3220 019c 0E       		.uleb128 0xe
+ 3221 019d 3A       		.uleb128 0x3a
+ 3222 019e 0B       		.uleb128 0xb
+ 3223 019f 3B       		.uleb128 0x3b
+ 3224 01a0 05       		.uleb128 0x5
+ 3225 01a1 27       		.uleb128 0x27
+ 3226 01a2 0C       		.uleb128 0xc
+ 3227 01a3 49       		.uleb128 0x49
+ 3228 01a4 13       		.uleb128 0x13
+ 3229 01a5 3C       		.uleb128 0x3c
+ 3230 01a6 0C       		.uleb128 0xc
+ 3231 01a7 01       		.uleb128 0x1
+ 3232 01a8 13       		.uleb128 0x13
+ 3233 01a9 00       		.byte	0
+ 3234 01aa 00       		.byte	0
+ 3235 01ab 1E       		.uleb128 0x1e
+ 3236 01ac 05       		.uleb128 0x5
+ 3237 01ad 00       		.byte	0
+ 3238 01ae 49       		.uleb128 0x49
+ 3239 01af 13       		.uleb128 0x13
+ 3240 01b0 00       		.byte	0
+ 3241 01b1 00       		.byte	0
+ 3242 01b2 1F       		.uleb128 0x1f
+ 3243 01b3 2E       		.uleb128 0x2e
+ 3244 01b4 00       		.byte	0
+ 3245 01b5 3F       		.uleb128 0x3f
+ 3246 01b6 0C       		.uleb128 0xc
+ 3247 01b7 03       		.uleb128 0x3
+ 3248 01b8 0E       		.uleb128 0xe
+ 3249 01b9 3A       		.uleb128 0x3a
+ 3250 01ba 0B       		.uleb128 0xb
+ 3251 01bb 3B       		.uleb128 0x3b
+ 3252 01bc 05       		.uleb128 0x5
+ 3253 01bd 27       		.uleb128 0x27
+ 3254 01be 0C       		.uleb128 0xc
+ 3255 01bf 3C       		.uleb128 0x3c
+ 3256 01c0 0C       		.uleb128 0xc
+ 3257 01c1 00       		.byte	0
+ 3258 01c2 00       		.byte	0
+ 3259 01c3 20       		.uleb128 0x20
+ 3260 01c4 2E       		.uleb128 0x2e
+ 3261 01c5 01       		.byte	0x1
+ 3262 01c6 3F       		.uleb128 0x3f
+ 3263 01c7 0C       		.uleb128 0xc
+ 3264 01c8 03       		.uleb128 0x3
+ 3265 01c9 0E       		.uleb128 0xe
+ 3266 01ca 3A       		.uleb128 0x3a
+ 3267 01cb 0B       		.uleb128 0xb
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 68
+
+
+ 3268 01cc 3B       		.uleb128 0x3b
+ 3269 01cd 05       		.uleb128 0x5
+ 3270 01ce 27       		.uleb128 0x27
+ 3271 01cf 0C       		.uleb128 0xc
+ 3272 01d0 3C       		.uleb128 0x3c
+ 3273 01d1 0C       		.uleb128 0xc
+ 3274 01d2 01       		.uleb128 0x1
+ 3275 01d3 13       		.uleb128 0x13
+ 3276 01d4 00       		.byte	0
+ 3277 01d5 00       		.byte	0
+ 3278 01d6 00       		.byte	0
+ 3279              		.section	.debug_loc,"",%progbits
+ 3280              	.Ldebug_loc0:
+ 3281              	.LLST0:
+ 3282 0000 00000000 		.4byte	.LFB1
+ 3283 0004 02000000 		.4byte	.LCFI0
+ 3284 0008 0200     		.2byte	0x2
+ 3285 000a 7D       		.byte	0x7d
+ 3286 000b 00       		.sleb128 0
+ 3287 000c 02000000 		.4byte	.LCFI0
+ 3288 0010 2C000000 		.4byte	.LFE1
+ 3289 0014 0200     		.2byte	0x2
+ 3290 0016 7D       		.byte	0x7d
+ 3291 0017 10       		.sleb128 16
+ 3292 0018 00000000 		.4byte	0
+ 3293 001c 00000000 		.4byte	0
+ 3294              	.LLST1:
+ 3295 0020 00000000 		.4byte	.LVL0
+ 3296 0024 08000000 		.4byte	.LVL1
+ 3297 0028 0100     		.2byte	0x1
+ 3298 002a 50       		.byte	0x50
+ 3299 002b 08000000 		.4byte	.LVL1
+ 3300 002f 2C000000 		.4byte	.LFE1
+ 3301 0033 0400     		.2byte	0x4
+ 3302 0035 F3       		.byte	0xf3
+ 3303 0036 01       		.uleb128 0x1
+ 3304 0037 50       		.byte	0x50
+ 3305 0038 9F       		.byte	0x9f
+ 3306 0039 00000000 		.4byte	0
+ 3307 003d 00000000 		.4byte	0
+ 3308              	.LLST2:
+ 3309 0041 00000000 		.4byte	.LFB0
+ 3310 0045 02000000 		.4byte	.LCFI1
+ 3311 0049 0200     		.2byte	0x2
+ 3312 004b 7D       		.byte	0x7d
+ 3313 004c 00       		.sleb128 0
+ 3314 004d 02000000 		.4byte	.LCFI1
+ 3315 0051 78000000 		.4byte	.LFE0
+ 3316 0055 0200     		.2byte	0x2
+ 3317 0057 7D       		.byte	0x7d
+ 3318 0058 18       		.sleb128 24
+ 3319 0059 00000000 		.4byte	0
+ 3320 005d 00000000 		.4byte	0
+ 3321              	.LLST3:
+ 3322 0061 00000000 		.4byte	.LVL5
+ 3323 0065 0E000000 		.4byte	.LVL7
+ 3324 0069 0100     		.2byte	0x1
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 69
+
+
+ 3325 006b 50       		.byte	0x50
+ 3326 006c 0E000000 		.4byte	.LVL7
+ 3327 0070 78000000 		.4byte	.LFE0
+ 3328 0074 0400     		.2byte	0x4
+ 3329 0076 F3       		.byte	0xf3
+ 3330 0077 01       		.uleb128 0x1
+ 3331 0078 50       		.byte	0x50
+ 3332 0079 9F       		.byte	0x9f
+ 3333 007a 00000000 		.4byte	0
+ 3334 007e 00000000 		.4byte	0
+ 3335              	.LLST4:
+ 3336 0082 00000000 		.4byte	.LVL5
+ 3337 0086 19000000 		.4byte	.LVL8-1
+ 3338 008a 0100     		.2byte	0x1
+ 3339 008c 51       		.byte	0x51
+ 3340 008d 19000000 		.4byte	.LVL8-1
+ 3341 0091 78000000 		.4byte	.LFE0
+ 3342 0095 0400     		.2byte	0x4
+ 3343 0097 F3       		.byte	0xf3
+ 3344 0098 01       		.uleb128 0x1
+ 3345 0099 51       		.byte	0x51
+ 3346 009a 9F       		.byte	0x9f
+ 3347 009b 00000000 		.4byte	0
+ 3348 009f 00000000 		.4byte	0
+ 3349              	.LLST5:
+ 3350 00a3 00000000 		.4byte	.LVL5
+ 3351 00a7 19000000 		.4byte	.LVL8-1
+ 3352 00ab 0100     		.2byte	0x1
+ 3353 00ad 52       		.byte	0x52
+ 3354 00ae 19000000 		.4byte	.LVL8-1
+ 3355 00b2 78000000 		.4byte	.LFE0
+ 3356 00b6 0400     		.2byte	0x4
+ 3357 00b8 F3       		.byte	0xf3
+ 3358 00b9 01       		.uleb128 0x1
+ 3359 00ba 52       		.byte	0x52
+ 3360 00bb 9F       		.byte	0x9f
+ 3361 00bc 00000000 		.4byte	0
+ 3362 00c0 00000000 		.4byte	0
+ 3363              	.LLST6:
+ 3364 00c4 00000000 		.4byte	.LVL5
+ 3365 00c8 06000000 		.4byte	.LVL6
+ 3366 00cc 0100     		.2byte	0x1
+ 3367 00ce 53       		.byte	0x53
+ 3368 00cf 06000000 		.4byte	.LVL6
+ 3369 00d3 78000000 		.4byte	.LFE0
+ 3370 00d7 0400     		.2byte	0x4
+ 3371 00d9 F3       		.byte	0xf3
+ 3372 00da 01       		.uleb128 0x1
+ 3373 00db 53       		.byte	0x53
+ 3374 00dc 9F       		.byte	0x9f
+ 3375 00dd 00000000 		.4byte	0
+ 3376 00e1 00000000 		.4byte	0
+ 3377              	.LLST7:
+ 3378 00e5 00000000 		.4byte	.LFB2
+ 3379 00e9 02000000 		.4byte	.LCFI2
+ 3380 00ed 0200     		.2byte	0x2
+ 3381 00ef 7D       		.byte	0x7d
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 70
+
+
+ 3382 00f0 00       		.sleb128 0
+ 3383 00f1 02000000 		.4byte	.LCFI2
+ 3384 00f5 34000000 		.4byte	.LFE2
+ 3385 00f9 0200     		.2byte	0x2
+ 3386 00fb 7D       		.byte	0x7d
+ 3387 00fc 08       		.sleb128 8
+ 3388 00fd 00000000 		.4byte	0
+ 3389 0101 00000000 		.4byte	0
+ 3390              	.LLST8:
+ 3391 0105 00000000 		.4byte	.LVL16
+ 3392 0109 08000000 		.4byte	.LVL17
+ 3393 010d 0100     		.2byte	0x1
+ 3394 010f 50       		.byte	0x50
+ 3395 0110 08000000 		.4byte	.LVL17
+ 3396 0114 34000000 		.4byte	.LFE2
+ 3397 0118 0400     		.2byte	0x4
+ 3398 011a F3       		.byte	0xf3
+ 3399 011b 01       		.uleb128 0x1
+ 3400 011c 50       		.byte	0x50
+ 3401 011d 9F       		.byte	0x9f
+ 3402 011e 00000000 		.4byte	0
+ 3403 0122 00000000 		.4byte	0
+ 3404              	.LLST9:
+ 3405 0126 00000000 		.4byte	.LFB3
+ 3406 012a 02000000 		.4byte	.LCFI3
+ 3407 012e 0200     		.2byte	0x2
+ 3408 0130 7D       		.byte	0x7d
+ 3409 0131 00       		.sleb128 0
+ 3410 0132 02000000 		.4byte	.LCFI3
+ 3411 0136 E6000000 		.4byte	.LFE3
+ 3412 013a 0200     		.2byte	0x2
+ 3413 013c 7D       		.byte	0x7d
+ 3414 013d 18       		.sleb128 24
+ 3415 013e 00000000 		.4byte	0
+ 3416 0142 00000000 		.4byte	0
+ 3417              	.LLST10:
+ 3418 0146 00000000 		.4byte	.LVL22
+ 3419 014a 1C000000 		.4byte	.LVL24
+ 3420 014e 0100     		.2byte	0x1
+ 3421 0150 50       		.byte	0x50
+ 3422 0151 1C000000 		.4byte	.LVL24
+ 3423 0155 22000000 		.4byte	.LVL25
+ 3424 0159 0400     		.2byte	0x4
+ 3425 015b F3       		.byte	0xf3
+ 3426 015c 01       		.uleb128 0x1
+ 3427 015d 50       		.byte	0x50
+ 3428 015e 9F       		.byte	0x9f
+ 3429 015f 22000000 		.4byte	.LVL25
+ 3430 0163 2E000000 		.4byte	.LVL26
+ 3431 0167 0100     		.2byte	0x1
+ 3432 0169 50       		.byte	0x50
+ 3433 016a 2E000000 		.4byte	.LVL26
+ 3434 016e E6000000 		.4byte	.LFE3
+ 3435 0172 0400     		.2byte	0x4
+ 3436 0174 F3       		.byte	0xf3
+ 3437 0175 01       		.uleb128 0x1
+ 3438 0176 50       		.byte	0x50
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 71
+
+
+ 3439 0177 9F       		.byte	0x9f
+ 3440 0178 00000000 		.4byte	0
+ 3441 017c 00000000 		.4byte	0
+ 3442              	.LLST11:
+ 3443 0180 00000000 		.4byte	.LVL22
+ 3444 0184 06000000 		.4byte	.LVL23
+ 3445 0188 0100     		.2byte	0x1
+ 3446 018a 51       		.byte	0x51
+ 3447 018b 06000000 		.4byte	.LVL23
+ 3448 018f 72000000 		.4byte	.LVL32
+ 3449 0193 0100     		.2byte	0x1
+ 3450 0195 54       		.byte	0x54
+ 3451 0196 72000000 		.4byte	.LVL32
+ 3452 019a E0000000 		.4byte	.LVL45
+ 3453 019e 0400     		.2byte	0x4
+ 3454 01a0 F3       		.byte	0xf3
+ 3455 01a1 01       		.uleb128 0x1
+ 3456 01a2 51       		.byte	0x51
+ 3457 01a3 9F       		.byte	0x9f
+ 3458 01a4 E0000000 		.4byte	.LVL45
+ 3459 01a8 E2000000 		.4byte	.LVL46
+ 3460 01ac 0100     		.2byte	0x1
+ 3461 01ae 54       		.byte	0x54
+ 3462 01af E2000000 		.4byte	.LVL46
+ 3463 01b3 E6000000 		.4byte	.LFE3
+ 3464 01b7 0400     		.2byte	0x4
+ 3465 01b9 F3       		.byte	0xf3
+ 3466 01ba 01       		.uleb128 0x1
+ 3467 01bb 51       		.byte	0x51
+ 3468 01bc 9F       		.byte	0x9f
+ 3469 01bd 00000000 		.4byte	0
+ 3470 01c1 00000000 		.4byte	0
+ 3471              	.LLST12:
+ 3472 01c5 00000000 		.4byte	.LVL22
+ 3473 01c9 34000000 		.4byte	.LVL27
+ 3474 01cd 0100     		.2byte	0x1
+ 3475 01cf 52       		.byte	0x52
+ 3476 01d0 34000000 		.4byte	.LVL27
+ 3477 01d4 E0000000 		.4byte	.LVL45
+ 3478 01d8 0400     		.2byte	0x4
+ 3479 01da F3       		.byte	0xf3
+ 3480 01db 01       		.uleb128 0x1
+ 3481 01dc 52       		.byte	0x52
+ 3482 01dd 9F       		.byte	0x9f
+ 3483 01de E0000000 		.4byte	.LVL45
+ 3484 01e2 E2000000 		.4byte	.LVL46
+ 3485 01e6 0100     		.2byte	0x1
+ 3486 01e8 52       		.byte	0x52
+ 3487 01e9 E2000000 		.4byte	.LVL46
+ 3488 01ed E6000000 		.4byte	.LFE3
+ 3489 01f1 0400     		.2byte	0x4
+ 3490 01f3 F3       		.byte	0xf3
+ 3491 01f4 01       		.uleb128 0x1
+ 3492 01f5 52       		.byte	0x52
+ 3493 01f6 9F       		.byte	0x9f
+ 3494 01f7 00000000 		.4byte	0
+ 3495 01fb 00000000 		.4byte	0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 72
+
+
+ 3496              	.LLST13:
+ 3497 01ff 40000000 		.4byte	.LVL28
+ 3498 0203 D8000000 		.4byte	.LVL42
+ 3499 0207 0200     		.2byte	0x2
+ 3500 0209 31       		.byte	0x31
+ 3501 020a 9F       		.byte	0x9f
+ 3502 020b D8000000 		.4byte	.LVL42
+ 3503 020f DA000000 		.4byte	.LVL43
+ 3504 0213 0200     		.2byte	0x2
+ 3505 0215 30       		.byte	0x30
+ 3506 0216 9F       		.byte	0x9f
+ 3507 0217 DA000000 		.4byte	.LVL43
+ 3508 021b E0000000 		.4byte	.LVL45
+ 3509 021f 0100     		.2byte	0x1
+ 3510 0221 55       		.byte	0x55
+ 3511 0222 E2000000 		.4byte	.LVL46
+ 3512 0226 E4000000 		.4byte	.LVL47
+ 3513 022a 0100     		.2byte	0x1
+ 3514 022c 55       		.byte	0x55
+ 3515 022d E4000000 		.4byte	.LVL47
+ 3516 0231 E6000000 		.4byte	.LFE3
+ 3517 0235 0100     		.2byte	0x1
+ 3518 0237 50       		.byte	0x50
+ 3519 0238 00000000 		.4byte	0
+ 3520 023c 00000000 		.4byte	0
+ 3521              	.LLST14:
+ 3522 0240 00000000 		.4byte	.LFB4
+ 3523 0244 04000000 		.4byte	.LCFI4
+ 3524 0248 0200     		.2byte	0x2
+ 3525 024a 7D       		.byte	0x7d
+ 3526 024b 00       		.sleb128 0
+ 3527 024c 04000000 		.4byte	.LCFI4
+ 3528 0250 24000000 		.4byte	.LFE4
+ 3529 0254 0200     		.2byte	0x2
+ 3530 0256 7D       		.byte	0x7d
+ 3531 0257 08       		.sleb128 8
+ 3532 0258 00000000 		.4byte	0
+ 3533 025c 00000000 		.4byte	0
+ 3534              	.LLST15:
+ 3535 0260 00000000 		.4byte	.LVL48
+ 3536 0264 08000000 		.4byte	.LVL49
+ 3537 0268 0100     		.2byte	0x1
+ 3538 026a 50       		.byte	0x50
+ 3539 026b 08000000 		.4byte	.LVL49
+ 3540 026f 24000000 		.4byte	.LFE4
+ 3541 0273 0400     		.2byte	0x4
+ 3542 0275 F3       		.byte	0xf3
+ 3543 0276 01       		.uleb128 0x1
+ 3544 0277 50       		.byte	0x50
+ 3545 0278 9F       		.byte	0x9f
+ 3546 0279 00000000 		.4byte	0
+ 3547 027d 00000000 		.4byte	0
+ 3548              	.LLST16:
+ 3549 0281 00000000 		.4byte	.LFB5
+ 3550 0285 02000000 		.4byte	.LCFI5
+ 3551 0289 0200     		.2byte	0x2
+ 3552 028b 7D       		.byte	0x7d
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 73
+
+
+ 3553 028c 00       		.sleb128 0
+ 3554 028d 02000000 		.4byte	.LCFI5
+ 3555 0291 06000000 		.4byte	.LCFI6
+ 3556 0295 0200     		.2byte	0x2
+ 3557 0297 7D       		.byte	0x7d
+ 3558 0298 14       		.sleb128 20
+ 3559 0299 06000000 		.4byte	.LCFI6
+ 3560 029d E2000000 		.4byte	.LFE5
+ 3561 02a1 0200     		.2byte	0x2
+ 3562 02a3 7D       		.byte	0x7d
+ 3563 02a4 28       		.sleb128 40
+ 3564 02a5 00000000 		.4byte	0
+ 3565 02a9 00000000 		.4byte	0
+ 3566              	.LLST17:
+ 3567 02ad 00000000 		.4byte	.LVL52
+ 3568 02b1 12000000 		.4byte	.LVL53
+ 3569 02b5 0100     		.2byte	0x1
+ 3570 02b7 50       		.byte	0x50
+ 3571 02b8 12000000 		.4byte	.LVL53
+ 3572 02bc 42000000 		.4byte	.LVL59
+ 3573 02c0 0400     		.2byte	0x4
+ 3574 02c2 F3       		.byte	0xf3
+ 3575 02c3 01       		.uleb128 0x1
+ 3576 02c4 50       		.byte	0x50
+ 3577 02c5 9F       		.byte	0x9f
+ 3578 02c6 42000000 		.4byte	.LVL59
+ 3579 02ca 45000000 		.4byte	.LVL60-1
+ 3580 02ce 0100     		.2byte	0x1
+ 3581 02d0 50       		.byte	0x50
+ 3582 02d1 45000000 		.4byte	.LVL60-1
+ 3583 02d5 E2000000 		.4byte	.LFE5
+ 3584 02d9 0400     		.2byte	0x4
+ 3585 02db F3       		.byte	0xf3
+ 3586 02dc 01       		.uleb128 0x1
+ 3587 02dd 50       		.byte	0x50
+ 3588 02de 9F       		.byte	0x9f
+ 3589 02df 00000000 		.4byte	0
+ 3590 02e3 00000000 		.4byte	0
+ 3591              	.LLST18:
+ 3592 02e7 00000000 		.4byte	.LVL52
+ 3593 02eb 12000000 		.4byte	.LVL53
+ 3594 02ef 0100     		.2byte	0x1
+ 3595 02f1 51       		.byte	0x51
+ 3596 02f2 12000000 		.4byte	.LVL53
+ 3597 02f6 42000000 		.4byte	.LVL59
+ 3598 02fa 0200     		.2byte	0x2
+ 3599 02fc 91       		.byte	0x91
+ 3600 02fd 5C       		.sleb128 -36
+ 3601 02fe 42000000 		.4byte	.LVL59
+ 3602 0302 45000000 		.4byte	.LVL60-1
+ 3603 0306 0100     		.2byte	0x1
+ 3604 0308 51       		.byte	0x51
+ 3605 0309 45000000 		.4byte	.LVL60-1
+ 3606 030d E2000000 		.4byte	.LFE5
+ 3607 0311 0200     		.2byte	0x2
+ 3608 0313 91       		.byte	0x91
+ 3609 0314 5C       		.sleb128 -36
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 74
+
+
+ 3610 0315 00000000 		.4byte	0
+ 3611 0319 00000000 		.4byte	0
+ 3612              	.LLST19:
+ 3613 031d 00000000 		.4byte	.LVL52
+ 3614 0321 12000000 		.4byte	.LVL53
+ 3615 0325 0100     		.2byte	0x1
+ 3616 0327 52       		.byte	0x52
+ 3617 0328 12000000 		.4byte	.LVL53
+ 3618 032c 42000000 		.4byte	.LVL59
+ 3619 0330 0400     		.2byte	0x4
+ 3620 0332 F3       		.byte	0xf3
+ 3621 0333 01       		.uleb128 0x1
+ 3622 0334 52       		.byte	0x52
+ 3623 0335 9F       		.byte	0x9f
+ 3624 0336 42000000 		.4byte	.LVL59
+ 3625 033a 45000000 		.4byte	.LVL60-1
+ 3626 033e 0100     		.2byte	0x1
+ 3627 0340 52       		.byte	0x52
+ 3628 0341 45000000 		.4byte	.LVL60-1
+ 3629 0345 E2000000 		.4byte	.LFE5
+ 3630 0349 0400     		.2byte	0x4
+ 3631 034b F3       		.byte	0xf3
+ 3632 034c 01       		.uleb128 0x1
+ 3633 034d 52       		.byte	0x52
+ 3634 034e 9F       		.byte	0x9f
+ 3635 034f 00000000 		.4byte	0
+ 3636 0353 00000000 		.4byte	0
+ 3637              	.LLST20:
+ 3638 0357 00000000 		.4byte	.LVL52
+ 3639 035b 12000000 		.4byte	.LVL53
+ 3640 035f 0100     		.2byte	0x1
+ 3641 0361 53       		.byte	0x53
+ 3642 0362 12000000 		.4byte	.LVL53
+ 3643 0366 42000000 		.4byte	.LVL59
+ 3644 036a 0400     		.2byte	0x4
+ 3645 036c F3       		.byte	0xf3
+ 3646 036d 01       		.uleb128 0x1
+ 3647 036e 53       		.byte	0x53
+ 3648 036f 9F       		.byte	0x9f
+ 3649 0370 42000000 		.4byte	.LVL59
+ 3650 0374 45000000 		.4byte	.LVL60-1
+ 3651 0378 0100     		.2byte	0x1
+ 3652 037a 53       		.byte	0x53
+ 3653 037b 45000000 		.4byte	.LVL60-1
+ 3654 037f E2000000 		.4byte	.LFE5
+ 3655 0383 0400     		.2byte	0x4
+ 3656 0385 F3       		.byte	0xf3
+ 3657 0386 01       		.uleb128 0x1
+ 3658 0387 53       		.byte	0x53
+ 3659 0388 9F       		.byte	0x9f
+ 3660 0389 00000000 		.4byte	0
+ 3661 038d 00000000 		.4byte	0
+ 3662              	.LLST21:
+ 3663 0391 00000000 		.4byte	.LVL52
+ 3664 0395 12000000 		.4byte	.LVL53
+ 3665 0399 0200     		.2byte	0x2
+ 3666 039b 30       		.byte	0x30
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 75
+
+
+ 3667 039c 9F       		.byte	0x9f
+ 3668 039d 42000000 		.4byte	.LVL59
+ 3669 03a1 58000000 		.4byte	.LVL63
+ 3670 03a5 0200     		.2byte	0x2
+ 3671 03a7 30       		.byte	0x30
+ 3672 03a8 9F       		.byte	0x9f
+ 3673 03a9 66000000 		.4byte	.LVL67
+ 3674 03ad 7A000000 		.4byte	.LVL69
+ 3675 03b1 0100     		.2byte	0x1
+ 3676 03b3 50       		.byte	0x50
+ 3677 03b4 00000000 		.4byte	0
+ 3678 03b8 00000000 		.4byte	0
+ 3679              	.LLST22:
+ 3680 03bc 00000000 		.4byte	.LVL52
+ 3681 03c0 12000000 		.4byte	.LVL53
+ 3682 03c4 0200     		.2byte	0x2
+ 3683 03c6 30       		.byte	0x30
+ 3684 03c7 9F       		.byte	0x9f
+ 3685 03c8 42000000 		.4byte	.LVL59
+ 3686 03cc 52000000 		.4byte	.LVL62
+ 3687 03d0 0200     		.2byte	0x2
+ 3688 03d2 30       		.byte	0x30
+ 3689 03d3 9F       		.byte	0x9f
+ 3690 03d4 78000000 		.4byte	.LVL68
+ 3691 03d8 88000000 		.4byte	.LVL71
+ 3692 03dc 0100     		.2byte	0x1
+ 3693 03de 56       		.byte	0x56
+ 3694 03df 00000000 		.4byte	0
+ 3695 03e3 00000000 		.4byte	0
+ 3696              	.LLST23:
+ 3697 03e7 00000000 		.4byte	.LVL52
+ 3698 03eb 12000000 		.4byte	.LVL53
+ 3699 03ef 0200     		.2byte	0x2
+ 3700 03f1 30       		.byte	0x30
+ 3701 03f2 9F       		.byte	0x9f
+ 3702 03f3 42000000 		.4byte	.LVL59
+ 3703 03f7 58000000 		.4byte	.LVL63
+ 3704 03fb 0200     		.2byte	0x2
+ 3705 03fd 30       		.byte	0x30
+ 3706 03fe 9F       		.byte	0x9f
+ 3707 03ff 60000000 		.4byte	.LVL65
+ 3708 0403 62000000 		.4byte	.LVL66
+ 3709 0407 0100     		.2byte	0x1
+ 3710 0409 50       		.byte	0x50
+ 3711 040a 62000000 		.4byte	.LVL66
+ 3712 040e 88000000 		.4byte	.LVL71
+ 3713 0412 0200     		.2byte	0x2
+ 3714 0414 91       		.byte	0x91
+ 3715 0415 60       		.sleb128 -32
+ 3716 0416 00000000 		.4byte	0
+ 3717 041a 00000000 		.4byte	0
+ 3718              	.LLST24:
+ 3719 041e CA000000 		.4byte	.LVL77
+ 3720 0422 CE000000 		.4byte	.LVL78
+ 3721 0426 0600     		.2byte	0x6
+ 3722 0428 70       		.byte	0x70
+ 3723 0429 00       		.sleb128 0
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 76
+
+
+ 3724 042a 08       		.byte	0x8
+ 3725 042b FF       		.byte	0xff
+ 3726 042c 1A       		.byte	0x1a
+ 3727 042d 9F       		.byte	0x9f
+ 3728 042e D8000000 		.4byte	.LVL80
+ 3729 0432 DC000000 		.4byte	.LVL81
+ 3730 0436 0100     		.2byte	0x1
+ 3731 0438 51       		.byte	0x51
+ 3732 0439 00000000 		.4byte	0
+ 3733 043d 00000000 		.4byte	0
+ 3734              	.LLST25:
+ 3735 0441 2A000000 		.4byte	.LVL55
+ 3736 0445 38000000 		.4byte	.LVL57
+ 3737 0449 0800     		.2byte	0x8
+ 3738 044b 91       		.byte	0x91
+ 3739 044c 60       		.sleb128 -32
+ 3740 044d 94       		.byte	0x94
+ 3741 044e 01       		.byte	0x1
+ 3742 044f 08       		.byte	0x8
+ 3743 0450 FF       		.byte	0xff
+ 3744 0451 1A       		.byte	0x1a
+ 3745 0452 9F       		.byte	0x9f
+ 3746 0453 38000000 		.4byte	.LVL57
+ 3747 0457 42000000 		.4byte	.LVL59
+ 3748 045b 1200     		.2byte	0x12
+ 3749 045d 91       		.byte	0x91
+ 3750 045e 60       		.sleb128 -32
+ 3751 045f 94       		.byte	0x94
+ 3752 0460 01       		.byte	0x1
+ 3753 0461 08       		.byte	0x8
+ 3754 0462 FF       		.byte	0xff
+ 3755 0463 1A       		.byte	0x1a
+ 3756 0464 38       		.byte	0x38
+ 3757 0465 24       		.byte	0x24
+ 3758 0466 91       		.byte	0x91
+ 3759 0467 64       		.sleb128 -28
+ 3760 0468 94       		.byte	0x94
+ 3761 0469 01       		.byte	0x1
+ 3762 046a 08       		.byte	0x8
+ 3763 046b FF       		.byte	0xff
+ 3764 046c 1A       		.byte	0x1a
+ 3765 046d 22       		.byte	0x22
+ 3766 046e 9F       		.byte	0x9f
+ 3767 046f 88000000 		.4byte	.LVL71
+ 3768 0473 DC000000 		.4byte	.LVL81
+ 3769 0477 1200     		.2byte	0x12
+ 3770 0479 91       		.byte	0x91
+ 3771 047a 60       		.sleb128 -32
+ 3772 047b 94       		.byte	0x94
+ 3773 047c 01       		.byte	0x1
+ 3774 047d 08       		.byte	0x8
+ 3775 047e FF       		.byte	0xff
+ 3776 047f 1A       		.byte	0x1a
+ 3777 0480 38       		.byte	0x38
+ 3778 0481 24       		.byte	0x24
+ 3779 0482 91       		.byte	0x91
+ 3780 0483 64       		.sleb128 -28
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 77
+
+
+ 3781 0484 94       		.byte	0x94
+ 3782 0485 01       		.byte	0x1
+ 3783 0486 08       		.byte	0x8
+ 3784 0487 FF       		.byte	0xff
+ 3785 0488 1A       		.byte	0x1a
+ 3786 0489 22       		.byte	0x22
+ 3787 048a 9F       		.byte	0x9f
+ 3788 048b 00000000 		.4byte	0
+ 3789 048f 00000000 		.4byte	0
+ 3790              	.LLST26:
+ 3791 0493 00000000 		.4byte	.LFB6
+ 3792 0497 02000000 		.4byte	.LCFI7
+ 3793 049b 0200     		.2byte	0x2
+ 3794 049d 7D       		.byte	0x7d
+ 3795 049e 00       		.sleb128 0
+ 3796 049f 02000000 		.4byte	.LCFI7
+ 3797 04a3 30000000 		.4byte	.LFE6
+ 3798 04a7 0200     		.2byte	0x2
+ 3799 04a9 7D       		.byte	0x7d
+ 3800 04aa 10       		.sleb128 16
+ 3801 04ab 00000000 		.4byte	0
+ 3802 04af 00000000 		.4byte	0
+ 3803              	.LLST27:
+ 3804 04b3 00000000 		.4byte	.LVL82
+ 3805 04b7 0B000000 		.4byte	.LVL83-1
+ 3806 04bb 0100     		.2byte	0x1
+ 3807 04bd 50       		.byte	0x50
+ 3808 04be 0B000000 		.4byte	.LVL83-1
+ 3809 04c2 30000000 		.4byte	.LFE6
+ 3810 04c6 0400     		.2byte	0x4
+ 3811 04c8 F3       		.byte	0xf3
+ 3812 04c9 01       		.uleb128 0x1
+ 3813 04ca 50       		.byte	0x50
+ 3814 04cb 9F       		.byte	0x9f
+ 3815 04cc 00000000 		.4byte	0
+ 3816 04d0 00000000 		.4byte	0
+ 3817              	.LLST28:
+ 3818 04d4 00000000 		.4byte	.LVL82
+ 3819 04d8 0B000000 		.4byte	.LVL83-1
+ 3820 04dc 0100     		.2byte	0x1
+ 3821 04de 51       		.byte	0x51
+ 3822 04df 0B000000 		.4byte	.LVL83-1
+ 3823 04e3 30000000 		.4byte	.LFE6
+ 3824 04e7 0400     		.2byte	0x4
+ 3825 04e9 F3       		.byte	0xf3
+ 3826 04ea 01       		.uleb128 0x1
+ 3827 04eb 51       		.byte	0x51
+ 3828 04ec 9F       		.byte	0x9f
+ 3829 04ed 00000000 		.4byte	0
+ 3830 04f1 00000000 		.4byte	0
+ 3831              	.LLST29:
+ 3832 04f5 00000000 		.4byte	.LVL82
+ 3833 04f9 0B000000 		.4byte	.LVL83-1
+ 3834 04fd 0100     		.2byte	0x1
+ 3835 04ff 52       		.byte	0x52
+ 3836 0500 0B000000 		.4byte	.LVL83-1
+ 3837 0504 30000000 		.4byte	.LFE6
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 78
+
+
+ 3838 0508 0400     		.2byte	0x4
+ 3839 050a F3       		.byte	0xf3
+ 3840 050b 01       		.uleb128 0x1
+ 3841 050c 52       		.byte	0x52
+ 3842 050d 9F       		.byte	0x9f
+ 3843 050e 00000000 		.4byte	0
+ 3844 0512 00000000 		.4byte	0
+ 3845              	.LLST30:
+ 3846 0516 00000000 		.4byte	.LVL82
+ 3847 051a 26000000 		.4byte	.LVL86
+ 3848 051e 0200     		.2byte	0x2
+ 3849 0520 30       		.byte	0x30
+ 3850 0521 9F       		.byte	0x9f
+ 3851 0522 26000000 		.4byte	.LVL86
+ 3852 0526 28000000 		.4byte	.LVL87
+ 3853 052a 0100     		.2byte	0x1
+ 3854 052c 54       		.byte	0x54
+ 3855 052d 28000000 		.4byte	.LVL87
+ 3856 0531 30000000 		.4byte	.LFE6
+ 3857 0535 0100     		.2byte	0x1
+ 3858 0537 50       		.byte	0x50
+ 3859 0538 00000000 		.4byte	0
+ 3860 053c 00000000 		.4byte	0
+ 3861              	.LLST31:
+ 3862 0540 00000000 		.4byte	.LFB7
+ 3863 0544 02000000 		.4byte	.LCFI8
+ 3864 0548 0200     		.2byte	0x2
+ 3865 054a 7D       		.byte	0x7d
+ 3866 054b 00       		.sleb128 0
+ 3867 054c 02000000 		.4byte	.LCFI8
+ 3868 0550 F8000000 		.4byte	.LFE7
+ 3869 0554 0200     		.2byte	0x2
+ 3870 0556 7D       		.byte	0x7d
+ 3871 0557 20       		.sleb128 32
+ 3872 0558 00000000 		.4byte	0
+ 3873 055c 00000000 		.4byte	0
+ 3874              	.LLST32:
+ 3875 0560 00000000 		.4byte	.LVL88
+ 3876 0564 0A000000 		.4byte	.LVL90
+ 3877 0568 0100     		.2byte	0x1
+ 3878 056a 50       		.byte	0x50
+ 3879 056b 0A000000 		.4byte	.LVL90
+ 3880 056f F8000000 		.4byte	.LFE7
+ 3881 0573 0400     		.2byte	0x4
+ 3882 0575 F3       		.byte	0xf3
+ 3883 0576 01       		.uleb128 0x1
+ 3884 0577 50       		.byte	0x50
+ 3885 0578 9F       		.byte	0x9f
+ 3886 0579 00000000 		.4byte	0
+ 3887 057d 00000000 		.4byte	0
+ 3888              	.LLST33:
+ 3889 0581 00000000 		.4byte	.LVL88
+ 3890 0585 15000000 		.4byte	.LVL91-1
+ 3891 0589 0100     		.2byte	0x1
+ 3892 058b 51       		.byte	0x51
+ 3893 058c 15000000 		.4byte	.LVL91-1
+ 3894 0590 F8000000 		.4byte	.LFE7
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 79
+
+
+ 3895 0594 0200     		.2byte	0x2
+ 3896 0596 91       		.byte	0x91
+ 3897 0597 64       		.sleb128 -28
+ 3898 0598 00000000 		.4byte	0
+ 3899 059c 00000000 		.4byte	0
+ 3900              	.LLST34:
+ 3901 05a0 00000000 		.4byte	.LVL88
+ 3902 05a4 15000000 		.4byte	.LVL91-1
+ 3903 05a8 0100     		.2byte	0x1
+ 3904 05aa 52       		.byte	0x52
+ 3905 05ab 15000000 		.4byte	.LVL91-1
+ 3906 05af F8000000 		.4byte	.LFE7
+ 3907 05b3 0400     		.2byte	0x4
+ 3908 05b5 F3       		.byte	0xf3
+ 3909 05b6 01       		.uleb128 0x1
+ 3910 05b7 52       		.byte	0x52
+ 3911 05b8 9F       		.byte	0x9f
+ 3912 05b9 00000000 		.4byte	0
+ 3913 05bd 00000000 		.4byte	0
+ 3914              	.LLST35:
+ 3915 05c1 00000000 		.4byte	.LVL88
+ 3916 05c5 06000000 		.4byte	.LVL89
+ 3917 05c9 0100     		.2byte	0x1
+ 3918 05cb 53       		.byte	0x53
+ 3919 05cc 06000000 		.4byte	.LVL89
+ 3920 05d0 7C000000 		.4byte	.LVL98
+ 3921 05d4 0100     		.2byte	0x1
+ 3922 05d6 56       		.byte	0x56
+ 3923 05d7 7C000000 		.4byte	.LVL98
+ 3924 05db EE000000 		.4byte	.LVL112
+ 3925 05df 0400     		.2byte	0x4
+ 3926 05e1 F3       		.byte	0xf3
+ 3927 05e2 01       		.uleb128 0x1
+ 3928 05e3 53       		.byte	0x53
+ 3929 05e4 9F       		.byte	0x9f
+ 3930 05e5 EE000000 		.4byte	.LVL112
+ 3931 05e9 F4000000 		.4byte	.LVL115
+ 3932 05ed 0100     		.2byte	0x1
+ 3933 05ef 56       		.byte	0x56
+ 3934 05f0 F4000000 		.4byte	.LVL115
+ 3935 05f4 F8000000 		.4byte	.LFE7
+ 3936 05f8 0400     		.2byte	0x4
+ 3937 05fa F3       		.byte	0xf3
+ 3938 05fb 01       		.uleb128 0x1
+ 3939 05fc 53       		.byte	0x53
+ 3940 05fd 9F       		.byte	0x9f
+ 3941 05fe 00000000 		.4byte	0
+ 3942 0602 00000000 		.4byte	0
+ 3943              	.LLST36:
+ 3944 0606 00000000 		.4byte	.LVL88
+ 3945 060a 22000000 		.4byte	.LVL93
+ 3946 060e 0200     		.2byte	0x2
+ 3947 0610 30       		.byte	0x30
+ 3948 0611 9F       		.byte	0x9f
+ 3949 0612 22000000 		.4byte	.LVL93
+ 3950 0616 DE000000 		.4byte	.LVL108
+ 3951 061a 0100     		.2byte	0x1
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 80
+
+
+ 3952 061c 54       		.byte	0x54
+ 3953 061d E0000000 		.4byte	.LVL109
+ 3954 0621 F0000000 		.4byte	.LVL113
+ 3955 0625 0100     		.2byte	0x1
+ 3956 0627 54       		.byte	0x54
+ 3957 0628 F2000000 		.4byte	.LVL114
+ 3958 062c F4000000 		.4byte	.LVL115
+ 3959 0630 0100     		.2byte	0x1
+ 3960 0632 54       		.byte	0x54
+ 3961 0633 00000000 		.4byte	0
+ 3962 0637 00000000 		.4byte	0
+ 3963              	.LLST37:
+ 3964 063b 00000000 		.4byte	.LFB8
+ 3965 063f 02000000 		.4byte	.LCFI9
+ 3966 0643 0200     		.2byte	0x2
+ 3967 0645 7D       		.byte	0x7d
+ 3968 0646 00       		.sleb128 0
+ 3969 0647 02000000 		.4byte	.LCFI9
+ 3970 064b 06000000 		.4byte	.LCFI10
+ 3971 064f 0200     		.2byte	0x2
+ 3972 0651 7D       		.byte	0x7d
+ 3973 0652 14       		.sleb128 20
+ 3974 0653 06000000 		.4byte	.LCFI10
+ 3975 0657 20010000 		.4byte	.LFE8
+ 3976 065b 0200     		.2byte	0x2
+ 3977 065d 7D       		.byte	0x7d
+ 3978 065e 30       		.sleb128 48
+ 3979 065f 00000000 		.4byte	0
+ 3980 0663 00000000 		.4byte	0
+ 3981              	.LLST38:
+ 3982 0667 00000000 		.4byte	.LVL116
+ 3983 066b 18000000 		.4byte	.LVL118
+ 3984 066f 0100     		.2byte	0x1
+ 3985 0671 50       		.byte	0x50
+ 3986 0672 18000000 		.4byte	.LVL118
+ 3987 0676 20010000 		.4byte	.LFE8
+ 3988 067a 0400     		.2byte	0x4
+ 3989 067c F3       		.byte	0xf3
+ 3990 067d 01       		.uleb128 0x1
+ 3991 067e 50       		.byte	0x50
+ 3992 067f 9F       		.byte	0x9f
+ 3993 0680 00000000 		.4byte	0
+ 3994 0684 00000000 		.4byte	0
+ 3995              	.LLST39:
+ 3996 0688 00000000 		.4byte	.LVL116
+ 3997 068c 1A000000 		.4byte	.LVL119
+ 3998 0690 0100     		.2byte	0x1
+ 3999 0692 51       		.byte	0x51
+ 4000 0693 1A000000 		.4byte	.LVL119
+ 4001 0697 20010000 		.4byte	.LFE8
+ 4002 069b 0200     		.2byte	0x2
+ 4003 069d 91       		.byte	0x91
+ 4004 069e 5C       		.sleb128 -36
+ 4005 069f 00000000 		.4byte	0
+ 4006 06a3 00000000 		.4byte	0
+ 4007              	.LLST40:
+ 4008 06a7 00000000 		.4byte	.LVL116
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 81
+
+
+ 4009 06ab 20000000 		.4byte	.LVL120
+ 4010 06af 0100     		.2byte	0x1
+ 4011 06b1 52       		.byte	0x52
+ 4012 06b2 20000000 		.4byte	.LVL120
+ 4013 06b6 20010000 		.4byte	.LFE8
+ 4014 06ba 0400     		.2byte	0x4
+ 4015 06bc F3       		.byte	0xf3
+ 4016 06bd 01       		.uleb128 0x1
+ 4017 06be 52       		.byte	0x52
+ 4018 06bf 9F       		.byte	0x9f
+ 4019 06c0 00000000 		.4byte	0
+ 4020 06c4 00000000 		.4byte	0
+ 4021              	.LLST41:
+ 4022 06c8 00000000 		.4byte	.LVL116
+ 4023 06cc 14000000 		.4byte	.LVL117
+ 4024 06d0 0100     		.2byte	0x1
+ 4025 06d2 53       		.byte	0x53
+ 4026 06d3 14000000 		.4byte	.LVL117
+ 4027 06d7 78000000 		.4byte	.LVL130
+ 4028 06db 0100     		.2byte	0x1
+ 4029 06dd 55       		.byte	0x55
+ 4030 06de 78000000 		.4byte	.LVL130
+ 4031 06e2 88000000 		.4byte	.LVL132
+ 4032 06e6 0400     		.2byte	0x4
+ 4033 06e8 F3       		.byte	0xf3
+ 4034 06e9 01       		.uleb128 0x1
+ 4035 06ea 53       		.byte	0x53
+ 4036 06eb 9F       		.byte	0x9f
+ 4037 06ec 88000000 		.4byte	.LVL132
+ 4038 06f0 AC000000 		.4byte	.LVL137
+ 4039 06f4 0100     		.2byte	0x1
+ 4040 06f6 55       		.byte	0x55
+ 4041 06f7 AC000000 		.4byte	.LVL137
+ 4042 06fb B6000000 		.4byte	.LVL140
+ 4043 06ff 0400     		.2byte	0x4
+ 4044 0701 F3       		.byte	0xf3
+ 4045 0702 01       		.uleb128 0x1
+ 4046 0703 53       		.byte	0x53
+ 4047 0704 9F       		.byte	0x9f
+ 4048 0705 B6000000 		.4byte	.LVL140
+ 4049 0709 D0000000 		.4byte	.LVL142
+ 4050 070d 0100     		.2byte	0x1
+ 4051 070f 55       		.byte	0x55
+ 4052 0710 D0000000 		.4byte	.LVL142
+ 4053 0714 20010000 		.4byte	.LFE8
+ 4054 0718 0400     		.2byte	0x4
+ 4055 071a F3       		.byte	0xf3
+ 4056 071b 01       		.uleb128 0x1
+ 4057 071c 53       		.byte	0x53
+ 4058 071d 9F       		.byte	0x9f
+ 4059 071e 00000000 		.4byte	0
+ 4060 0722 00000000 		.4byte	0
+ 4061              	.LLST42:
+ 4062 0726 00000000 		.4byte	.LVL116
+ 4063 072a 80000000 		.4byte	.LVL131
+ 4064 072e 0200     		.2byte	0x2
+ 4065 0730 30       		.byte	0x30
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 82
+
+
+ 4066 0731 9F       		.byte	0x9f
+ 4067 0732 80000000 		.4byte	.LVL131
+ 4068 0736 88000000 		.4byte	.LVL132
+ 4069 073a 0800     		.2byte	0x8
+ 4070 073c 91       		.byte	0x91
+ 4071 073d 66       		.sleb128 -26
+ 4072 073e 94       		.byte	0x94
+ 4073 073f 01       		.byte	0x1
+ 4074 0740 08       		.byte	0x8
+ 4075 0741 FF       		.byte	0xff
+ 4076 0742 1A       		.byte	0x1a
+ 4077 0743 9F       		.byte	0x9f
+ 4078 0744 88000000 		.4byte	.LVL132
+ 4079 0748 AA000000 		.4byte	.LVL136
+ 4080 074c 0200     		.2byte	0x2
+ 4081 074e 30       		.byte	0x30
+ 4082 074f 9F       		.byte	0x9f
+ 4083 0750 AA000000 		.4byte	.LVL136
+ 4084 0754 B0000000 		.4byte	.LVL138
+ 4085 0758 0800     		.2byte	0x8
+ 4086 075a 91       		.byte	0x91
+ 4087 075b 64       		.sleb128 -28
+ 4088 075c 94       		.byte	0x94
+ 4089 075d 01       		.byte	0x1
+ 4090 075e 08       		.byte	0x8
+ 4091 075f FF       		.byte	0xff
+ 4092 0760 1A       		.byte	0x1a
+ 4093 0761 9F       		.byte	0x9f
+ 4094 0762 B4000000 		.4byte	.LVL139
+ 4095 0766 B6000000 		.4byte	.LVL140
+ 4096 076a 0100     		.2byte	0x1
+ 4097 076c 53       		.byte	0x53
+ 4098 076d B6000000 		.4byte	.LVL140
+ 4099 0771 C2000000 		.4byte	.LVL141
+ 4100 0775 0200     		.2byte	0x2
+ 4101 0777 30       		.byte	0x30
+ 4102 0778 9F       		.byte	0x9f
+ 4103 0779 C2000000 		.4byte	.LVL141
+ 4104 077d D2000000 		.4byte	.LVL143
+ 4105 0781 0800     		.2byte	0x8
+ 4106 0783 91       		.byte	0x91
+ 4107 0784 60       		.sleb128 -32
+ 4108 0785 94       		.byte	0x94
+ 4109 0786 01       		.byte	0x1
+ 4110 0787 08       		.byte	0x8
+ 4111 0788 FF       		.byte	0xff
+ 4112 0789 1A       		.byte	0x1a
+ 4113 078a 9F       		.byte	0x9f
+ 4114 078b D2000000 		.4byte	.LVL143
+ 4115 078f DC000000 		.4byte	.LVL145
+ 4116 0793 0100     		.2byte	0x1
+ 4117 0795 52       		.byte	0x52
+ 4118 0796 FC000000 		.4byte	.LVL148
+ 4119 079a 18010000 		.4byte	.LVL152
+ 4120 079e 0100     		.2byte	0x1
+ 4121 07a0 54       		.byte	0x54
+ 4122 07a1 18010000 		.4byte	.LVL152
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 83
+
+
+ 4123 07a5 20010000 		.4byte	.LFE8
+ 4124 07a9 0100     		.2byte	0x1
+ 4125 07ab 50       		.byte	0x50
+ 4126 07ac 00000000 		.4byte	0
+ 4127 07b0 00000000 		.4byte	0
+ 4128              	.LLST43:
+ 4129 07b4 00000000 		.4byte	.LVL116
+ 4130 07b8 2C000000 		.4byte	.LVL122
+ 4131 07bc 0200     		.2byte	0x2
+ 4132 07be 30       		.byte	0x30
+ 4133 07bf 9F       		.byte	0x9f
+ 4134 07c0 2C000000 		.4byte	.LVL122
+ 4135 07c4 30000000 		.4byte	.LVL123
+ 4136 07c8 0600     		.2byte	0x6
+ 4137 07ca 70       		.byte	0x70
+ 4138 07cb 00       		.sleb128 0
+ 4139 07cc 08       		.byte	0x8
+ 4140 07cd FF       		.byte	0xff
+ 4141 07ce 1A       		.byte	0x1a
+ 4142 07cf 9F       		.byte	0x9f
+ 4143 07d0 30000000 		.4byte	.LVL123
+ 4144 07d4 3E000000 		.4byte	.LVL125
+ 4145 07d8 0600     		.2byte	0x6
+ 4146 07da 77       		.byte	0x77
+ 4147 07db 00       		.sleb128 0
+ 4148 07dc 08       		.byte	0x8
+ 4149 07dd FF       		.byte	0xff
+ 4150 07de 1A       		.byte	0x1a
+ 4151 07df 9F       		.byte	0x9f
+ 4152 07e0 3E000000 		.4byte	.LVL125
+ 4153 07e4 41000000 		.4byte	.LVL126-1
+ 4154 07e8 0100     		.2byte	0x1
+ 4155 07ea 52       		.byte	0x52
+ 4156 07eb 41000000 		.4byte	.LVL126-1
+ 4157 07ef 64000000 		.4byte	.LVL128
+ 4158 07f3 0100     		.2byte	0x1
+ 4159 07f5 57       		.byte	0x57
+ 4160 07f6 64000000 		.4byte	.LVL128
+ 4161 07fa 6A000000 		.4byte	.LVL129
+ 4162 07fe 0300     		.2byte	0x3
+ 4163 0800 77       		.byte	0x77
+ 4164 0801 78       		.sleb128 -8
+ 4165 0802 9F       		.byte	0x9f
+ 4166 0803 6A000000 		.4byte	.LVL129
+ 4167 0807 9A000000 		.4byte	.LVL134
+ 4168 080b 0100     		.2byte	0x1
+ 4169 080d 57       		.byte	0x57
+ 4170 080e 9A000000 		.4byte	.LVL134
+ 4171 0812 A0000000 		.4byte	.LVL135
+ 4172 0816 0300     		.2byte	0x3
+ 4173 0818 77       		.byte	0x77
+ 4174 0819 7A       		.sleb128 -6
+ 4175 081a 9F       		.byte	0x9f
+ 4176 081b A0000000 		.4byte	.LVL135
+ 4177 081f B0000000 		.4byte	.LVL138
+ 4178 0823 0100     		.2byte	0x1
+ 4179 0825 57       		.byte	0x57
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 84
+
+
+ 4180 0826 B6000000 		.4byte	.LVL140
+ 4181 082a C2000000 		.4byte	.LVL141
+ 4182 082e 0100     		.2byte	0x1
+ 4183 0830 57       		.byte	0x57
+ 4184 0831 C2000000 		.4byte	.LVL141
+ 4185 0835 DA000000 		.4byte	.LVL144
+ 4186 0839 0300     		.2byte	0x3
+ 4187 083b 77       		.byte	0x77
+ 4188 083c 02       		.sleb128 2
+ 4189 083d 9F       		.byte	0x9f
+ 4190 083e DA000000 		.4byte	.LVL144
+ 4191 0842 DC000000 		.4byte	.LVL145
+ 4192 0846 0300     		.2byte	0x3
+ 4193 0848 77       		.byte	0x77
+ 4194 0849 00       		.sleb128 0
+ 4195 084a 9F       		.byte	0x9f
+ 4196 084b EC000000 		.4byte	.LVL146
+ 4197 084f FC000000 		.4byte	.LVL148
+ 4198 0853 0100     		.2byte	0x1
+ 4199 0855 56       		.byte	0x56
+ 4200 0856 00000000 		.4byte	0
+ 4201 085a 00000000 		.4byte	0
+ 4202              		.section	.debug_aranges,"",%progbits
+ 4203 0000 5C000000 		.4byte	0x5c
+ 4204 0004 0200     		.2byte	0x2
+ 4205 0006 00000000 		.4byte	.Ldebug_info0
+ 4206 000a 04       		.byte	0x4
+ 4207 000b 00       		.byte	0
+ 4208 000c 0000     		.2byte	0
+ 4209 000e 0000     		.2byte	0
+ 4210 0010 00000000 		.4byte	.LFB1
+ 4211 0014 2C000000 		.4byte	.LFE1-.LFB1
+ 4212 0018 00000000 		.4byte	.LFB0
+ 4213 001c 78000000 		.4byte	.LFE0-.LFB0
+ 4214 0020 00000000 		.4byte	.LFB2
+ 4215 0024 34000000 		.4byte	.LFE2-.LFB2
+ 4216 0028 00000000 		.4byte	.LFB3
+ 4217 002c E6000000 		.4byte	.LFE3-.LFB3
+ 4218 0030 00000000 		.4byte	.LFB4
+ 4219 0034 24000000 		.4byte	.LFE4-.LFB4
+ 4220 0038 00000000 		.4byte	.LFB5
+ 4221 003c E2000000 		.4byte	.LFE5-.LFB5
+ 4222 0040 00000000 		.4byte	.LFB6
+ 4223 0044 30000000 		.4byte	.LFE6-.LFB6
+ 4224 0048 00000000 		.4byte	.LFB7
+ 4225 004c F8000000 		.4byte	.LFE7-.LFB7
+ 4226 0050 00000000 		.4byte	.LFB8
+ 4227 0054 20010000 		.4byte	.LFE8-.LFB8
+ 4228 0058 00000000 		.4byte	0
+ 4229 005c 00000000 		.4byte	0
+ 4230              		.section	.debug_ranges,"",%progbits
+ 4231              	.Ldebug_ranges0:
+ 4232 0000 00000000 		.4byte	.LFB1
+ 4233 0004 2C000000 		.4byte	.LFE1
+ 4234 0008 00000000 		.4byte	.LFB0
+ 4235 000c 78000000 		.4byte	.LFE0
+ 4236 0010 00000000 		.4byte	.LFB2
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 85
+
+
+ 4237 0014 34000000 		.4byte	.LFE2
+ 4238 0018 00000000 		.4byte	.LFB3
+ 4239 001c E6000000 		.4byte	.LFE3
+ 4240 0020 00000000 		.4byte	.LFB4
+ 4241 0024 24000000 		.4byte	.LFE4
+ 4242 0028 00000000 		.4byte	.LFB5
+ 4243 002c E2000000 		.4byte	.LFE5
+ 4244 0030 00000000 		.4byte	.LFB6
+ 4245 0034 30000000 		.4byte	.LFE6
+ 4246 0038 00000000 		.4byte	.LFB7
+ 4247 003c F8000000 		.4byte	.LFE7
+ 4248 0040 00000000 		.4byte	.LFB8
+ 4249 0044 20010000 		.4byte	.LFE8
+ 4250 0048 00000000 		.4byte	0
+ 4251 004c 00000000 		.4byte	0
+ 4252              		.section	.debug_line,"",%progbits
+ 4253              	.Ldebug_line0:
+ 4254 0000 DE020000 		.section	.debug_str,"MS",%progbits,1
+ 4254      0200E000 
+ 4254      00000201 
+ 4254      FB0E0D00 
+ 4254      01010101 
+ 4255              	.LASF39:
+ 4256 0000 49494E43 		.ascii	"IINCHIP_WRITE\000"
+ 4256      4849505F 
+ 4256      57524954 
+ 4256      4500
+ 4257              	.LASF17:
+ 4258 000e 70726F74 		.ascii	"protocol\000"
+ 4258      6F636F6C 
+ 4258      00
+ 4259              	.LASF43:
+ 4260 0017 73657453 		.ascii	"setSUBR\000"
+ 4260      55425200 
+ 4261              	.LASF46:
+ 4262 001f 73656E64 		.ascii	"send_data_processing\000"
+ 4262      5F646174 
+ 4262      615F7072 
+ 4262      6F636573 
+ 4262      73696E67 
+ 4263              	.LASF44:
+ 4264 0034 67657449 		.ascii	"getIINCHIP_TxMAX\000"
+ 4264      494E4348 
+ 4264      49505F54 
+ 4264      784D4158 
+ 4264      00
+ 4265              	.LASF6:
+ 4266 0045 6C6F6E67 		.ascii	"long int\000"
+ 4266      20696E74 
+ 4266      00
+ 4267              	.LASF5:
+ 4268 004e 73686F72 		.ascii	"short unsigned int\000"
+ 4268      7420756E 
+ 4268      7369676E 
+ 4268      65642069 
+ 4268      6E7400
+ 4269              	.LASF47:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 86
+
+
+ 4270 0061 72656376 		.ascii	"recv_data_processing\000"
+ 4270      5F646174 
+ 4270      615F7072 
+ 4270      6F636573 
+ 4270      73696E67 
+ 4271              	.LASF34:
+ 4272 0076 73656E64 		.ascii	"sendto\000"
+ 4272      746F00
+ 4273              	.LASF37:
+ 4274 007d 64617461 		.ascii	"data_len\000"
+ 4274      5F6C656E 
+ 4274      00
+ 4275              	.LASF23:
+ 4276 0086 61646472 		.ascii	"addr\000"
+ 4276      00
+ 4277              	.LASF11:
+ 4278 008b 666C6F61 		.ascii	"float\000"
+ 4278      7400
+ 4279              	.LASF0:
+ 4280 0091 7369676E 		.ascii	"signed char\000"
+ 4280      65642063 
+ 4280      68617200 
+ 4281              	.LASF45:
+ 4282 009d 67657453 		.ascii	"getSn_TX_FSR\000"
+ 4282      6E5F5458 
+ 4282      5F465352 
+ 4282      00
+ 4283              	.LASF1:
+ 4284 00aa 756E7369 		.ascii	"unsigned char\000"
+ 4284      676E6564 
+ 4284      20636861 
+ 4284      7200
+ 4285              	.LASF27:
+ 4286 00b8 72657472 		.ascii	"retry\000"
+ 4286      7900
+ 4287              	.LASF22:
+ 4288 00be 636F6E6E 		.ascii	"connect\000"
+ 4288      65637400 
+ 4289              	.LASF7:
+ 4290 00c6 6C6F6E67 		.ascii	"long unsigned int\000"
+ 4290      20756E73 
+ 4290      69676E65 
+ 4290      6420696E 
+ 4290      7400
+ 4291              	.LASF41:
+ 4292 00d8 67657453 		.ascii	"getSn_IR\000"
+ 4292      6E5F4952 
+ 4292      00
+ 4293              	.LASF25:
+ 4294 00e1 64697363 		.ascii	"disconnect\000"
+ 4294      6F6E6E65 
+ 4294      637400
+ 4295              	.LASF31:
+ 4296 00ec 74787264 		.ascii	"txrd_before_send\000"
+ 4296      5F626566 
+ 4296      6F72655F 
+ 4296      73656E64 
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 87
+
+
+ 4296      00
+ 4297              	.LASF12:
+ 4298 00fd 646F7562 		.ascii	"double\000"
+ 4298      6C6500
+ 4299              	.LASF30:
+ 4300 0104 74787264 		.ascii	"txrd\000"
+ 4300      00
+ 4301              	.LASF51:
+ 4302 0109 433A5C55 		.ascii	"C:\\Users\\atsu\\Desktop\\W5200_PSoC4_test\\W5200_P"
+ 4302      73657273 
+ 4302      5C617473 
+ 4302      755C4465 
+ 4302      736B746F 
+ 4303 0137 536F4334 		.ascii	"SoC4_test\\W5200_PSoC4_test.cydsn\000"
+ 4303      5F746573 
+ 4303      745C5735 
+ 4303      3230305F 
+ 4303      50536F43 
+ 4304              	.LASF35:
+ 4305 0158 72656376 		.ascii	"recvfrom\000"
+ 4305      66726F6D 
+ 4305      00
+ 4306              	.LASF36:
+ 4307 0161 68656164 		.ascii	"head\000"
+ 4307      00
+ 4308              	.LASF19:
+ 4309 0166 666C6167 		.ascii	"flag\000"
+ 4309      00
+ 4310              	.LASF10:
+ 4311 016b 756E7369 		.ascii	"unsigned int\000"
+ 4311      676E6564 
+ 4311      20696E74 
+ 4311      00
+ 4312              	.LASF26:
+ 4313 0178 73656E64 		.ascii	"send\000"
+ 4313      00
+ 4314              	.LASF9:
+ 4315 017d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 4315      206C6F6E 
+ 4315      6720756E 
+ 4315      7369676E 
+ 4315      65642069 
+ 4316              	.LASF3:
+ 4317 0194 75696E74 		.ascii	"uint8_t\000"
+ 4317      385F7400 
+ 4318              	.LASF14:
+ 4319 019c 7675696E 		.ascii	"vuint8_t\000"
+ 4319      74385F74 
+ 4319      00
+ 4320              	.LASF21:
+ 4321 01a5 6C697374 		.ascii	"listen\000"
+ 4321      656E00
+ 4322              	.LASF42:
+ 4323 01ac 636C6561 		.ascii	"clearSUBR\000"
+ 4323      72535542 
+ 4323      5200
+ 4324              	.LASF16:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 88
+
+
+ 4325 01b6 73697A65 		.ascii	"sizetype\000"
+ 4325      74797065 
+ 4325      00
+ 4326              	.LASF33:
+ 4327 01bf 72656376 		.ascii	"recv\000"
+ 4327      00
+ 4328              	.LASF8:
+ 4329 01c4 6C6F6E67 		.ascii	"long long int\000"
+ 4329      206C6F6E 
+ 4329      6720696E 
+ 4329      7400
+ 4330              	.LASF13:
+ 4331 01d2 63686172 		.ascii	"char\000"
+ 4331      00
+ 4332              	.LASF40:
+ 4333 01d7 49494E43 		.ascii	"IINCHIP_READ\000"
+ 4333      4849505F 
+ 4333      52454144 
+ 4333      00
+ 4334              	.LASF18:
+ 4335 01e4 706F7274 		.ascii	"port\000"
+ 4335      00
+ 4336              	.LASF2:
+ 4337 01e9 73686F72 		.ascii	"short int\000"
+ 4337      7420696E 
+ 4337      7400
+ 4338              	.LASF4:
+ 4339 01f3 75696E74 		.ascii	"uint16_t\000"
+ 4339      31365F74 
+ 4339      00
+ 4340              	.LASF49:
+ 4341 01fc 474E5520 		.ascii	"GNU C 4.7.3 20130312 (release) [ARM/embedded-4_7-br"
+ 4341      4320342E 
+ 4341      372E3320 
+ 4341      32303133 
+ 4341      30333132 
+ 4342 022f 616E6368 		.ascii	"anch revision 196615]\000"
+ 4342      20726576 
+ 4342      6973696F 
+ 4342      6E203139 
+ 4342      36363135 
+ 4343              	.LASF20:
+ 4344 0245 736F636B 		.ascii	"socket\000"
+ 4344      657400
+ 4345              	.LASF50:
+ 4346 024c 2E5C736F 		.ascii	".\\socket.c\000"
+ 4346      636B6574 
+ 4346      2E6300
+ 4347              	.LASF38:
+ 4348 0257 6C6F6361 		.ascii	"local_port\000"
+ 4348      6C5F706F 
+ 4348      727400
+ 4349              	.LASF29:
+ 4350 0262 66726565 		.ascii	"freesize\000"
+ 4350      73697A65 
+ 4350      00
+ 4351              	.LASF28:
+ARM GAS  C:\Users\atsu\AppData\Local\Temp\ccMHv1ML.s 			page 89
+
+
+ 4352 026b 73746174 		.ascii	"status\000"
+ 4352      757300
+ 4353              	.LASF24:
+ 4354 0272 636C6F73 		.ascii	"close\000"
+ 4354      6500
+ 4355              	.LASF15:
+ 4356 0278 534F434B 		.ascii	"SOCKET\000"
+ 4356      455400
+ 4357              	.LASF32:
+ 4358 027f 5F426F6F 		.ascii	"_Bool\000"
+ 4358      6C00
+ 4359              	.LASF48:
+ 4360 0285 72656164 		.ascii	"read_data\000"
+ 4360      5F646174 
+ 4360      6100
+ 4361              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.7.3 20130312 (release) [ARM/embedded-4_7-br

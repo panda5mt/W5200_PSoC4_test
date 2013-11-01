@@ -8,8 +8,6 @@
 
 
 #include <string.h>
-
-
 #include "md5.h"
 
 // Constants for Transform routine.

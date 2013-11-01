@@ -1382,7 +1382,7 @@ L 1 "./Generated_Source/PSoC4/cydevice_trm.h" 1
 N/*******************************************************************************
 N* FILENAME: cydevice_trm.h
 N* 
-N* PSoC Creator 3.0
+N* PSoC Creator 3.0 Component Pack 7
 N*
 N* DESCRIPTION:
 N* This file provides all of the address values for the entire PSoC device.
@@ -7117,8 +7117,8 @@ N// Configuration Network Information of W5200
 Nuint8_t Enable_DHCP = OFF;
 Xuint8_t Enable_DHCP = 0;
 Nuint8_t MAC[6] = {0x00, 0x50, 0xC2, 0x97, 0x29, 0x04};//MAC Address
-Nuint8_t IP[4] = {192, 168, 1, 70};//IP Address
-Nuint8_t GateWay[4] = {192, 168, 1, 121};//Gateway Address
+Nuint8_t IP[4] = {169, 254, 22, 70};//IP Address
+Nuint8_t GateWay[4] = {192, 168, 0, 121};//Gateway Address
 Nuint8_t SubNet[4] = {255, 255, 255, 0};//SubnetMask Address
 N
 N//TX MEM SIZE- SOCKET 0:8KB, SOCKET 1:2KB, SOCKET2-7:1KB
@@ -7180,35 +7180,35 @@ N* Return         : None
 N*******************************************************************************/
 Nint main(void)
 N{  
-N//	RCC_Configuration(); // Configure the system clocks
-N//	NVIC_Configuration(); // NVIC Configuration
-N//	GPIO_Configuration();
-N//	USART1_Init();
-N//	Timer_Configuration();
-N        
+N	//	RCC_Configuration(); // Configure the system clocks
+N	//	NVIC_Configuration(); // NVIC Configuration
+N	//	GPIO_Configuration();
+N	//	USART1_Init();
+N	//	Timer_Configuration();
+N
 N	Reset_W5200();
 N	spi_master_init();	
 N	WIZ_Config(); // network config & Call Set_network ();      
-N        
-N        // LED3 and LED4 On!
+N
+N	// LED3 and LED4 On!
 N	//LED3_onoff(ON);
 N	//LED4_onoff(ON);
-N        
-N        presentTime = my_time; // For TCP client's connection request delay
-N        
-N        // Start Application         
-N        // printf("\r\n\r\n------------------------------------------- \r\n");
-N	    // printf("TCP Server Loopback using W5200\r\n");  
-N        // printf("------------------------------------------- ");
+N
+N	presentTime = my_time; // For TCP client's connection request delay
+N
+N	// Start Application         
+N	// printf("\r\n\r\n------------------------------------------- \r\n");
+N	// printf("TCP Server Loopback using W5200\r\n");  
+N	// printf("------------------------------------------- ");
 N	while(1) {
 N		loopback_tcps(0, 23);
-N//		loopback_tcps(1, 5001);
-N//		loopback_tcps(2, 5002);
-N//		loopback_tcps(3, 5003);		
-N//                loopback_tcpc(4, 5004);              
-N//		loopback_udp(5, 3000);
-N//		loopback_udp(6, 3001);
-N//		loopback_udp(7, 3002);                
+N		//		loopback_tcps(1, 5001);
+N		//		loopback_tcps(2, 5002);
+N		//		loopback_tcps(3, 5003);		
+N		//      loopback_tcpc(4, 5004);              
+N		//		loopback_udp(5, 3000);
+N		//		loopback_udp(6, 3001);
+N		//		loopback_udp(7, 3002);                
 N	}
 N        
 N}
